@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent" android:orientation="vertical"
+	android:layout_width="match_parent">
+	<TextView android:id="@+id/textView3" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:text="Comanda"
+		android:textSize="20px" android:layout_gravity="center_horizontal">
+	</TextView>
+	<LinearLayout android:id="@+id/cabComanda"
+		android:orientation="horizontal" android:layout_width="match_parent"
+		android:baselineAligned="true" android:layout_height="10pt">
+		<TextView android:id="@+id/tvCam" android:textSize="15px"
+			android:text="Camarero nº ?" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_gravity="left">
+		</TextView>
+		<TextView android:id="@+id/tvMesa" android:text="Mesa nº ?"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_gravity="right" android:layout_marginLeft="70px"
+			android:textSize="15px">
+		</TextView>
+	</LinearLayout>
+	<TableLayout android:stretchColumns="4"
+		android:layout_width="wrap_content" android:id="@+id/tableLayout1"
+		android:layout_height="wrap_content">
+		<TableRow android:id="@+id/tableRow1" android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<TextView android:text="nºLin" android:gravity="center"
+				android:width="20pt" />
+			<TextView android:text="Articulo" android:gravity="center"
+				android:width="50pt" />
+			<TextView android:text="Cant" android:gravity="center"
+				android:width="20px" />
+			<TextView android:text="Estado" android:gravity="center"
+				android:width="35pt" />
+		</TableRow>
+		<TableRow android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<CheckBox android:layout_column="0" android:text="1"
+				android:height="5px" android:textSize="5px" android:layout_width="5pt"></CheckBox>
+			<TextView android:text="Coca Cola"></TextView>
+			<Spinner></Spinner>
+			<Button></Button>
+		</TableRow>
+
+	</TableLayout>
+	<Button android:layout_height="wrap_content" android:text="Añadir"
+		android:id="@+id/button1" android:onClick="onClick"
+		android:layout_width="wrap_content"></Button>
+	<Button android:text="Borrar" android:id="@+id/button2"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	<Button android:text="Marchar" android:id="@+id/button3"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Wifi Bar App</string>
+	<string name="camarero">Selección Camarero</string>
+	<string name="selectMesa">Selección de mesa</string>
+	<!-- Errores -->
+	<string name="noConectionActive">Errorr: No se pudo conectar con el servidor</string>
+	<string name="noWifiActive">Error: Para usar esta aplicación debe habilitar la red Wi-Fi</string>
+	<string name="emptyTable">Error: No hay información que mostrar</string>
+	<string name="eAbrirMesa">Error: No se pudo abrir/cerrar la mesa</string>
+	<string name="opMesaOk">Se realizó la operación sobre la mesa correctamente</string>
+	<!-- / Errores -->
+
+	<!--//V1.1 -->
+	<string name="user">Seleccionar camarero</string>
+	<string name="comanda">Hacer Comanda</string>
+	<string name="cerrar">Cerrar Mesa</string>
+	<string name="abrir">Abrir Mesa</string>
+	<string name="mesa">Elegir una mesa</string>
+</resources>
