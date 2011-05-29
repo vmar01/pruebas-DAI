@@ -31,12 +31,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class Mesa extends Activity {
+public class MesaActivity extends Activity {
 	/** Called when the activity is first created. */
 	private String camarero;
 	private int posicionSpinner;
 	private Spinner spiMesa;
-	private static Mesas mesasData;
+	private static MesaHandler mesasData;
 	private int updateMesa;
 	private String estadoMesa;
 
@@ -47,7 +47,7 @@ public class Mesa extends Activity {
 
 		if (wifiBarActivity.db.isConnected()) {
 			if (wifiBarActivity.db.consultarMesas("Mesas") == -1) {
-				Toast.makeText(Mesa.this, R.string.emptyTable,
+				Toast.makeText(MesaActivity.this, R.string.emptyTable,
 						Toast.LENGTH_LONG).show();
 				this.finish();
 			}
@@ -57,10 +57,10 @@ public class Mesa extends Activity {
 			// hay)
 			TextView ctlCam = (TextView) findViewById(R.id.textView3);
 			Bundle bundle = getIntent().getExtras();
-			ctlCam.setText(bundle.getString("camele"));
+			ctlCam.setText(bundle.getString("camarero"));
 
 			// Para meter el camarero elegido como atributo de la comanda
-			this.setCamarero(bundle.getString("camele"));
+			this.setCamarero(bundle.getString("camarero"));
 			this.setPosicionSpinner(0);
 
 			// Evento spinner
@@ -78,7 +78,7 @@ public class Mesa extends Activity {
 
 			});
 		} else {
-			Toast.makeText(Mesa.this, R.string.noConectionActive,
+			Toast.makeText(MesaActivity.this, R.string.noConectionActive,
 					Toast.LENGTH_LONG).show();
 			this.finish();
 		}
@@ -123,7 +123,7 @@ public class Mesa extends Activity {
 
 	// Pasar al siguiente Activity (Comanda)
 	public void irComanda(Button v) {
-		Intent mesa = new Intent(Mesa.this, Comanda.class);
+		Intent mesa = new Intent(MesaActivity.this, ComandaActivity.class);
 
 		Bundle bundle = new Bundle();
 		// Pasamos al Activity comanda el camarero elegido
@@ -145,12 +145,12 @@ public class Mesa extends Activity {
 		//posición de la mesa seleccionada
 		int seleccionado = spiMesa.getSelectedItemPosition(); 
 		if (wifiBarActivity.db.updateMesa(updateMesa, estadoMesa)){
-			Toast.makeText(Mesa.this, R.string.opMesaOk,Toast.LENGTH_LONG).show();
+			Toast.makeText(MesaActivity.this, R.string.opMesaOk,Toast.LENGTH_LONG).show();
 			wifiBarActivity.db.consultarMesas("Mesas"); //Actualizo la BD
 			populateSpinner(); //Relleno el spinner con los cambios 
 			comprobarMesa(seleccionado);
 		}else 
-			Toast.makeText(Mesa.this, R.string.eAbrirMesa,Toast.LENGTH_LONG).show();
+			Toast.makeText(MesaActivity.this, R.string.eAbrirMesa,Toast.LENGTH_LONG).show();
 		//Vuelvo a colocar la mesa seleccionada en el spinner
 		spiMesa.setSelection(seleccionado); 
 		

@@ -57,7 +57,7 @@ public class wifiBarActivity extends Activity {
          SpiCamarero = (Spinner) findViewById(R.id.SpiCamarero);
 
          // DAtos de los camareros
-         final Camarero camareroData = db.getCamareros();
+         final CamareroHandler camareroData = db.getCamareros();
 
          // Relleno el spinner
          ArrayAdapter<String> spinnerCamarero = new ArrayAdapter<String>(this,
@@ -65,27 +65,6 @@ public class wifiBarActivity extends Activity {
                camareroData.getApellido());
          SpiCamarero.setAdapter(spinnerCamarero);
 
-         /*
-          * // Elementos gráficos a usar. spombre = (Spinner)
-          * findViewById(R.id.spNombre); spApellido = (Spinner)
-          * findViewById(R.id.spApellido); spDNI = (Spinner)
-          * findViewById(R.id.spDNI);
-          * 
-          * final Personas data = db.getDatos();
-          * 
-          * // Relleno los spinner ArrayAdapter<String> spinnerNombresAd = new
-          * ArrayAdapter<String>( this,
-          * android.R.layout.simple_spinner_dropdown_item, data.getNombre());
-          * spombre.setAdapter(spinnerNombresAd);
-          * 
-          * ArrayAdapter<String> spinnerApellido = new ArrayAdapter<String>(
-          * this, android.R.layout.simple_spinner_dropdown_item,
-          * data.getApellido()); spApellido.setAdapter(spinnerApellido);
-          * 
-          * ArrayAdapter<String> spinnerDNIs = new ArrayAdapter<String>( this,
-          * android.R.layout.simple_spinner_dropdown_item, data.getDni());
-          * spDNI.setAdapter(spinnerDNIs);
-          */
       } else {
          Toast.makeText(wifiBarActivity.this, R.string.noConectionActive,
                Toast.LENGTH_LONG).show();
@@ -114,13 +93,13 @@ public class wifiBarActivity extends Activity {
 
    // Pasar al siguiente Activity (Mesa)
    public void irMesa(Button v) {
-      Intent camarero = new Intent(wifiBarActivity.this, Mesa.class);
+      Intent camarero = new Intent(wifiBarActivity.this, MesaActivity.class);
       String cama = new String();
       final Spinner spiCamarero = (Spinner) findViewById(R.id.SpiCamarero);
       // --cogemos el string del item seleccionado en el sppiner
       cama = spiCamarero.getSelectedItem().toString();
       Bundle bundle = new Bundle();
-      bundle.putString("camele", cama);
+      bundle.putString("camarero", cama);
       camarero.putExtras(bundle);
       startActivity(camarero);
 

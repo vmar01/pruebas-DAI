@@ -13,9 +13,9 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="Comanda"></activity>
-		<activity android:name="Mesa"></activity>
-		<activity android:name="Familia"></activity>
-		<activity android:name="Articulo"></activity>
+		<activity android:name="ComandaActivity"></activity>
+		<activity android:name="MesaActivity"></activity>
+		<activity android:name="FamiliaActivity"></activity>
+		<activity android:name="ArticuloActivity"></activity>
 	</application>
 </manifest>

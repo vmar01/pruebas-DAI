@@ -19,7 +19,7 @@
 
 package com.android.wifibar;
 
-public class Camarero {
+public class CamareroHandler {
    // Datos mienbro
    private static String[] nombre;
    private static String[] apellido;
@@ -29,7 +29,7 @@ public class Camarero {
    private static int INDICE_DNI;
 
    // Constructor
-   public Camarero(int tama) {
+   public CamareroHandler(int tama) {
       INDICE_NOM = tama;
       INDICE_APE = tama;
       INDICE_DNI = tama;
@@ -39,28 +39,12 @@ public class Camarero {
    }
 
    // métodos
-   public void setNombre(String nom) {
-      nombre[--INDICE_NOM] = nom;
-   }
-
-   public void setApellido(String ape) {
-      apellido[--INDICE_APE] = ape;
-   }
-
-   public void setID(String _id) {
-      id[--INDICE_DNI] = _id;
-   }
+   public void setNombre(String nom) {nombre[--INDICE_NOM] = nom;}
+   public void setApellido(String ape) {apellido[--INDICE_APE] = ape;}
+   public void setID(String _id) {id[--INDICE_DNI] = _id;}
 
    // Gets
-   public String[] getNombre() {
-      return nombre;
-   }
-
-   public String[] getApellido() {
-      return apellido;
-   }
-
-   public String[] getID() {
-      return id;
-   }
+   public String[] getNombre() {return nombre;}
+   public String[] getApellido() {return apellido;}
+   public String[] getID() {return id;}
 }

@@ -19,7 +19,7 @@
 
 package com.android.wifibar;
 
-public class Mesas {
+public class MesaHandler {
    // Datos mienbro
    private static String[] id;
    private static String[] comensales;
@@ -29,38 +29,22 @@ public class Mesas {
    private static int INDICE_ABIERTA;
 
    // Constructor
-   public Mesas(int tama) {
-      INDICE_ID = tama;
-      INDICE_COMENSALES = tama;
-      INDICE_ABIERTA = tama;
-      id = new String[tama];
-      comensales = new String[tama];
-      abierta = new boolean[tama];
+   public MesaHandler(int tama) {
+      MesaHandler.INDICE_ID = tama;
+      MesaHandler.INDICE_COMENSALES = tama;
+      MesaHandler.INDICE_ABIERTA = tama;
+      MesaHandler.id = new String[tama];
+      MesaHandler.comensales = new String[tama];
+      MesaHandler.abierta = new boolean[tama];
    }
 
    // métodos
-   public void setId(String _id) {
-      id[--INDICE_ID] = "Mesa " + _id;
-   }
-
-   public void setComensales(String comen) {
-      comensales[--INDICE_COMENSALES] = comen;
-   }
-
-   public void setAbierta(boolean abie) {
-      abierta[--INDICE_ABIERTA] = abie;
-   }
+   public void setId(String _id) {id[--INDICE_ID] = "Mesa " + _id;}
+   public void setComensales(String comen) {comensales[--INDICE_COMENSALES] = comen;}
+   public void setAbierta(boolean abie) {abierta[--INDICE_ABIERTA] = abie;}
 
    // Gets
-   public String[] getId() {
-      return id;
-   }
-
-   public String[] getComensales() {
-      return comensales;
-   }
-
-   public boolean[] getAbierta() {
-      return abierta;
-   }
+   public String[] getId() {return id;}
+   public String[] getComensales() {return comensales;}
+   public boolean[] getAbierta() {return abierta;}
 }

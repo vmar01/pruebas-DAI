@@ -23,13 +23,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.http.util.EncodingUtils;
-
-import android.widget.Toast;
-
 public class database {
-   private static Camarero datosCamareros;
-   private static Mesas datosMesas;
+   private static CamareroHandler datosCamareros;
+   private static MesaHandler datosMesas;
+   private static FamiliaHandler datosFamilias;
    private java.sql.Connection connection = null;
    private final String url = "jdbc:sqlserver://";
    private final String serverName = "192.168.1.66";
@@ -44,7 +41,9 @@ public class database {
    private static final String COL_IDMESA = "nIdMEsa";
    private static final String COL_NCOMEN = "nComensales";
    private static final String COL_ABIERTA = "cAbierta";
-
+   private static final String COL_ID_FAMILIA = "cIdFamilia";
+   private static final String COL_NOMBRE_FAMILIA = "cNombre";
+   
    private final String selectMethod = "direct";
 
    // Constructor
@@ -64,7 +63,7 @@ public class database {
             + password
             + ";selectMethod="
             + selectMethod
-            + ";integratedSecurity=false;encrypt=false;trustServerCertificate=false;";
+            + ";integratedSecurity=true;encrypt=true;trustServerCertificate=false;";
    }
 
    private java.sql.Connection getConnection() {
@@ -101,7 +100,7 @@ public class database {
             if (count == 0)
                return -1;
             // Creo el objeto del mismo tamaño que el count
-            datosCamareros = new Camarero(count);
+            datosCamareros = new CamareroHandler(count);
             while (result.next() && count >= 0) {
                datosCamareros.setNombre(result.getString(COL_CNAME));
                datosCamareros.setApellido(result.getString(COL_CAPELLIDO));
@@ -131,6 +130,31 @@ public class database {
 	   }
    }
    
+   public int consultarFamilias(String table) {
+      try {
+         java.sql.ResultSet result = null;
+         Statement select = connection.createStatement();
+         result = select.executeQuery(statement + table + ";");
+         
+         // Recojo cuantos registros hay en la tabla
+         int count = getRowCount("SELECT COUNT(*) as cont FROM " + table + ";");
+         // devulevo -1 si la tabla está vacía
+         if (count == 0)
+            return -1;
+         // Creo el objeto del mismo tamaño que el count
+         datosFamilias = new FamiliaHandler(count);
+         while (result.next() && count >= 0) {
+            datosFamilias.setIdFamilia(result.getString(COL_ID_FAMILIA));
+            datosFamilias.setDescripcion(result.getString(COL_NOMBRE_FAMILIA));
+         }
+         result.close();
+         result = null;
+         return 0;
+      } catch (Exception e) {
+         return -2;
+      }
+   }
+   
    public int consultarMesas(String table) {
       try {
          java.sql.ResultSet result = null;
@@ -143,7 +167,7 @@ public class database {
          if (count == 0)
             return -1;
          // Creo el objeto del mismo tamaño que el count
-         datosMesas = new Mesas(count);
+         datosMesas = new MesaHandler(count);
          while (result.next() && count >= 0) {
             datosMesas.setId(result.getString(COL_IDMESA));
             datosMesas.setAbierta(result.getString(COL_ABIERTA)
@@ -175,14 +199,18 @@ public class database {
    }
 
    // Devolver los datos de la BD
-   public Camarero getCamareros() {
+   public CamareroHandler getCamareros() {
       return datosCamareros;
    }
 
-   public Mesas getMesas() {
+   public MesaHandler getMesas() {
       return datosMesas;
    }
 
+   public FamiliaHandler getFamilias(){
+      return datosFamilias;
+   }
+   
    public boolean isConnected() {
       return connection != null ? true : false;
    }
