@@ -26,67 +26,79 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ArticuloActivity extends Activity{
-	//Datos miembros
-	  
-	   public String mesa;
-	   public String camarero;
-	   public int nLinea;
-	   public int nComanda;
-	   //solo en esta activity
-	   private String familia;
-	
-	// Prueba para los controles graficos // SE PUEDE BORRAR CUANDO ESTEN LOS DATOS REALES
-	private String[] datos = new String[10];
-	
+public class ArticuloActivity extends Activity {
+   // Datos miembros
+
+   private String mesa;
+   private String camarero;
+   private int nLinea;
+   private int nComanda;
+   // solo en esta activity
+   private String familia;
+   private static ArticuloHandler articulosData;
+   private GridView grdArticulos;
+
    /** Called when the activity is first created. */
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.articulo);
       
-      
-      //Recogemos en budle con al informacion de familia
-      Bundle bundle = getIntent().getExtras();
-      this.setCamarero(bundle.getString("camarero"));
-      this.setMesa(bundle.getString("mesa"));
-      this.setnLinea(bundle.getInt("linea"));
-      this.setnComanda(bundle.getInt("Comanda"));// ¿hay que hacer una peticion a BBDD con el nº de Comanda???????????
-      //solo en esta activity
-      this.setFamilia(bundle.getString("familia"));
-      
-      //Crear el adapador   // SE PUEDE BORRAR CUANDO ESTEN LOS DATOS REALES 
-      datos[0]="Coca-Cola";    
-      datos[1]="Fanta Limon"; 
-      datos[2]="Fanta Naranja"; 
-      datos[3]="7 up"; 
-      datos[4]="Tonica Scheepes"; 
-      datos[5]="Coca-Cola Light";
-      for(int i=7; i<=10; i++)
-              datos[i-1] = "Familia " + i;
-      ArrayAdapter<String> adaptador =
-              new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, datos);
-     
-      // definir el gridView 
-      final GridView grdOpciones = (GridView)findViewById(R.id.gridOpciones);
-      grdOpciones.setAdapter(adaptador);
-      
-      // Evento de pulsacion de una familia del gridView
-      grdOpciones.setOnItemClickListener(new OnItemClickListener() {
-          public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-              introArticulo(position);
-          }
-      }); 
+      if (wifiBarActivity.db.isConnected()) {
+         Bundle bundle = getIntent().getExtras();
+         if (wifiBarActivity.db.consultarArticulos("Articulos", bundle.getString("familia")) == -1) {
+            Toast.makeText(ArticuloActivity.this, R.string.emptyTable,
+                  Toast.LENGTH_LONG).show();
+            this.finish();
+         }
+         // Recogemos en budle con al informacion de familia
+         this.setCamarero(bundle.getString("camarero"));
+         this.setMesa(bundle.getString("mesa"));
+         this.setnLinea(bundle.getInt("linea"));
+         this.setnComanda(bundle.getInt("Comanda"));// ¿hay que hacer una
+                                                    // peticion a BBDD con el nº
+                                                    // de Comanda???????????
+         // solo en esta activity
+         this.setFamilia(bundle.getString("familia"));
+
+         populateGrid();
+      } else {
+         Toast.makeText(ArticuloActivity.this, R.string.noConectionActive,
+               Toast.LENGTH_LONG).show();
+         this.finish();
+      }
    }
-     
+
+   private void populateGrid() {
+      
+      //Rellenos los datos de las familias
+      articulosData = wifiBarActivity.db.getArticulos();
+      
+      ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,
+            android.R.layout.simple_list_item_1, articulosData.getNombre());
+
+      // definir el gridView
+      grdArticulos = (GridView) findViewById(R.id.gridOpciones);
+      grdArticulos.setAdapter(adaptador);
+
+      // Evento de pulsacion de una familia del gridView
+      grdArticulos.setOnItemClickListener(new OnItemClickListener() {
+         public void onItemClick(AdapterView<?> parent, View v, int position,
+               long id) {
+            introArticulo(position);
+         }
+      });
+   }
+   
    private void introArticulo(int pos) {
-  	//Crear el intent
+      // Crear el intent
       Intent intento = new Intent(ArticuloActivity.this, ComandaActivity.class);
 
-      //Creamos un budle para pasar todos los datos
-      Bundle bundle= new Bundle();
+      // Creamos un budle para pasar todos los datos
+      Bundle bundle = new Bundle();
       // le ponemos el numero de camarero
       bundle.putString("camarero", this.getCamarero());
       intento.putExtras(bundle);
@@ -99,52 +111,63 @@ public class ArticuloActivity extends Activity{
       // le ponemos el numero de Comanda
       bundle.putInt("nComanda", this.getnComanda());
       intento.putExtras(bundle);
-      
-      //Coger el item elegido
-      String num= String.valueOf(pos);
-      bundle.putString("articulo",num);
+
+      // Coger el item elegido
+      String num = String.valueOf(pos);
+      bundle.putString("articulo", num);
       intento.putExtras(bundle);
 
       startActivity(intento);
       // Finish por probar
-      //Articulo.this.finish();
-  }
+      // Articulo.this.finish();
+   }
 
+   public String getFamilia() {
+      return familia;
+   }
 
-	public String getFamilia() {
-		return familia;
-	}	
-	public void setFamilia(String familia) {
-		this.familia = familia;
-	}	
-	public String getMesa() {
-		return mesa;
-	}	
-	public void setMesa(String mesa) {
-		this.mesa = mesa;
-	}	
-	public String getCamarero() {
-		return camarero;
-	}	
-	public void setCamarero(String camarero) {
-		this.camarero = camarero;
-	}	
-	public int getnLinea() {
-		return nLinea;
-	}	
-	public void setnLinea(int nLinea) {
-		this.nLinea = nLinea;
-	}	
-	public int getnComanda() {
-		return nComanda;
-	}	
-	public void setnComanda(int nComanda) {
-		this.nComanda = nComanda;
-	}	
-	public String[] getDatos() {
-		return datos;
-	}	
-	public void setDatos(String[] datos) {
-		this.datos = datos;
-	}
+   public void setFamilia(String familia) {
+      this.familia = familia;
+   }
+
+   public String getMesa() {
+      return mesa;
+   }
+
+   public void setMesa(String mesa) {
+      this.mesa = mesa;
+   }
+
+   public String getCamarero() {
+      return camarero;
+   }
+
+   public void setCamarero(String camarero) {
+      this.camarero = camarero;
+   }
+
+   public int getnLinea() {
+      return nLinea;
+   }
+
+   public void setnLinea(int nLinea) {
+      this.nLinea = nLinea;
+   }
+
+   public int getnComanda() {
+      return nComanda;
+   }
+
+   public void setnComanda(int nComanda) {
+      this.nComanda = nComanda;
+   }
+/*
+   public String[] getDatos() {
+      return datos;
+   }
+
+   public void setDatos(String[] datos) {
+      this.datos = datos;
+   }
+   */
 }

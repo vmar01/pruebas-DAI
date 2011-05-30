@@ -27,6 +27,7 @@ public class database {
    private static CamareroHandler datosCamareros;
    private static MesaHandler datosMesas;
    private static FamiliaHandler datosFamilias;
+   private static ArticuloHandler datosArticulos;
    private java.sql.Connection connection = null;
    private final String url = "jdbc:sqlserver://";
    private final String serverName = "192.168.1.66";
@@ -43,6 +44,8 @@ public class database {
    private static final String COL_ABIERTA = "cAbierta";
    private static final String COL_ID_FAMILIA = "cIdFamilia";
    private static final String COL_NOMBRE_FAMILIA = "cNombre";
+   private static final String COL_ID_ARTICULO = "cIdArticulo";
+   private static final String COL_NOMBRE_ARTICULO = "cNombre";
    
    private final String selectMethod = "direct";
 
@@ -154,6 +157,35 @@ public class database {
          return -2;
       }
    }
+ 
+   public int consultarArticulos(String table, String familia) {
+      try {
+         java.sql.ResultSet result = null;
+         PreparedStatement select = connection.prepareStatement("SELECT * FROM [wifiBar_DB].[dbo].[Articulos] WHERE cIdFamilia=?;");
+         select.setString(1, familia);
+         result = select.executeQuery();
+         /*
+         java.sql.ResultSet result = null;
+         Statement select = connection.createStatement();
+         result = select.executeQuery("SELECT * FROM [wifiBar_DB].[dbo].[Articulos] WHERE cIdFamilia='bba';");*/
+         // Recojo cuantos registros hay en la tabla
+         int count = getRowCount("SELECT COUNT(*) as cont FROM wifiBar_DB.dbo."+table+" WHERE cIdFamilia='"+familia+"';");
+         // devulevo -1 si la tabla está vacía
+         if (count == 0)
+            return -1;
+         // Creo el objeto del mismo tamaño que el count
+         datosArticulos = new ArticuloHandler(count);
+         while (result.next() && count >= 0) {
+            datosArticulos.setIdArticulo(result.getString(COL_ID_ARTICULO));
+            datosArticulos.setNombre(result.getString(COL_NOMBRE_ARTICULO));
+         }
+         result.close();
+         result = null;
+         return 0;
+      } catch (Exception e) {
+         return -2;
+      }
+   }
    
    public int consultarMesas(String table) {
       try {
@@ -209,6 +241,10 @@ public class database {
 
    public FamiliaHandler getFamilias(){
       return datosFamilias;
+   }
+   
+   public ArticuloHandler getArticulos(){
+      return datosArticulos;
    }
    
    public boolean isConnected() {

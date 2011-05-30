@@ -107,10 +107,11 @@ public class FamiliaActivity extends Activity {
       // le ponemos el numero de Comanda
       bundle.putInt("nComanda", this.getnComanda());
       intento.putExtras(bundle);
+      //Valor de la familia seleccionada
+      String[] idFamilia = familiasData.getIdFamilia();
 
       // Coger el item elegido
-      String num = String.valueOf(pos);
-      bundle.putString("familia", num);
+      bundle.putString("familia", idFamilia[pos]);
       intento.putExtras(bundle);
 
       startActivity(intento);
