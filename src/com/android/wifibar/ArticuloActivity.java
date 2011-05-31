@@ -117,6 +117,11 @@ public class ArticuloActivity extends Activity {
       bundle.putString("articulo", num);
       intento.putExtras(bundle);
 
+      //CREAR LA LINEA DE COMANDA
+      LineaComandaHandler lineNew=new LineaComandaHandler(bundle.getString("articulo"));
+      // Agregar esa linea a la comanda
+      ComandaActivity.coma.anadirLdComanda(lineNew);
+      
       startActivity(intento);
       // Finish por probar
       // Articulo.this.finish();

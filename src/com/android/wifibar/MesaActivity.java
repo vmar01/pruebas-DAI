@@ -138,6 +138,10 @@ public class MesaActivity extends Activity {
 		bundle.putString("mesa", mesaEle);
 		mesa.putExtras(bundle);
 
+	    // CREAR LA INSTANCIA DE COMANDA
+//    Date dt= new Date(2011, 01, 01);
+//    Comandas como= new Comandas(0, 0, dt,Integer.parseInt(mesaEle),Integer.parseInt(this.getCamarero()));
+		
 		startActivity(mesa);
 	}
 

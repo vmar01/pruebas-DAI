@@ -94,12 +94,15 @@ public class wifiBarActivity extends Activity {
    // Pasar al siguiente Activity (Mesa)
    public void irMesa(Button v) {
       Intent camarero = new Intent(wifiBarActivity.this, MesaActivity.class);
-      String cama = new String();
+      String camareroName = new String();
+      
       final Spinner spiCamarero = (Spinner) findViewById(R.id.SpiCamarero);
       // --cogemos el string del item seleccionado en el sppiner
-      cama = spiCamarero.getSelectedItem().toString();
+      camareroName = spiCamarero.getSelectedItem().toString();
+      int  camareroId = spiCamarero.getSelectedItemPosition();
       Bundle bundle = new Bundle();
-      bundle.putString("camarero", cama);
+      bundle.putString("camarero", camareroName);
+      bundle.putInt("camareroId", camareroId);
       camarero.putExtras(bundle);
       startActivity(camarero);
 

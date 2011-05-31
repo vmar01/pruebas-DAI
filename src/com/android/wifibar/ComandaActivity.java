@@ -34,7 +34,9 @@ public class ComandaActivity extends Activity {
    public String camarero;
    public int nLinea;
    public int nComanda;
-
+   public int camareroId;
+   public static ComandaHandler coma = new ComandaHandler(); 
+   
    /** Called when the activity is first created. */
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -58,21 +60,31 @@ public class ComandaActivity extends Activity {
          textCam.setText(bundle.getString("camarero"));
          textMesa.setText(bundle.getString("mesa"));
 
-         // Cuando se ha seleccionado un articulo
-         String artRecibido = getIntent().getExtras().getString("articulo");
-         if (artRecibido != null) {
-            Toast.makeText(ComandaActivity.this,
-                  "Vengo de Articulos. Sel:" + artRecibido, Toast.LENGTH_LONG)
-                  .show();
-
-         }
+         // PONER LOS ATRIBUTOS A COMANDA
+         coma.setCamarero(this.getCamareroId());
+         coma.setMesa(Integer.parseInt(this.getMesa()));
+         
+         //Cuando se ha seleccionado un articulo
+         String artRecibido=getIntent().getExtras().getString("articulo");
+        if(artRecibido !=null){
+            Toast.makeText(ComandaActivity.this, "Vengo de Articulos. Sel:"+artRecibido, Toast.LENGTH_LONG).show();
+            Toast.makeText(ComandaActivity.this, "Nº de linea:"+coma.getIdLinea(), Toast.LENGTH_LONG).show(); 
+            ////////// ESPACIO PARA bucle que rellene las lineas de comanda de ComandaHandler/////////////////////
+            
+            
+            
+            //////////////////////////////////////////////
+        }
       } else {
          Toast.makeText(ComandaActivity.this, R.string.noConectionActive,
                Toast.LENGTH_LONG).show();
          this.finish();
       }
    }
-
+   void añadirLinea(LineaComandaHandler ln){
+      //   ldc.
+      }
+   
    // Pasar a Familia con todos los datos necesarios
    private void irFamilia(Button v) {
       // Creamos el intent
@@ -146,5 +158,16 @@ public class ComandaActivity extends Activity {
    public void onClick(View v) {
       irFamilia((Button) v);
    }
-
+   public int getCamareroId() {
+      return camareroId;
+   }
+   public void setCamareroId(int camareroId) {
+      this.camareroId = camareroId;
+   }
+   public static ComandaHandler getComa() {
+      return coma;
+   }
+   public static void setComa(ComandaHandler coma) {
+      ComandaActivity.coma = coma;
+   }
 }
