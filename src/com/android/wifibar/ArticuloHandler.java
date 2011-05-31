@@ -6,7 +6,7 @@ public class ArticuloHandler {
    private static String[] nombre;
    private static int INDICE_ID_ARTICULO;
    private static int INDICE_NOMBRE;
-   
+   ///cambio/////
 
    // Constructor
    public ArticuloHandler(int tama) {
