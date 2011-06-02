@@ -65,8 +65,8 @@ public class ComandaActivity extends Activity {
          TextView textCam = (TextView) findViewById(R.id.tvCam);
          TextView textMesa = (TextView) findViewById(R.id.tvMesa);
 
-         textCam.setText(bundle.getString("camarero"));
-         textMesa.setText(bundle.getString("mesa"));
+         textCam.setText(textCam.getText()+ bundle.getString("camarero"));
+         textMesa.setText(textMesa.getText()+ bundle.getString("mesa"));
 
          // PONER LOS ATRIBUTOS A COMANDA
          coma.setCamarero(this.getCamareroId());
