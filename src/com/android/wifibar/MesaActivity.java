@@ -23,23 +23,26 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class MesaActivity extends Activity {
 	/** Called when the activity is first created. */
 	private String camarero;
+	private int camareroId;
 	private int posicionSpinner;
 	private Spinner spiMesa;
+	private Button altaMesaButton;
 	private static MesaHandler mesasData;
 	private int updateMesa;
 	private String estadoMesa;
-
+	private Bundle paquete = new Bundle();
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,11 +59,24 @@ public class MesaActivity extends Activity {
 			// Para poner el camarero seleccionado en un TextView(ver lo que
 			// hay)
 			TextView ctlCam = (TextView) findViewById(R.id.textView3);
-			Bundle bundle = getIntent().getExtras();
-			ctlCam.setText(bundle.getString("camarero"));
+			paquete = getIntent().getExtras();
+			ctlCam.setText(paquete.getString("camarero"));
+			
+			altaMesaButton = (Button) findViewById(R.id.btAbrir);
+			altaMesaButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+               int numeroFactura = wifiBarActivity.db.generaFactura();
+               if (numeroFactura != -1 )
+                  paquete.putInt("factura", numeroFactura);
+               onAccionMesa(altaMesaButton);
+            }
+         });
 
 			// Para meter el camarero elegido como atributo de la comanda
-			this.setCamarero(bundle.getString("camarero"));
+			this.setCamarero(paquete.getString("camarero"));
+			this.setCamareroId(paquete.getInt("camareroId"));
 			this.setPosicionSpinner(0);
 
 			// Evento spinner
@@ -84,8 +100,16 @@ public class MesaActivity extends Activity {
 		}
 
 	}
+	
+	private void setCamareroId(int id) {
+      this.camareroId = id;
+   }
+	
+	private int getCamareroId() {
+      return this.camareroId;
+   }
 
-	private void populateSpinner(){
+   private void populateSpinner(){
 		// Elementos graficos
 		spiMesa = (Spinner) findViewById(R.id.SpiMesa);
 
@@ -125,18 +149,19 @@ public class MesaActivity extends Activity {
 	public void irComanda(Button v) {
 		Intent mesa = new Intent(MesaActivity.this, ComandaActivity.class);
 
-		Bundle bundle = new Bundle();
+		
 		// Pasamos al Activity comanda el camarero elegido
-		bundle.putString("camarero", this.getCamarero());
-		mesa.putExtras(bundle);
+		paquete.putString("camarero", this.getCamarero());
+		paquete.putInt("camareroId", this.getCamareroId());
+		mesa.putExtras(paquete);
 
 		// Pasamos al Activity comanda la mesa elegida
 		String mesaEle = new String();
 		final Spinner spMesa = (Spinner) findViewById(R.id.SpiMesa);
 		// Para coger solo el numero de la cadena Mesa N
 		mesaEle = spMesa.getSelectedItem().toString().substring(5);
-		bundle.putString("mesa", mesaEle);
-		mesa.putExtras(bundle);
+		paquete.putString("mesa", mesaEle);
+		mesa.putExtras(paquete);
 
 	    // CREAR LA INSTANCIA DE COMANDA
 //    Date dt= new Date(2011, 01, 01);
@@ -172,14 +197,14 @@ public class MesaActivity extends Activity {
 		updateMesa = Integer.parseInt(idMesas[pos].substring(5));
 		
 		if (mesasStates[pos]) {
-			this.setPosicionSpinner(pos);
+		   this.setPosicionSpinner(pos);
 			bComanda.setEnabled(true);
 			bCerrar.setEnabled(true);
 			bAbrir.setEnabled(false);
 			//Si se pulsa el boton bCerrar, pasamos a la BD el estado de la mesa a Abierta:N;
 			estadoMesa = "N";
 		} else {
-			bComanda.setEnabled(false);
+		   bComanda.setEnabled(false);
 			bCerrar.setEnabled(false);
 			bAbrir.setEnabled(true);
 			//Si se pulsa el boton bAbrir, pasamos a la BD el estado de la mesa a Abierta:S;

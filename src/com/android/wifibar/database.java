@@ -30,7 +30,7 @@ public class database {
    private static ArticuloHandler datosArticulos;
    private java.sql.Connection connection = null;
    private final String url = "jdbc:sqlserver://";
-   private final String serverName = "192.168.1.39";
+   private final String serverName = "192.168.1.66";
    private final String portNumber = "1433";
    private final String databaseName = "wifiBar_DB";
    private final String userName = "algui91";
@@ -107,7 +107,7 @@ public class database {
             while (result.next() && count >= 0) {
                datosCamareros.setNombre(result.getString(COL_CNAME));
                datosCamareros.setApellido(result.getString(COL_CAPELLIDO));
-               datosCamareros.setID(result.getString(COL_IDCAMARERO));
+               datosCamareros.setID(Integer.parseInt(result.getString(COL_IDCAMARERO)));
             }
             result.close();
             result = null;
@@ -212,6 +212,28 @@ public class database {
       } catch (Exception e) {
          return -2;
       }
+   }
+   
+   public int generaFactura(){
+      java.sql.ResultSet rs = null;
+      try {
+         PreparedStatement maxFact = connection.prepareStatement("select MAX(Facturas.nIdFactura)+1 as factMax from [wifiBar_DB].[dbo].[Facturas];");
+         rs = maxFact.executeQuery();
+         rs.next();
+         int numeroFactura = rs.getInt("factMax");
+         rs.close();
+         rs= null;
+         
+         PreparedStatement insert = connection.prepareStatement("INSERT INTO [wifiBar_DB].[dbo].[Facturas] VALUES (?,?,?,GETDATE());");
+         insert.setInt(1, numeroFactura);
+         insert.setInt(2, 0);
+         insert.setString(3, "S");
+         insert.execute();
+         return  numeroFactura;
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+      return -1;
    }
 
    private int getRowCount(String tableName) {

@@ -58,9 +58,8 @@ public class ArticuloActivity extends Activity {
          this.setCamarero(bundle.getString("camarero"));
          this.setMesa(bundle.getString("mesa"));
          this.setnLinea(bundle.getInt("linea"));
-         this.setnComanda(bundle.getInt("Comanda"));// ¿hay que hacer una
-                                                    // peticion a BBDD con el nº
-                                                    // de Comanda???????????
+         this.setnComanda(bundle.getInt("Comanda"));
+         
          // solo en esta activity
          this.setFamilia(bundle.getString("familia"));
 
@@ -120,11 +119,11 @@ public class ArticuloActivity extends Activity {
       //CREAR LA LINEA DE COMANDA
       LineaComandaHandler lineNew=new LineaComandaHandler(bundle.getString("articulo"));
       // Agregar esa linea a la comanda
-      ComandaActivity.coma.anadirLdComanda(lineNew);
+      ComandaActivity.comanda.anadirLdComanda(lineNew);
       
       startActivity(intento);
-      // Finish por probar
-      // Articulo.this.finish();
+      //Finish por probar
+      //Articulo.this.finish();
    }
 
    public String getFamilia() {

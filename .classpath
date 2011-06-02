@@ -3,8 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="/home/hkr/workspace/pruebas-DAI/lib/msbase.jar"/>
-	<classpathentry kind="lib" path="/home/hkr/workspace/pruebas-DAI/lib/mssqlserver.jar"/>
-	<classpathentry kind="lib" path="/home/hkr/workspace/pruebas-DAI/lib/msutil.jar"/>
+	<classpathentry kind="lib" path="/home/hkr/Desktop/pruebas-DAI/lib/msbase.jar"/>
+	<classpathentry kind="lib" path="/home/hkr/Desktop/pruebas-DAI/lib/mssqlserver.jar"/>
+	<classpathentry kind="lib" path="/home/hkr/Desktop/pruebas-DAI/lib/msutil.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -24,7 +24,7 @@
 		android:layout_height="wrap_content" android:orientation="horizontal"
 		android:layout_width="match_parent">
 		<Button android:text="Añadir" android:id="@+id/btAnadir"
-			android:onClick="onClick" android:layout_weight="1"
+			android:onClick="irFamilia" android:layout_weight="1"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:layout_gravity="left" android:width="80dip">
 		</Button>

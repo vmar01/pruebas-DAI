@@ -35,6 +35,7 @@ public class wifiBarActivity extends Activity {
 
    private Spinner SpiCamarero;
    public static database db = new database();
+   private static CamareroHandler camareroData;
 
    /** Called when the activity is first created. */
    @Override
@@ -57,7 +58,7 @@ public class wifiBarActivity extends Activity {
          SpiCamarero = (Spinner) findViewById(R.id.SpiCamarero);
 
          // DAtos de los camareros
-         final CamareroHandler camareroData = db.getCamareros();
+         camareroData = db.getCamareros();
 
          // Relleno el spinner
          ArrayAdapter<String> spinnerCamarero = new ArrayAdapter<String>(this,
@@ -94,15 +95,12 @@ public class wifiBarActivity extends Activity {
    // Pasar al siguiente Activity (Mesa)
    public void irMesa(Button v) {
       Intent camarero = new Intent(wifiBarActivity.this, MesaActivity.class);
-      String camareroName = new String();
       
       final Spinner spiCamarero = (Spinner) findViewById(R.id.SpiCamarero);
-      // --cogemos el string del item seleccionado en el sppiner
-      camareroName = spiCamarero.getSelectedItem().toString();
-      int  camareroId = spiCamarero.getSelectedItemPosition();
+
       Bundle bundle = new Bundle();
-      bundle.putString("camarero", camareroName);
-      bundle.putInt("camareroId", camareroId);
+      bundle.putString("camarero", camareroData.getNombre()[spiCamarero.getSelectedItemPosition()]);
+      bundle.putInt("camareroId", camareroData.getID()[spiCamarero.getSelectedItemPosition()]);
       camarero.putExtras(bundle);
       startActivity(camarero);
 

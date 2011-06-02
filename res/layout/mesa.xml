@@ -21,7 +21,7 @@
 		android:layout_height="wrap_content">
 	</Button>
 	<Button android:text="@string/abrir" android:id="@+id/btAbrir"
-		android:onClick="onAccionMesa" android:layout_width="wrap_content"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
 	</Button>
 	<TextView android:text="CtlCam" android:id="@+id/textView3"

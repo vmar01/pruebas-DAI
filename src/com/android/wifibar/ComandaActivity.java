@@ -19,13 +19,12 @@
 
 package com.android.wifibar;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.webkit.ValueCallback;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,45 +42,64 @@ public class ComandaActivity extends Activity {
 	public int nLinea;
 	public int nComanda;
 	public int camareroId;
-	public static ComandaHandler coma = new ComandaHandler();
-	private TableLayout tabla;
+	public static ComandaHandler comanda = new ComandaHandler();
+	private static TableLayout tabla;
+	private static Button marcharButton;
+	private static Button addButton;
 	/** Called when the activity is first created. */
 	@Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.comanda);
 
-      if (wifiBarActivity.db.isConnected()) {
+      if (wifiBarActivity.db.isConnected()) {      
          // Poner los atributos a comanda
          Bundle bundle = getIntent().getExtras();
          this.setCamarero(bundle.getString("camarero"));
          this.setMesa(bundle.getString("mesa"));
          this.setnLinea(bundle.getInt("linea"));
-         this.setnComanda(bundle.getInt("Comanda"));// ¿hay que hacer una
-                                                    // peticion a BBDD con el nº
-                                                    // de Comanda???????????
-
+         this.setnComanda(bundle.getInt("Comanda"));
+         this.setCamareroId(bundle.getInt("camareroId"));
+         
          // Capturar los controles y ver los atributos en los TextView
          TextView textCam = (TextView) findViewById(R.id.tvCam);
          TextView textMesa = (TextView) findViewById(R.id.tvMesa);
-
+         
+         marcharButton = (Button) findViewById(R.id.btMarchar);
+         marcharButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+               //TODO Agregar aquí las líneas de comanda a la tabla comanda
+            }
+         });
+         
+         addButton = (Button) findViewById(R.id.btAnadir);
+         addButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+               // TODO Ir añadiendo cada artículo a linea de Comanda
+               
+            }
+         });
+         
          textCam.setText(textCam.getText()+bundle.getString("camarero"));
          textMesa.setText(textMesa.getText()+bundle.getString("mesa"));
 
          // PONER LOS ATRIBUTOS A COMANDA
-         coma.setCamarero(this.getCamareroId());
-         coma.setMesa(Integer.parseInt(this.getMesa()));
+         comanda.setCamarero(bundle.getInt("camareroId"));
+         comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
          
          //Cuando se ha seleccionado un articulo
          String artRecibido=getIntent().getExtras().getString("articulo");
         if(artRecibido !=null){
             Toast.makeText(ComandaActivity.this, "Vengo de Articulos. Sel:"+artRecibido, Toast.LENGTH_LONG).show();
-            Toast.makeText(ComandaActivity.this, "Nº de linea:"+coma.getIdLinea(), Toast.LENGTH_LONG).show(); 
-            ////////// ESPACIO PARA bucle que rellene las lineas de comanda de ComandaHandler/////////////////////
+            Toast.makeText(ComandaActivity.this, "Nº de linea:"+comanda.getIdLinea(), Toast.LENGTH_LONG).show(); 
             
-            TableLayout tabla=(TableLayout)findViewById(R.id.TablaComanda);
-            LineaComandaHandler[] array= coma.getArrLineas();
-            for(int i=0;i<coma.getIdLinea();i++){
+            tabla = (TableLayout)findViewById(R.id.TablaComanda);
+            LineaComandaHandler[] array= comanda.getArrLineas();
+            for(int i=0;i<comanda.getIdLinea();i++){
             	// creacion fila
 	            TableRow row=new TableRow(this);
 	            row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
@@ -114,7 +132,6 @@ public class ComandaActivity extends Activity {
 	            tabla.addView(row);
             }
             
-            //////////////////////////////////////////////
         }
       } else {
          Toast.makeText(ComandaActivity.this, R.string.noConectionActive,
@@ -128,7 +145,7 @@ public class ComandaActivity extends Activity {
 	}
 
 	// Pasar a Familia con todos los datos necesarios
-	private void irFamilia(Button v) {
+	public void irFamilia(View v) {
 		// Creamos el intent
 		Intent comanda = new Intent(ComandaActivity.this, FamiliaActivity.class);
 		// Creamos un budle para pasar todos los datos
@@ -153,14 +170,9 @@ public class ComandaActivity extends Activity {
 	// Evento de pulsar el boton atras
 	protected void onRestart() {
 		super.onRestart();
-		atrasClick();
-	}
-
-	// Metodo de pulsar el boton atras
-	public void atrasClick() {
 		Toast.makeText(ComandaActivity.this,
-				"onRestart: No se ha ejecutado ninguna acción",
-				Toast.LENGTH_LONG).show();
+            "onRestart: No se ha ejecutado ninguna acción",
+            Toast.LENGTH_LONG).show();
 	}
 
 	// Getters and Setters
@@ -196,11 +208,6 @@ public class ComandaActivity extends Activity {
 	public void setCamarero(String camarero) {
 		this.camarero = camarero;
 	}
-
-	public void onClick(View v) {
-		irFamilia((Button) v);
-	}
-
 	public int getCamareroId() {
 		return camareroId;
 	}
@@ -210,10 +217,10 @@ public class ComandaActivity extends Activity {
 	}
 
 	public static ComandaHandler getComa() {
-		return coma;
+		return comanda;
 	}
 
 	public static void setComa(ComandaHandler coma) {
-		ComandaActivity.coma = coma;
+		ComandaActivity.comanda = coma;
 	}
 }

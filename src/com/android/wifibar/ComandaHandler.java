@@ -18,7 +18,7 @@ public class ComandaHandler {
    public ComandaHandler(){
       mesa=0;  // se puede poner
       nComanda=0; // hacer consulta BBDD. Max+1 del numero de comandas
-      factura=0; //  ------
+      factura=0; //  Max+1 de facturas en DB
       idLinea=0; // para ver cuantas linea tiene esta comanda. Se utiliza para el IdLineaComanda
    // fecha= Date; //poner la fecha hora
       arrLineas= new LineaComandaHandler[MAX_LINE];
@@ -27,6 +27,10 @@ public class ComandaHandler {
    public void anadirLdComanda(LineaComandaHandler ldc){
       arrLineas[this.getIdLinea()] = ldc;
       this.setIdLinea(this.idLinea+1);//Al añadir una linea, se aumenta el contador
+   }
+   
+   public void generaFactura(){
+      
    }
    
    // GETTERS AND SETTERS
@@ -45,14 +49,6 @@ public class ComandaHandler {
    public void setFactura(int factura) {
       this.factura = factura;
    }
-
-// public Date getFecha() {
-//    return fecha;
-// }
-//
-// public void setFecha(Date fecha) {
-//    this.fecha = fecha;
-// }
 
    public int getMesa() {
       return mesa;

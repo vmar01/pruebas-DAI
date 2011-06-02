@@ -23,7 +23,7 @@ public class CamareroHandler {
    // Datos mienbro
    private static String[] nombre;
    private static String[] apellido;
-   private static String[] id;
+   private static int[] id;
    private static int INDICE_NOM;
    private static int INDICE_APE;
    private static int INDICE_DNI;
@@ -35,16 +35,16 @@ public class CamareroHandler {
       INDICE_DNI = tama;
       nombre = new String[tama];
       apellido = new String[tama];
-      id = new String[tama];
+      id = new int[tama];
    }
 
    // métodos
    public void setNombre(String nom) {nombre[--INDICE_NOM] = nom;}
    public void setApellido(String ape) {apellido[--INDICE_APE] = ape;}
-   public void setID(String _id) {id[--INDICE_DNI] = _id;}
+   public void setID(int _id) {id[--INDICE_DNI] = _id;}
 
    // Gets
    public String[] getNombre() {return nombre;}
    public String[] getApellido() {return apellido;}
-   public String[] getID() {return id;}
+   public int[] getID() {return id;}
 }

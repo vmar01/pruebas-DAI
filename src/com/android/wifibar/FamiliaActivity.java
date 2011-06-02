@@ -55,9 +55,8 @@ public class FamiliaActivity extends Activity {
          this.setCamarero(bundle.getString("camarero"));
          this.setMesa(bundle.getString("mesa"));
          this.setnLinea(bundle.getInt("linea"));
-         this.setnComanda(bundle.getInt("Comanda"));// ¿hay que hacer una
-                                                    // peticion a BBDD con el nº
-                                                    // de Comanda???????????
+         this.setnComanda(bundle.getInt("Comanda"));
+         
          populateGrid();
 
       } else {
