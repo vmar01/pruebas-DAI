@@ -19,35 +19,26 @@
 			android:textSize="15px">
 		</TextView>
 	</LinearLayout>
+	<LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+		<Button android:text="Añadir" android:id="@+id/btAnadir" android:layout_width="wrap_content" android:onClick="onClick" android:layout_height="match_parent" android:layout_gravity="clip_vertical"></Button>
+		<Button android:text="Borrar" android:id="@+id/btBorrar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></Button>
+		<Button android:text="Marchar" android:id="@+id/btMarchar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></Button>
+	</LinearLayout>
 	<TableLayout android:stretchColumns="4"
-		android:layout_width="wrap_content" android:id="@+id/tableLayout1"
+		android:layout_width="wrap_content" android:id="@+id/TablaComanda"
 		android:layout_height="wrap_content">
 		<TableRow android:id="@+id/tableRow1" android:layout_width="fill_parent"
 			android:layout_height="fill_parent">
-			<TextView android:text="nºLin" android:gravity="center"
+			<TextView android:text="nºLin" 
 				android:width="20pt" />
-			<TextView android:text="Articulo" android:gravity="center"
+			<TextView android:text="Articulo" 
 				android:width="50pt" />
-			<TextView android:text="Cant" android:gravity="center"
-				android:width="20px" />
-			<TextView android:text="Estado" android:gravity="center"
+			<TextView android:text="Cant" 
+				android:width="25px" />
+			<TextView android:text="Estado" 
 				android:width="35pt" />
 		</TableRow>
-		<TableRow android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<CheckBox android:layout_column="0" android:text="1"
-				android:height="5px" android:textSize="5px" android:layout_width="5pt"></CheckBox>
-			<TextView android:text="Coca Cola"></TextView>
-			<Spinner></Spinner>
-			<Button></Button>
-		</TableRow>
+
 
 	</TableLayout>
-	<Button android:layout_height="wrap_content" android:text="Añadir"
-		android:id="@+id/button1" android:onClick="onClick"
-		android:layout_width="wrap_content"></Button>
-	<Button android:text="Borrar" android:id="@+id/button2"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-	<Button android:text="Marchar" android:id="@+id/button3"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 </LinearLayout>
