@@ -38,7 +38,7 @@ public class ArticuloActivity extends Activity {
    private int nComanda;
    // solo en esta activity
    private String familia;
-   private static ArticuloHandler articulosData;
+   public static ArticuloHandler articulosData;
    private GridView grdArticulos;
 
    /** Called when the activity is first created. */
