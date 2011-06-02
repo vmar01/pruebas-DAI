@@ -67,10 +67,42 @@ public class ComandaActivity extends Activity {
          //Cuando se ha seleccionado un articulo
          String artRecibido=getIntent().getExtras().getString("articulo");
         if(artRecibido !=null){
-            Toast.makeText(ComandaActivity.this, "Vengo de Articulos. Sel:"+artRecibido, Toast.LENGTH_LONG).show();
-            Toast.makeText(ComandaActivity.this, "Nº de linea:"+coma.getIdLinea(), Toast.LENGTH_LONG).show(); 
+           // Toast.makeText(ComandaActivity.this, "Vengo de Articulos. Sel:"+artRecibido, Toast.LENGTH_LONG).show();
+           // Toast.makeText(ComandaActivity.this, "Nº de linea:"+coma.getIdLinea(), Toast.LENGTH_LONG).show(); 
             ////////// ESPACIO PARA bucle que rellene las lineas de comanda de ComandaHandler/////////////////////
-            
+
+            TableLayout tabla=(TableLayout)findViewById(R.id.TablaComanda);
+            LineaComandaHandler[] array= coma.getArrLineas();
+            for(int i=0;i<coma.getIdLinea();i++){
+            	// creacion fila
+	            TableRow row=new TableRow(this);
+	            row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+	            //CHECK BOX
+	            CheckBox ck=new CheckBox(this);
+	            ck.setText(String.valueOf(i+1));
+	            row.addView(ck);
+	            //TEXTVIEW
+	            TextView txt = new TextView(this);
+	            txt.setText(array[i].getcArticulo());
+	            row.addView(txt);
+	            //SPINNER CANTIDAD
+	            Spinner sp=new Spinner(this);
+	            final String[] datos =
+	            new String[]{"1","2","3","4","5"};
+	   
+	            ArrayAdapter<String> adaptador =
+	            new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datos);
+	            sp.setAdapter(adaptador);
+	            
+	            row.addView(sp);
+	           
+	            //SPINNER ESTADO
+	            Button bt=new Button(this);
+	            row.addView(bt);
+	            
+	            //ANADIR LA FILA A LA TABLA
+	            tabla.addView(row);
+            }
             
             
             //////////////////////////////////////////////
