@@ -4,12 +4,13 @@
 	<string name="camarero">Selección Camarero</string>
 	<string name="selectMesa">Selección de mesa</string>
 	<!-- Errores -->
-	<string name="noConectionActive">Errorr: No se pudo conectar con el servidor</string>
+	<string name="noConectionActive">Error: No se pudo conectar con el servidor</string>
 	<string name="noWifiActive">Error: Para usar esta aplicación debe habilitar la red Wi-Fi</string>
 	<string name="emptyTable">Error: No hay información que mostrar</string>
 	<string name="eAbrirMesa">Error: No se pudo abrir/cerrar la mesa</string>
 	<string name="opMesaOk">Se realizó la operación sobre la mesa correctamente</string>
-	<!-- / Errores -->
+	<string name="noComandaGenerada">Error:No se ha podido generar la comanda</string>
+	<!-- / Errores --> 
 
 	<!--//V1.1 -->
 	<string name="user">Seleccionar camarero</string>

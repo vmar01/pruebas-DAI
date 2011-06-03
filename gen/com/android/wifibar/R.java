@@ -11,7 +11,11 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int icon=0x7f020000;
+        public static final int addicon=0x7f020000;
+        public static final int deleteicon=0x7f020001;
+        public static final int goicon=0x7f020002;
+        public static final int icon=0x7f020003;
+        public static final int marcharicon=0x7f020004;
     }
     public static final class id {
         public static final int SpiCamarero=0x7f05000c;
@@ -42,14 +46,15 @@ public final class R {
         public static final int mesa=0x7f030004;
     }
     public static final class string {
-        public static final int abrir=0x7f04000b;
+        public static final int abrir=0x7f04000c;
         public static final int app_name=0x7f040000;
         public static final int camarero=0x7f040001;
-        public static final int cerrar=0x7f04000a;
-        public static final int comanda=0x7f040009;
+        public static final int cerrar=0x7f04000b;
+        public static final int comanda=0x7f04000a;
         public static final int eAbrirMesa=0x7f040006;
         public static final int emptyTable=0x7f040005;
-        public static final int mesa=0x7f04000c;
+        public static final int mesa=0x7f04000d;
+        public static final int noComandaGenerada=0x7f040008;
         /**  Errores 
          */
         public static final int noConectionActive=0x7f040003;
@@ -59,6 +64,6 @@ public final class R {
         /**  / Errores 
 //V1.1 
          */
-        public static final int user=0x7f040008;
+        public static final int user=0x7f040009;
     }
 }

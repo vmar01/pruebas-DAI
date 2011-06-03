@@ -39,6 +39,7 @@ public class MesaActivity extends Activity {
 	private int posicionSpinner;
 	private Spinner spiMesa;
 	private Button altaMesaButton;
+	private Button hacerComandaButton;
 	private static MesaHandler mesasData;
 	private int updateMesa;
 	private String estadoMesa;
@@ -70,9 +71,38 @@ public class MesaActivity extends Activity {
                int numeroFactura = wifiBarActivity.db.generaFactura();
                if (numeroFactura != -1 )
                   paquete.putInt("factura", numeroFactura);
+              // paquete.putInt("mesa", value)
                onAccionMesa(altaMesaButton);
             }
          });
+			
+			hacerComandaButton = (Button) findViewById(R.id.btElegirMesa);
+			hacerComandaButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent mesa = new Intent(MesaActivity.this, ComandaActivity.class);
+
+					// Pasamos al Activity comanda el camarero elegido
+					paquete.putString("camarero", getCamarero());
+					paquete.putInt("camareroId", getCamareroId());
+					mesa.putExtras(paquete);
+
+					// Pasamos al Activity comanda la mesa elegida
+					String mesaEle = new String();
+					final Spinner spMesa = (Spinner) findViewById(R.id.SpiMesa);
+					// Para coger solo el numero de la cadena Mesa N
+					mesaEle = spMesa.getSelectedItem().toString().substring(5);
+					paquete.putString("mesa", mesaEle);
+					mesa.putExtras(paquete);
+
+				    // CREAR LA INSTANCIA DE COMANDA
+					if(wifiBarActivity.db.generaComanda(paquete.getInt("factura"), Integer.parseInt(mesaEle), paquete.getInt("camareroId")) != -1)
+						startActivity(mesa);
+					else Toast.makeText(MesaActivity.this, R.string.noComandaGenerada,
+							Toast.LENGTH_LONG).show();
+				}
+			});
 
 			// Para meter el camarero elegido como atributo de la comanda
 			this.setCamarero(paquete.getString("camarero"));
@@ -127,7 +157,6 @@ public class MesaActivity extends Activity {
 	public String getCamarero() {
 		return camarero;
 	}
-
 	public void setCamarero(String camarero) {
 		this.camarero = camarero;
 	}
@@ -138,36 +167,6 @@ public class MesaActivity extends Activity {
 
 	public void setPosicionSpinner(int posicionSpinner) {
 		this.posicionSpinner = posicionSpinner;
-	}
-
-	// Recoger el evento del boton
-	public void elegirMesa(View v) {
-		irComanda((Button) v);
-	}
-
-	// Pasar al siguiente Activity (Comanda)
-	public void irComanda(Button v) {
-		Intent mesa = new Intent(MesaActivity.this, ComandaActivity.class);
-
-		
-		// Pasamos al Activity comanda el camarero elegido
-		paquete.putString("camarero", this.getCamarero());
-		paquete.putInt("camareroId", this.getCamareroId());
-		mesa.putExtras(paquete);
-
-		// Pasamos al Activity comanda la mesa elegida
-		String mesaEle = new String();
-		final Spinner spMesa = (Spinner) findViewById(R.id.SpiMesa);
-		// Para coger solo el numero de la cadena Mesa N
-		mesaEle = spMesa.getSelectedItem().toString().substring(5);
-		paquete.putString("mesa", mesaEle);
-		mesa.putExtras(paquete);
-
-	    // CREAR LA INSTANCIA DE COMANDA
-//    Date dt= new Date(2011, 01, 01);
-//    Comandas como= new Comandas(0, 0, dt,Integer.parseInt(mesaEle),Integer.parseInt(this.getCamarero()));
-		
-		startActivity(mesa);
 	}
 
 	public void onAccionMesa(View v){

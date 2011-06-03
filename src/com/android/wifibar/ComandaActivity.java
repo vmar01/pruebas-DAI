@@ -28,6 +28,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -42,10 +43,11 @@ public class ComandaActivity extends Activity {
 	public int nLinea;
 	public int nComanda;
 	public int camareroId;
+	public int factura;
 	public static ComandaHandler comanda = new ComandaHandler();
 	private static TableLayout tabla;
-	private static Button marcharButton;
-	private static Button addButton;
+	private static ImageView marcharButton;
+	private static ImageView addButton;
 	/** Called when the activity is first created. */
 	@Override
    public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class ComandaActivity extends Activity {
          TextView textCam = (TextView) findViewById(R.id.tvCam);
          TextView textMesa = (TextView) findViewById(R.id.tvMesa);
          
-         marcharButton = (Button) findViewById(R.id.btMarchar);
+         marcharButton = (ImageView) findViewById(R.id.btMarchar);
          marcharButton.setOnClickListener(new OnClickListener() {
             
             @Override
@@ -74,13 +76,33 @@ public class ComandaActivity extends Activity {
             }
          });
          
-         addButton = (Button) findViewById(R.id.btAnadir);
+         addButton = (ImageView) findViewById(R.id.btAnadir);
          addButton.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-               // TODO Ir añadiendo cada artículo a linea de Comanda
-               
+               /*******************************************************
+            	// TODO Ir añadiendo cada artículo a linea de Comanda
+                ********************************************************/ 
+            	// Creamos el intent
+        		Intent comanda = new Intent(ComandaActivity.this, FamiliaActivity.class);
+        		// Creamos un budle para pasar todos los datos
+        		Bundle bundle = new Bundle();
+        		// le ponemos el numero de camarero
+        		bundle.putString("camarero", getCamarero());
+        		comanda.putExtras(bundle);
+        		// le ponemos el numero de mesa
+        		bundle.putString("mesa", getMesa());
+        		comanda.putExtras(bundle);
+        		// le ponemos el numero de linea
+        		bundle.putInt("nLinea", getnLinea());
+        		comanda.putExtras(bundle);
+        		// le ponemos el numero de Comanda
+        		bundle.putInt("nComanda", getnComanda());
+        		comanda.putExtras(bundle);
+
+        		// LLamamiento a la ventana Familia
+        		startActivity(comanda);
             }
          });
          
@@ -144,29 +166,6 @@ public class ComandaActivity extends Activity {
 		// ldc.
 	}
 
-	// Pasar a Familia con todos los datos necesarios
-	public void irFamilia(View v) {
-		// Creamos el intent
-		Intent comanda = new Intent(ComandaActivity.this, FamiliaActivity.class);
-		// Creamos un budle para pasar todos los datos
-		Bundle bundle = new Bundle();
-		// le ponemos el numero de camarero
-		bundle.putString("camarero", this.getCamarero());
-		comanda.putExtras(bundle);
-		// le ponemos el numero de mesa
-		bundle.putString("mesa", this.getMesa());
-		comanda.putExtras(bundle);
-		// le ponemos el numero de linea
-		bundle.putInt("nLinea", this.getnLinea());
-		comanda.putExtras(bundle);
-		// le ponemos el numero de Comanda
-		bundle.putInt("nComanda", this.getnComanda());
-		comanda.putExtras(bundle);
-
-		// LLamamiento a la ventana Familia
-		startActivity(comanda);
-	}
-
 	// Evento de pulsar el boton atras
 	protected void onRestart() {
 		super.onRestart();
@@ -222,5 +221,12 @@ public class ComandaActivity extends Activity {
 
 	public static void setComa(ComandaHandler coma) {
 		ComandaActivity.comanda = coma;
+	}
+	
+	public void setFactura(int fact){
+		this.factura = fact;
+	}
+	public int getFactura(){
+		return this.factura;
 	}
 }

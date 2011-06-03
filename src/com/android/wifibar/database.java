@@ -30,7 +30,7 @@ public class database {
    private static ArticuloHandler datosArticulos;
    private java.sql.Connection connection = null;
    private final String url = "jdbc:sqlserver://";
-   private final String serverName = "192.168.1.66";
+   private final String serverName = "192.168.1.39";
    private final String portNumber = "1433";
    private final String databaseName = "wifiBar_DB";
    private final String userName = "algui91";
@@ -234,6 +234,29 @@ public class database {
          e.printStackTrace();
       }
       return -1;
+   }
+   
+   public int generaComanda(int idFactura, int idMesa, int idCamarero){
+	   java.sql.ResultSet rs = null;
+	   try {
+	         PreparedStatement maxFact = connection.prepareStatement("select MAX(Comandas.nIdComanda)+1 as ComaMax from [wifiBar_DB].[dbo].[Comandas];");
+	         rs = maxFact.executeQuery();
+	         rs.next();
+	         int numeroComanda = rs.getInt("ComaMax");
+	         rs.close();
+	         rs= null;
+	         
+	         PreparedStatement insert = connection.prepareStatement("INSERT INTO [wifiBar_DB].[dbo].[Comandas] VALUES (?,?,GETDATE(),?,?);");
+	         insert.setInt(1, numeroComanda);
+	         insert.setInt(2, idFactura);
+	         insert.setInt(3, idMesa);
+	         insert.setInt(4, idCamarero);
+	         insert.execute();
+	         return  numeroComanda;
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	      return -1;
    }
 
    private int getRowCount(String tableName) {
