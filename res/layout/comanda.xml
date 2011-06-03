@@ -27,31 +27,17 @@
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_gravity="left"
 			android:width="80dip" android:onClick="irFamilia"></ImageView>
-		<!-- <Button android:text="Añadir" android:id="@+id/btAnadir"
-			android:onClick="irFamilia" android:layout_weight="1"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_gravity="left" android:width="80dip"> 
-		</Button>-->
-		<ImageView  android:id="@+id/btBorrar" android:src="@drawable/deleteicon"
+		<ImageView android:id="@+id/btBorrar" android:src="@drawable/deleteicon"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_gravity="center"
 			android:width="80dip">
 		</ImageView>
-		<!-- <Button android:text="Borrar" android:id="@+id/btBorrar"
-			android:layout_weight="1" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_gravity="center"
-			android:width="80dip">
-		</Button> -->
 		<ImageView android:id="@+id/btMarchar" android:src="@drawable/marcharicon"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_gravity="right"
 			android:width="80dip">
 		</ImageView>
-		<!-- <Button android:text="Marchar" android:id="@+id/btMarchar"
-			android:layout_weight="1" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_gravity="right"
-			android:width="80dip">
-		</Button> -->
+
 	</LinearLayout>
 	<TableLayout android:stretchColumns="4"
 		android:layout_width="wrap_content" android:id="@+id/TablaComanda"
