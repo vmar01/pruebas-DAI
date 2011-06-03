@@ -131,9 +131,9 @@ public class ComandaActivity extends Activity {
 	            row.addView(ck);
 	            //TEXTVIEW
 	            TextView txt = new TextView(this);
-	            String[] nombresArticulos = ArticuloActivity.articulosData.getNombre();
-	            int num = java.lang.Integer.parseInt(array[i].getcArticulo());
-	            txt.setText(nombresArticulos[num]);
+	            //String[] nombresArticulos = ArticuloActivity.articulosData.getNombre();
+	            //int num = java.lang.Integer.parseInt(array[i].getcArticulo());
+	            txt.setText(array[i].getcArticulo());
 	            row.addView(txt);
 	            //SPINNER CANTIDAD
 	            Spinner sp=new Spinner(this);

@@ -87,12 +87,12 @@ public class ArticuloActivity extends Activity {
       grdArticulos.setOnItemClickListener(new OnItemClickListener() {
          public void onItemClick(AdapterView<?> parent, View v, int position,
                long id) {
-            introArticulo(position);
+            introArticulo(grdArticulos.getItemAtPosition(position).toString());
          }
       });
    }
    
-   private void introArticulo(int pos) {
+   private void introArticulo(String art) {
       // Crear el intent
       Intent intento = new Intent(ArticuloActivity.this, ComandaActivity.class);
 
@@ -112,8 +112,7 @@ public class ArticuloActivity extends Activity {
       intento.putExtras(bundle);
 
       // Coger el item elegido
-      String num = String.valueOf(pos);
-      bundle.putString("articulo", num);
+      bundle.putString("articulo", art);
       intento.putExtras(bundle);
 
       //CREAR LA LINEA DE COMANDA

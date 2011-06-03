@@ -164,10 +164,7 @@ public class database {
          PreparedStatement select = connection.prepareStatement("SELECT * FROM [wifiBar_DB].[dbo].[Articulos] WHERE cIdFamilia=?;");
          select.setString(1, familia);
          result = select.executeQuery();
-         /*
-         java.sql.ResultSet result = null;
-         Statement select = connection.createStatement();
-         result = select.executeQuery("SELECT * FROM [wifiBar_DB].[dbo].[Articulos] WHERE cIdFamilia='bba';");*/
+   
          // Recojo cuantos registros hay en la tabla
          int count = getRowCount("SELECT COUNT(*) as cont FROM wifiBar_DB.dbo."+table+" WHERE cIdFamilia='"+familia+"';");
          // devulevo -1 si la tabla está vacía
