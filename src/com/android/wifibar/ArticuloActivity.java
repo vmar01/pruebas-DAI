@@ -31,13 +31,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ArticuloActivity extends Activity {
    // Datos miembros
-
-   private String mesa;
-   private String camarero;
-   private int nLinea;
-   private int nComanda;
-   // solo en esta activity
-   private String familia;
    public static ArticuloHandler articulosData;
    private GridView grdArticulos;
 
@@ -54,15 +47,6 @@ public class ArticuloActivity extends Activity {
                   Toast.LENGTH_LONG).show();
             this.finish();
          }
-       /*  // Recogemos en budle con al informacion de familia
-         this.setCamarero(bundle.getString("camarero"));
-         this.setMesa(bundle.getString("mesa"));
-         this.setnLinea(bundle.getInt("linea"));
-         this.setnComanda(bundle.getInt("Comanda"));
-         
-         // solo en esta activity
-         this.setFamilia(bundle.getString("familia"));
-*/
          populateGrid();
       } else {
          Toast.makeText(ArticuloActivity.this, R.string.noConectionActive,
@@ -98,79 +82,18 @@ public class ArticuloActivity extends Activity {
 
       // Creamos un budle para pasar todos los datos
       Bundle bundle = new Bundle();
-     /* // le ponemos el numero de camarero
-      bundle.putString("camarero", this.getCamarero());
-      intento.putExtras(bundle);
-      // le ponemos el numero de mesa
-      bundle.putString("mesa", this.getMesa());
-      intento.putExtras(bundle);
-      // le ponemos el numero de linea
-      bundle.putInt("nLinea", this.getnLinea());
-      intento.putExtras(bundle);
-      // le ponemos el numero de Comanda
-      bundle.putInt("nComanda", this.getnComanda());
-      intento.putExtras(bundle);
-*/
+
       // Coger el item elegido
       bundle.putString("articulo", art);
-      intento.putExtras(bundle);
 
       //CREAR LA LINEA DE COMANDA
-      LineaComandaHandler lineNew=new LineaComandaHandler(bundle.getString("articulo"));
+      LineaComandaHandler lineNew=new LineaComandaHandler(art);
       // Agregar esa linea a la comanda
+      // TODO: pasar los datos correctos al constructor
       ComandaActivity.comanda.anadirLdComanda(lineNew);
-      
+      intento.putExtras(bundle);
       startActivity(intento);
       //Finish por probar
       //Articulo.this.finish();
    }
-/*
-   public String getFamilia() {
-      return familia;
-   }
-
-   public void setFamilia(String familia) {
-      this.familia = familia;
-   }
-
-   public String getMesa() {
-      return mesa;
-   }
-
-   public void setMesa(String mesa) {
-      this.mesa = mesa;
-   }
-
-   public String getCamarero() {
-      return camarero;
-   }
-
-   public void setCamarero(String camarero) {
-      this.camarero = camarero;
-   }
-
-   public int getnLinea() {
-      return nLinea;
-   }
-
-   public void setnLinea(int nLinea) {
-      this.nLinea = nLinea;
-   }
-
-   public int getnComanda() {
-      return nComanda;
-   }
-
-   public void setnComanda(int nComanda) {
-      this.nComanda = nComanda;
-   }
-/*
-   public String[] getDatos() {
-      return datos;
-   }
-
-   public void setDatos(String[] datos) {
-      this.datos = datos;
-   }
-   */
 }

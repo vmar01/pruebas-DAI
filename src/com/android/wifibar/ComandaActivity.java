@@ -40,12 +40,12 @@ import android.widget.Toast;
 public class ComandaActivity extends Activity {
 
    // Datos miembros
-   public String mesa;
+  /* public String mesa;
    public String camarero;
    public int nLinea;
    public int nComanda;
    public int camareroId;
-   public int factura;
+   public int factura;*/
    public static ComandaHandler comanda = new ComandaHandler();
    private static TableLayout tabla;
    private static ImageView marcharButton;
@@ -61,12 +61,6 @@ public class ComandaActivity extends Activity {
       if (wifiBarActivity.db.isConnected()) {
          // Poner los atributos a comanda
          Bundle bundle = getIntent().getExtras();
-         //this.setCamarero(bundle.getString("camarero"));
-         //this.setMesa(bundle.getString("mesa"));
-         //this.setnLinea(bundle.getInt("linea"));
-         //if (bundle.getInt("idComanda") != 0)
-         //   this.setnComanda(bundle.getInt("idComanda"));
-         //this.setCamareroId(bundle.getInt("camareroId"));
          
          // Capturar los controles y ver los atributos en los TextView
          TextView textCam  = (TextView) findViewById(R.id.tvCam);
@@ -90,21 +84,6 @@ public class ComandaActivity extends Activity {
                // Creamos el intent
                Intent comanda = new Intent(ComandaActivity.this,
                      FamiliaActivity.class);
-            /*   // Creamos un budle para pasar todos los datos
-               Bundle bundle = new Bundle();
-               // le ponemos el numero de camarero
-               bundle.putString("camarero", getCamarero());
-               comanda.putExtras(bundle);
-               // le ponemos el numero de mesa
-               bundle.putString("mesa", getMesa());
-               comanda.putExtras(bundle);
-               // le ponemos el numero de linea
-               bundle.putInt("nLinea", getnLinea());
-               comanda.putExtras(bundle);
-               // le ponemos el numero de Comanda
-               bundle.putInt("nComanda", getnComanda());
-               comanda.putExtras(bundle);
-               */
                // LLamamiento a la ventana Familia
                startActivity(comanda);
             }
@@ -130,6 +109,7 @@ public class ComandaActivity extends Activity {
             comanda.setCamarero(bundle.getInt("camareroId"));
             comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
             comanda.setnComanda(bundle.getInt("idComanda"));
+            comanda.setFactura(bundle.getInt("factura"));
             //TODO: creo que hace falta fijar el atributo factura de comanda
          }
          // Cuando se ha seleccionado un articulo
@@ -232,62 +212,4 @@ public class ComandaActivity extends Activity {
             "onRestart: No se ha ejecutado ninguna acción", Toast.LENGTH_LONG)
             .show();
    }
-
-   // Getters and Setters
- /*  public int getnLinea() {
-      return nLinea;
-   }
-   
-   public void setnLinea(int nLinea) {
-      this.nLinea = nLinea;
-   }
-
-   public int getnComanda() {
-      return nComanda;
-   }
-
-   public void setnComanda(int nComanda) {
-      this.nComanda = nComanda;
-   }
-
-   // GETTERS AND SETTERS
-   public String getMesa() {
-      return mesa;
-   }
-
-   public void setMesa(String mesa) {
-      this.mesa = mesa;
-   }
-
-   public String getCamarero() {
-      return camarero;
-   }
-
-   public void setCamarero(String camarero) {
-      this.camarero = camarero;
-   }
-
-   public int getCamareroId() {
-      return camareroId;
-   }
-
-   public void setCamareroId(int camareroId) {
-      this.camareroId = camareroId;
-   }
-
-   public static ComandaHandler getComa() {
-      return comanda;
-   }
-
-   public static void setComa(ComandaHandler coma) {
-      ComandaActivity.comanda = coma;
-   }
-
-   public void setFactura(int fact) {
-      this.factura = fact;
-   }
-
-   public int getFactura() {
-      return this.factura;
-   }*/
 }
