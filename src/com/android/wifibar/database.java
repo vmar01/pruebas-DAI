@@ -256,6 +256,26 @@ public class database {
 	      return -1;
    }
 
+   public int generaLineaComanda(int idLineaComanda, int idComanda, int cantidad, String idArticulo, String servida, String estado){
+
+      try {
+         PreparedStatement insert = connection.prepareStatement
+         ("INSERT INTO [wifiBar_DB].[dbo].[LinComanda] " +
+         		"([nIdLinComanda],[nIdComanda],[nCantidad],[cServida],[cIdArticulo],[cIdEstado]) " +
+         		"VALUES (?,?,?,?,?,?);");
+         insert.setInt(1, idLineaComanda);
+         insert.setInt(2, idComanda);
+         insert.setInt(3, cantidad);
+         insert.setString(4, servida);
+         insert.setString(5, idArticulo);
+         insert.setString(6, estado);
+         insert.execute();
+         return  0;
+      } catch (Exception e) {
+      e.printStackTrace();}
+      return -1;
+   }
+   
    private int getRowCount(String tableName) {
       java.sql.ResultSet rs = null;
       try {

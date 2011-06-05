@@ -8,7 +8,7 @@ public class LineaComandaHandler {
    private String cArticulo;
    private String servida;
    private String cEstado;
-   
+   private String borrar;
 
    // constructor
    public LineaComandaHandler( String articulo){
@@ -18,6 +18,11 @@ public class LineaComandaHandler {
       servida= "S";
       cArticulo= articulo;
       cEstado= "0";
+      borrar="N";
+   }
+
+   public LineaComandaHandler getArrayElement(){
+      return this;
    }
 
    public int getCant() {
@@ -66,6 +71,13 @@ public class LineaComandaHandler {
 
    public void setnComanda(int nComanda) {
       this.nComanda = nComanda;
+   }
+   public String getBorrar() {
+      return borrar;
+   }
+
+   public void setBorrar(String borrar) {
+      this.borrar = borrar;
    }
 
 

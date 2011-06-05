@@ -54,7 +54,7 @@ public class ArticuloActivity extends Activity {
                   Toast.LENGTH_LONG).show();
             this.finish();
          }
-         // Recogemos en budle con al informacion de familia
+       /*  // Recogemos en budle con al informacion de familia
          this.setCamarero(bundle.getString("camarero"));
          this.setMesa(bundle.getString("mesa"));
          this.setnLinea(bundle.getInt("linea"));
@@ -62,7 +62,7 @@ public class ArticuloActivity extends Activity {
          
          // solo en esta activity
          this.setFamilia(bundle.getString("familia"));
-
+*/
          populateGrid();
       } else {
          Toast.makeText(ArticuloActivity.this, R.string.noConectionActive,
@@ -98,7 +98,7 @@ public class ArticuloActivity extends Activity {
 
       // Creamos un budle para pasar todos los datos
       Bundle bundle = new Bundle();
-      // le ponemos el numero de camarero
+     /* // le ponemos el numero de camarero
       bundle.putString("camarero", this.getCamarero());
       intento.putExtras(bundle);
       // le ponemos el numero de mesa
@@ -110,7 +110,7 @@ public class ArticuloActivity extends Activity {
       // le ponemos el numero de Comanda
       bundle.putInt("nComanda", this.getnComanda());
       intento.putExtras(bundle);
-
+*/
       // Coger el item elegido
       bundle.putString("articulo", art);
       intento.putExtras(bundle);
@@ -124,7 +124,7 @@ public class ArticuloActivity extends Activity {
       //Finish por probar
       //Articulo.this.finish();
    }
-
+/*
    public String getFamilia() {
       return familia;
    }

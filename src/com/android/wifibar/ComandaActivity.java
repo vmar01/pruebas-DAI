@@ -28,6 +28,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -37,196 +39,255 @@ import android.widget.Toast;
 
 public class ComandaActivity extends Activity {
 
-	// Datos miembros
-	public String mesa;
-	public String camarero;
-	public int nLinea;
-	public int nComanda;
-	public int camareroId;
-	public int factura;
-	public static ComandaHandler comanda = new ComandaHandler();
-	private static TableLayout tabla;
-	private static ImageView marcharButton;
-	private static ImageView addButton;
-	/** Called when the activity is first created. */
-	@Override
+   // Datos miembros
+   public String mesa;
+   public String camarero;
+   public int nLinea;
+   public int nComanda;
+   public int camareroId;
+   public int factura;
+   public static ComandaHandler comanda = new ComandaHandler();
+   private static TableLayout tabla;
+   private static ImageView marcharButton;
+   private static ImageView addButton;
+   private static ImageView borrarButton;
+  
+   /** Called when the activity is first created. */
+   @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.comanda);
 
-      if (wifiBarActivity.db.isConnected()) {      
+      if (wifiBarActivity.db.isConnected()) {
          // Poner los atributos a comanda
          Bundle bundle = getIntent().getExtras();
-         this.setCamarero(bundle.getString("camarero"));
-         this.setMesa(bundle.getString("mesa"));
-         this.setnLinea(bundle.getInt("linea"));
-         this.setnComanda(bundle.getInt("Comanda"));
-         this.setCamareroId(bundle.getInt("camareroId"));
+         //this.setCamarero(bundle.getString("camarero"));
+         //this.setMesa(bundle.getString("mesa"));
+         //this.setnLinea(bundle.getInt("linea"));
+         //if (bundle.getInt("idComanda") != 0)
+         //   this.setnComanda(bundle.getInt("idComanda"));
+         //this.setCamareroId(bundle.getInt("camareroId"));
          
          // Capturar los controles y ver los atributos en los TextView
-         TextView textCam = (TextView) findViewById(R.id.tvCam);
+         TextView textCam  = (TextView) findViewById(R.id.tvCam);
          TextView textMesa = (TextView) findViewById(R.id.tvMesa);
-         
+
          marcharButton = (ImageView) findViewById(R.id.btMarchar);
          marcharButton.setOnClickListener(new OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
-               //TODO Agregar aquí las líneas de comanda a la tabla comanda
+               wifiBarActivity.db.generaLineaComanda(comanda.getIdLinea(),
+                     comanda.getnComanda(), 0, "cafe", "S", "bCaliente");
             }
          });
-         
+
          addButton = (ImageView) findViewById(R.id.btAnadir);
          addButton.setOnClickListener(new OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
-               /*******************************************************
-            	// TODO Ir añadiendo cada artículo a linea de Comanda
-                ********************************************************/ 
-            	// Creamos el intent
-        		Intent comanda = new Intent(ComandaActivity.this, FamiliaActivity.class);
-        		// Creamos un budle para pasar todos los datos
-        		Bundle bundle = new Bundle();
-        		// le ponemos el numero de camarero
-        		bundle.putString("camarero", getCamarero());
-        		comanda.putExtras(bundle);
-        		// le ponemos el numero de mesa
-        		bundle.putString("mesa", getMesa());
-        		comanda.putExtras(bundle);
-        		// le ponemos el numero de linea
-        		bundle.putInt("nLinea", getnLinea());
-        		comanda.putExtras(bundle);
-        		// le ponemos el numero de Comanda
-        		bundle.putInt("nComanda", getnComanda());
-        		comanda.putExtras(bundle);
-
-        		// LLamamiento a la ventana Familia
-        		startActivity(comanda);
+               // Creamos el intent
+               Intent comanda = new Intent(ComandaActivity.this,
+                     FamiliaActivity.class);
+            /*   // Creamos un budle para pasar todos los datos
+               Bundle bundle = new Bundle();
+               // le ponemos el numero de camarero
+               bundle.putString("camarero", getCamarero());
+               comanda.putExtras(bundle);
+               // le ponemos el numero de mesa
+               bundle.putString("mesa", getMesa());
+               comanda.putExtras(bundle);
+               // le ponemos el numero de linea
+               bundle.putInt("nLinea", getnLinea());
+               comanda.putExtras(bundle);
+               // le ponemos el numero de Comanda
+               bundle.putInt("nComanda", getnComanda());
+               comanda.putExtras(bundle);
+               */
+               // LLamamiento a la ventana Familia
+               startActivity(comanda);
             }
          });
          
-         textCam.setText(textCam.getText()+bundle.getString("camarero"));
-         textMesa.setText(textMesa.getText()+bundle.getString("mesa"));
+         borrarButton = (ImageView) findViewById(R.id.btBorrar);
+         borrarButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               //TODO Agregar aqui­ las lineas de comanda a la tabla comanda
+             comanda.borrarLdComanda();
+             borrarTabla();
+             pintarComanda(); 
+              }
+            
+         });
+
+         textCam.setText(textCam.getText() + bundle.getString("camarero"));
+         textMesa.setText(textMesa.getText() + bundle.getString("mesa"));
 
          // PONER LOS ATRIBUTOS A COMANDA
-         comanda.setCamarero(bundle.getInt("camareroId"));
-         comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
-         
-         //Cuando se ha seleccionado un articulo
-         String artRecibido=getIntent().getExtras().getString("articulo");
-        if(artRecibido !=null){
-            Toast.makeText(ComandaActivity.this, "Vengo de Articulos. Sel:"+artRecibido, Toast.LENGTH_LONG).show();
-            Toast.makeText(ComandaActivity.this, "Nº de linea:"+comanda.getIdLinea(), Toast.LENGTH_LONG).show(); 
-            
-            tabla = (TableLayout)findViewById(R.id.TablaComanda);
-            LineaComandaHandler[] array= comanda.getArrLineas();
-            for(int i=0;i<comanda.getIdLinea();i++){
-            	// creacion fila
-	            TableRow row=new TableRow(this);
-	            row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-	            //CHECK BOX
-	            CheckBox ck=new CheckBox(this);
-	            ck.setText(String.valueOf(i+1));
-	            row.addView(ck);
-	            //TEXTVIEW
-	            TextView txt = new TextView(this);
-	            //String[] nombresArticulos = ArticuloActivity.articulosData.getNombre();
-	            //int num = java.lang.Integer.parseInt(array[i].getcArticulo());
-	            txt.setText(array[i].getcArticulo());
-	            row.addView(txt);
-	            //SPINNER CANTIDAD
-	            Spinner sp=new Spinner(this);
-	            final String[] datos =
-	            new String[]{"1","2","3","4","5"};
-	   
-	            ArrayAdapter<String> adaptador =
-	            new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datos);
-	            sp.setAdapter(adaptador);
-	            
-	            row.addView(sp);
-	           
-	            //SPINNER ESTADO
-	            Button bt=new Button(this);
-	            row.addView(bt);
-	            
-	            //ANADIR LA FILA A LA TABLA
-	            tabla.addView(row);
-            }
-            
-        }
+         if (bundle.getInt("idComanda") != 0){
+            comanda.setCamarero(bundle.getInt("camareroId"));
+            comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
+            comanda.setnComanda(bundle.getInt("idComanda"));
+            //TODO: creo que hace falta fijar el atributo factura de comanda
+         }
+         // Cuando se ha seleccionado un articulo
+         String artRecibido = getIntent().getExtras().getString("articulo");
+         if (artRecibido != null) pintarComanda();
       } else {
          Toast.makeText(ComandaActivity.this, R.string.noConectionActive,
                Toast.LENGTH_LONG).show();
          this.finish();
       }
    }
+   
+   private void borrarTabla(){
+      tabla = (TableLayout)findViewById(R.id.TablaComanda);
+      tabla.removeAllViews();
+   }
+   
+   private void pintarComanda() {
 
-	void añadirLinea(LineaComandaHandler ln) {
-		// ldc.
-	}
+      tabla = (TableLayout) findViewById(R.id.TablaComanda);
+      // cabecera
+      TableRow cab = new TableRow(this);
+      TextView nlin = new TextView(this);
+      nlin.setText("Nº Lin");
+      nlin.setWidth(10);
+      cab.addView(nlin);
+      // articulo
+      TextView art = new TextView(this);
+      art.setText("Articulo");
+      art.setWidth(35);
+      cab.addView(art);
+      // Cantidad
+      TextView cant = new TextView(this);
+      cant.setText("Cant");
+      cant.setWidth(10);
+      cab.addView(cant);
+      // Estado
+      TextView est = new TextView(this);
+      est.setText("Estado");
+      est.setWidth(30);
+      cab.addView(est);
+      //
+      tabla.addView(cab);
+      // Bucle
 
-	// Evento de pulsar el boton atras
-	protected void onRestart() {
-		super.onRestart();
-		Toast.makeText(ComandaActivity.this,
-            "onRestart: No se ha ejecutado ninguna acción",
-            Toast.LENGTH_LONG).show();
-	}
+      LineaComandaHandler[] array = comanda.getArrLineas();
+      for (int i = 0; i < comanda.getIdLinea(); i++) {
+         // creacion fila
+         TableRow row = new TableRow(this);
+         row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
+               LayoutParams.WRAP_CONTENT));
+         final int indice = 0;
+         // CHECK BOX
+         CheckBox ck = new CheckBox(this);
+         ck.setText(String.valueOf(i + 1));
+         ck.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView,
+                  boolean isChecked) {
+               if (buttonView.isChecked()) { // si el checbox esta pulsado
+                  int indice = Integer.parseInt((String) buttonView.getText()) - 1;
+                  comanda.arrLineas[indice].setBorrar("S");
+               } else {
+                  int indice = Integer.parseInt((String) buttonView.getText()) - 1;
+                  comanda.arrLineas[indice].setBorrar("N");
+               }
+            }
 
-	// Getters and Setters
-	public int getnLinea() {
-		return nLinea;
-	}
+         });
+         row.addView(ck);
+         // TEXTVIEW
+         TextView txt = new TextView(this);
+         txt.setText(array[i].getcArticulo());
+         row.addView(txt);
+         // SPINNER CANTIDAD
+         Spinner sp = new Spinner(this);
+         final String[] datos = new String[] { "1", "2", "3", "4", "5" };
+         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,
+               android.R.layout.simple_spinner_item, datos);
+         sp.setAdapter(adaptador);
 
-	public void setnLinea(int nLinea) {
-		this.nLinea = nLinea;
-	}
+         row.addView(sp);
 
-	public int getnComanda() {
-		return nComanda;
-	}
+         // SPINNER ESTADO
+         Button bt = new Button(this);
+         row.addView(bt);
 
-	public void setnComanda(int nComanda) {
-		this.nComanda = nComanda;
-	}
+         // ANADIR LA FILA A LA TABLA
+         tabla.addView(row);
+      }
+   }
 
-	// GETTERS AND SETTERS
-	public String getMesa() {
-		return mesa;
-	}
+   void añadirLinea(LineaComandaHandler ln) {
+      // ldc.
+   }
 
-	public void setMesa(String mesa) {
-		this.mesa = mesa;
-	}
+   // Evento de pulsar el boton atras
+   protected void onRestart() {
+      super.onRestart();
+      Toast.makeText(ComandaActivity.this,
+            "onRestart: No se ha ejecutado ninguna acción", Toast.LENGTH_LONG)
+            .show();
+   }
 
-	public String getCamarero() {
-		return camarero;
-	}
+   // Getters and Setters
+ /*  public int getnLinea() {
+      return nLinea;
+   }
+   
+   public void setnLinea(int nLinea) {
+      this.nLinea = nLinea;
+   }
 
-	public void setCamarero(String camarero) {
-		this.camarero = camarero;
-	}
-	public int getCamareroId() {
-		return camareroId;
-	}
+   public int getnComanda() {
+      return nComanda;
+   }
 
-	public void setCamareroId(int camareroId) {
-		this.camareroId = camareroId;
-	}
+   public void setnComanda(int nComanda) {
+      this.nComanda = nComanda;
+   }
 
-	public static ComandaHandler getComa() {
-		return comanda;
-	}
+   // GETTERS AND SETTERS
+   public String getMesa() {
+      return mesa;
+   }
 
-	public static void setComa(ComandaHandler coma) {
-		ComandaActivity.comanda = coma;
-	}
-	
-	public void setFactura(int fact){
-		this.factura = fact;
-	}
-	public int getFactura(){
-		return this.factura;
-	}
+   public void setMesa(String mesa) {
+      this.mesa = mesa;
+   }
+
+   public String getCamarero() {
+      return camarero;
+   }
+
+   public void setCamarero(String camarero) {
+      this.camarero = camarero;
+   }
+
+   public int getCamareroId() {
+      return camareroId;
+   }
+
+   public void setCamareroId(int camareroId) {
+      this.camareroId = camareroId;
+   }
+
+   public static ComandaHandler getComa() {
+      return comanda;
+   }
+
+   public static void setComa(ComandaHandler coma) {
+      ComandaActivity.comanda = coma;
+   }
+
+   public void setFactura(int fact) {
+      this.factura = fact;
+   }
+
+   public int getFactura() {
+      return this.factura;
+   }*/
 }

@@ -52,11 +52,11 @@ public class FamiliaActivity extends Activity {
          }
          // Recoger el bundle con la informacion de comandas
          Bundle bundle = getIntent().getExtras();
-         this.setCamarero(bundle.getString("camarero"));
+        /* this.setCamarero(bundle.getString("camarero"));
          this.setMesa(bundle.getString("mesa"));
          this.setnLinea(bundle.getInt("linea"));
          this.setnComanda(bundle.getInt("Comanda"));
-         
+         */
          populateGrid();
 
       } else {
@@ -95,7 +95,7 @@ public class FamiliaActivity extends Activity {
       // Creamos un budle para pasar todos los datos
       Bundle bundle = new Bundle();
       // le ponemos el numero de camarero
-      bundle.putString("camarero", this.getCamarero());
+    /*  bundle.putString("camarero", this.getCamarero());
       intento.putExtras(bundle);
       // le ponemos el numero de mesa
       bundle.putString("mesa", this.getMesa());
@@ -105,7 +105,7 @@ public class FamiliaActivity extends Activity {
       intento.putExtras(bundle);
       // le ponemos el numero de Comanda
       bundle.putInt("nComanda", this.getnComanda());
-      intento.putExtras(bundle);
+      intento.putExtras(bundle);*/
       //Valor de la familia seleccionada
       String[] idFamilia = familiasData.getIdFamilia();
 
@@ -115,7 +115,7 @@ public class FamiliaActivity extends Activity {
 
       startActivity(intento);
    }
-
+/*
    // GETTERS AND SETTERS
    public String getMesa() {
       return mesa;

@@ -42,15 +42,6 @@
 	<TableLayout android:stretchColumns="4"
 		android:layout_width="wrap_content" android:id="@+id/TablaComanda"
 		android:layout_height="wrap_content">
-		<TableRow android:id="@+id/tableRow1" android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
-			<TextView android:text="nºLin" android:width="20pt" />
-			<TextView android:text="Articulo" android:width="50pt" />
-			<TextView android:text="Cant" android:width="25px" />
-			<TextView android:text="Estado" android:width="35pt" />
-		</TableRow>
-
-
 	</TableLayout>
 
 </LinearLayout>
