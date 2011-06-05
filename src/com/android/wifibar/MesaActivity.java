@@ -43,7 +43,7 @@ public class MesaActivity extends Activity {
    private static MesaHandler mesasData;
    private int updateMesa;
    private String estadoMesa;
-   private Bundle paquete = new Bundle();
+   private Bundle paquete;
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,9 @@ public class MesaActivity extends Activity {
          }
          // Rellenar el spinner
          populateSpinner();
-         // Para poner el camarero seleccionado en un TextView(ver lo que
-         // hay)
+         
+         paquete = new Bundle();
+         
          TextView ctlCam = (TextView) findViewById(R.id.textView3);
          paquete = getIntent().getExtras();
          ctlCam.setText(paquete.getString("camarero"));
@@ -98,7 +99,7 @@ public class MesaActivity extends Activity {
 
                // CREAR LA INSTANCIA DE COMANDA
                int nComanda = wifiBarActivity.db.generaComanda(
-                     paquete.getInt("factura"), Integer.parseInt(mesaEle),
+                    paquete.getInt("factura"), Integer.parseInt(mesaEle),
                      paquete.getInt("camareroId"));
                if (nComanda != -1) {
                   paquete.putInt("idComanda", nComanda);

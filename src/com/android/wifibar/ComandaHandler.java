@@ -1,8 +1,8 @@
 package com.android.wifibar;
 
+import java.util.concurrent.CopyOnWriteArraySet;
+
 public class ComandaHandler {
-   // Constante
-   private static final int MAX_LINE = 50;
 
    // Datos miembros
    private int nComanda;
@@ -13,34 +13,39 @@ public class ComandaHandler {
    // Para poner la linea
    private int idLinea;
    // Array de Lineas de Articulo
-   public LineaComandaHandler[] arrLineas;
+   public LineaComandaHandler[] arrLineas = new LineaComandaHandler[0];
 
    public ComandaHandler() {
-      mesa = 0; // se puede poner
-      nComanda = 0; // hacer consulta BBDD. Max+1 del numero de comandas
-      factura = 0; // Max+1 de facturas en DB
-      idLinea = 0; // para ver cuantas linea tiene esta comanda. Se utiliza para
-                   // el IdLineaComanda
-      // fecha= Date; //poner la fecha hora
-      arrLineas = new LineaComandaHandler[MAX_LINE];
+      mesa = 0; 
+      nComanda = 0; 
+      factura = 0; 
+      idLinea = 0; 
    }
 
    // Añadir linea de Comanda
    public void anadirLdComanda(LineaComandaHandler ldc) {
-      arrLineas[this.getIdLinea()] = ldc;
-      this.setIdLinea(this.idLinea + 1);// Al añadir una linea, se aumenta el
-                                        // contador
+         
+         if (arrLineas != null ){
+            LineaComandaHandler[] arrayAumentado = new LineaComandaHandler[arrLineas.length+1];
+            System.arraycopy(arrLineas, 0, arrayAumentado, 0, arrLineas.length);
+            arrayAumentado[arrayAumentado.length-1] = ldc;
+            this.setIdLinea(this.idLinea + 1);
+            this.setArrLineas(arrayAumentado);
+         }
    }
 
    public void borrarLdComanda() {
-      LineaComandaHandler[] arrayResul = new LineaComandaHandler[MAX_LINE];
       int z = 0;
-      for (int i = 0; i < this.getIdLinea(); i++) {
-         if (this.arrLineas[i].getBorrar() == "N") {
-            // arrayResul[z++]=this.arrLineas[i];
-            arrayResul[z++] = this.arrLineas[i].getArrayElement();
-         }
-      }
+      for (int i = 0; i < this.arrLineas.length; i++) 
+         if (this.arrLineas[i].getBorrar() == "N") z++;
+      
+      LineaComandaHandler[] arrayResul = new LineaComandaHandler[z];
+      
+      int c = 0;
+      for (int i = 0; i < arrLineas.length; i++) 
+         if (this.arrLineas[i].getBorrar() == "N") 
+            arrayResul[c++] = this.arrLineas[i].getArrayElement();
+  
       this.setIdLinea(z);
       this.setArrLineas(arrayResul);
    }

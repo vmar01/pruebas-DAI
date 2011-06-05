@@ -40,17 +40,12 @@ import android.widget.Toast;
 public class ComandaActivity extends Activity {
 
    // Datos miembros
-  /* public String mesa;
-   public String camarero;
-   public int nLinea;
-   public int nComanda;
-   public int camareroId;
-   public int factura;*/
-   public static ComandaHandler comanda = new ComandaHandler();
+   public static ComandaHandler comanda;
    private static TableLayout tabla;
    private static ImageView marcharButton;
    private static ImageView addButton;
    private static ImageView borrarButton;
+   private static Bundle bundle;
   
    /** Called when the activity is first created. */
    @Override
@@ -60,19 +55,40 @@ public class ComandaActivity extends Activity {
 
       if (wifiBarActivity.db.isConnected()) {
          // Poner los atributos a comanda
-         Bundle bundle = getIntent().getExtras();
+         bundle = getIntent().getExtras();
+
+         // PONER LOS ATRIBUTOS A COMANDA
+         if (comanda == null ) comanda = new ComandaHandler();
+         if (bundle.getInt("idComanda") != 0){
+            comanda.setCamarero(bundle.getInt("camareroId"));
+            comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
+            comanda.setnComanda(bundle.getInt("idComanda"));
+            comanda.setFactura(bundle.getInt("factura"));
+         }
          
          // Capturar los controles y ver los atributos en los TextView
          TextView textCam  = (TextView) findViewById(R.id.tvCam);
          TextView textMesa = (TextView) findViewById(R.id.tvMesa);
 
+         textCam.setText(textCam.getText() + bundle.getString("camarero"));
+         textMesa.setText(textMesa.getText() + Integer.toString(comanda.getMesa()));
+         
          marcharButton = (ImageView) findViewById(R.id.btMarchar);
          marcharButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-               wifiBarActivity.db.generaLineaComanda(comanda.getIdLinea(),
-                     comanda.getnComanda(), 0, "cafe", "S", "bCaliente");
+               for (int i = 0; i < comanda.arrLineas.length; i++)
+                  wifiBarActivity.db.generaLineaComanda(i,
+                        comanda.getnComanda(), 0, comanda.arrLineas[i].getcArticulo(), "S", "bCaliente");
+               Intent volverAMesa = new Intent(ComandaActivity.this, MesaActivity.class);
+               bundle.putString("camarero", bundle.getString("camarero"));
+               bundle.putInt("camareroId", comanda.getCamarero());
+               bundle.putInt("factura", comanda.getFactura());
+               volverAMesa.putExtras(bundle);
+               comanda = null;
+               finish();
+               startActivity(volverAMesa);
             }
          });
 
@@ -93,25 +109,15 @@ public class ComandaActivity extends Activity {
          borrarButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-               //TODO Agregar aqui­ las lineas de comanda a la tabla comanda
-             comanda.borrarLdComanda();
-             borrarTabla();
-             pintarComanda(); 
-              }
+               if (comanda != null){
+                  comanda.borrarLdComanda();
+                  borrarTabla();
+                  pintarComanda(); 
+               }
+             }
             
          });
-
-         textCam.setText(textCam.getText() + bundle.getString("camarero"));
-         textMesa.setText(textMesa.getText() + bundle.getString("mesa"));
-
-         // PONER LOS ATRIBUTOS A COMANDA
-         if (bundle.getInt("idComanda") != 0){
-            comanda.setCamarero(bundle.getInt("camareroId"));
-            comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
-            comanda.setnComanda(bundle.getInt("idComanda"));
-            comanda.setFactura(bundle.getInt("factura"));
-            //TODO: creo que hace falta fijar el atributo factura de comanda
-         }
+         
          // Cuando se ha seleccionado un articulo
          String artRecibido = getIntent().getExtras().getString("articulo");
          if (artRecibido != null) pintarComanda();

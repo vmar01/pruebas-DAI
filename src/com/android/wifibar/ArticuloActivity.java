@@ -71,12 +71,12 @@ public class ArticuloActivity extends Activity {
       grdArticulos.setOnItemClickListener(new OnItemClickListener() {
          public void onItemClick(AdapterView<?> parent, View v, int position,
                long id) {
-            introArticulo(grdArticulos.getItemAtPosition(position).toString());
+            introArticulo(grdArticulos.getItemAtPosition(position).toString(), position);
          }
       });
    }
    
-   private void introArticulo(String art) {
+   private void introArticulo(String art, int indice) {
       // Crear el intent
       Intent intento = new Intent(ArticuloActivity.this, ComandaActivity.class);
 
@@ -84,12 +84,11 @@ public class ArticuloActivity extends Activity {
       Bundle bundle = new Bundle();
 
       // Coger el item elegido
-      bundle.putString("articulo", art);
+      bundle.putString("articulo", articulosData.getIdArticulo()[indice]);
 
       //CREAR LA LINEA DE COMANDA
-      LineaComandaHandler lineNew=new LineaComandaHandler(art);
+      LineaComandaHandler lineNew=new LineaComandaHandler(articulosData.getIdArticulo()[indice]);
       // Agregar esa linea a la comanda
-      // TODO: pasar los datos correctos al constructor
       ComandaActivity.comanda.anadirLdComanda(lineNew);
       intento.putExtras(bundle);
       startActivity(intento);
