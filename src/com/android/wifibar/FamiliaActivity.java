@@ -45,8 +45,7 @@ public class FamiliaActivity extends Activity {
             Toast.makeText(FamiliaActivity.this, R.string.emptyTable,
                   Toast.LENGTH_LONG).show();
             this.finish();
-         }
-         populateGrid();
+         }else populateGrid();
 
       } else {
          Toast.makeText(FamiliaActivity.this, R.string.noConectionActive,

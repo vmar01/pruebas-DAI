@@ -22,16 +22,19 @@ package com.android.wifibar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -80,7 +83,7 @@ public class ComandaActivity extends Activity {
             public void onClick(View v) {
                for (int i = 0; i < comanda.arrLineas.length; i++)
                   wifiBarActivity.db.generaLineaComanda(i,
-                        comanda.getnComanda(), 0, comanda.arrLineas[i].getcArticulo(), "S", "bCaliente");
+                        comanda.getnComanda(), comanda.arrLineas[i].getCant(), comanda.arrLineas[i].getcArticulo(), "S", "bCaliente");
                Intent volverAMesa = new Intent(ComandaActivity.this, MesaActivity.class);
                bundle.putString("camarero", bundle.getString("camarero"));
                bundle.putInt("camareroId", comanda.getCamarero());
@@ -162,12 +165,12 @@ public class ComandaActivity extends Activity {
       // Bucle
 
       LineaComandaHandler[] array = comanda.getArrLineas();
+     
       for (int i = 0; i < comanda.getIdLinea(); i++) {
          // creacion fila
          TableRow row = new TableRow(this);
          row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
                LayoutParams.WRAP_CONTENT));
-         final int indice = 0;
          // CHECK BOX
          CheckBox ck = new CheckBox(this);
          ck.setText(String.valueOf(i + 1));
@@ -190,13 +193,28 @@ public class ComandaActivity extends Activity {
          txt.setText(array[i].getcArticulo());
          row.addView(txt);
          // SPINNER CANTIDAD
-         Spinner sp = new Spinner(this);
-         final String[] datos = new String[] { "1", "2", "3", "4", "5" };
-         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,
-               android.R.layout.simple_spinner_item, datos);
-         sp.setAdapter(adaptador);
-
-         row.addView(sp);
+         EditText cantidadEditText = new EditText(this);
+         cantidadEditText.setId(i);
+         cantidadEditText.setWidth(150);
+         DigitsKeyListener MyDigitKeyListener =	 new DigitsKeyListener(true, true); // first true : is signed, second one : is decimal
+         cantidadEditText.setKeyListener( MyDigitKeyListener );
+         
+         cantidadEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+         cantidadEditText.setOnKeyListener(new OnKeyListener() {
+		 
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+					EditText tv = (EditText)v;
+					comanda.arrLineas[tv.getId()].setCant(Integer.parseInt(tv.getText().toString()));
+					return true;
+				}else
+				return false;
+			}
+		});
+         cantidadEditText.setText(Integer.toString(comanda.arrLineas[i].getCant()));
+         
+         row.addView(cantidadEditText);
 
          // SPINNER ESTADO
          Button bt = new Button(this);
@@ -207,9 +225,6 @@ public class ComandaActivity extends Activity {
       }
    }
 
-   void añadirLinea(LineaComandaHandler ln) {
-      // ldc.
-   }
 
    // Evento de pulsar el boton atras
    protected void onRestart() {
