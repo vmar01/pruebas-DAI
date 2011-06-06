@@ -83,7 +83,7 @@ public class ComandaActivity extends Activity {
             public void onClick(View v) {
                for (int i = 0; i < comanda.arrLineas.length; i++)
                   wifiBarActivity.db.generaLineaComanda(i,
-                        comanda.getnComanda(), comanda.arrLineas[i].getCant(), comanda.arrLineas[i].getcArticulo(), "S", "bCaliente");
+                        comanda.getnComanda(), comanda.arrLineas[i].getCant(), comanda.arrLineas[i].getcArticulo(), "S", "0");
                Intent volverAMesa = new Intent(ComandaActivity.this, MesaActivity.class);
                bundle.putString("camarero", bundle.getString("camarero"));
                bundle.putInt("camareroId", comanda.getCamarero());
@@ -190,7 +190,7 @@ public class ComandaActivity extends Activity {
          row.addView(ck);
          // TEXTVIEW
          TextView txt = new TextView(this);
-         txt.setText(array[i].getcArticulo());
+         txt.setText(array[i].getArticuloDesc());
          row.addView(txt);
          // SPINNER CANTIDAD
          EditText cantidadEditText = new EditText(this);
