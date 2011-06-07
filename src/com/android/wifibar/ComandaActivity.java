@@ -191,11 +191,12 @@ public class ComandaActivity extends Activity {
          // TEXTVIEW
          TextView txt = new TextView(this);
          txt.setText(array[i].getArticuloDesc());
+         txt.setWidth(100);
          row.addView(txt);
-         // SPINNER CANTIDAD
+         // EDITTEXT CANTIDAD
          EditText cantidadEditText = new EditText(this);
          cantidadEditText.setId(i);
-         cantidadEditText.setWidth(150);
+         cantidadEditText.setWidth(35);
          DigitsKeyListener MyDigitKeyListener =	 new DigitsKeyListener(true, true); // first true : is signed, second one : is decimal
          cantidadEditText.setKeyListener( MyDigitKeyListener );
          
@@ -216,9 +217,9 @@ public class ComandaActivity extends Activity {
          
          row.addView(cantidadEditText);
 
-         // SPINNER ESTADO
+         // BOTON ESTADO
          Button bt = new Button(this);
-         bt.setWidth(150);
+         bt.setWidth(70);
          row.addView(bt);
 
          // ANADIR LA FILA A LA TABLA
