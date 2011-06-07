@@ -26,89 +26,84 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class wifiBarActivity extends Activity {
 
-   private Spinner SpiCamarero;
-   public static database db = new database();
-   private static CamareroHandler camareroData;
+	private ListView lvCamarero;
+	public static database db = new database();
+	private static CamareroHandler camareroData;
 
-   /** Called when the activity is first created. */
-   @Override
-   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.main);
-      // if (comprobarConexion(wifiBarActivity.this)) {
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		// if (comprobarConexion(wifiBarActivity.this)) {
 
-      if (db.consultarCamareros("Camareros") == -1) {
-         Toast.makeText(wifiBarActivity.this, R.string.emptyTable,
-               Toast.LENGTH_LONG).show();
-         this.finish();
-      } else if (db.isConnected()) {
-         // db.closeConnection();
-    	  
-         Toast.makeText(wifiBarActivity.this, "in onCreate()",
-               Toast.LENGTH_SHORT).show();
+		if (db.consultarCamareros("Camareros") == -1) {
+			Toast.makeText(wifiBarActivity.this, R.string.emptyTable,
+					Toast.LENGTH_LONG).show();
+			this.finish();
+		} else if (db.isConnected()) {
+			// db.closeConnection();
 
-         // Elementos graficos a usar
-         SpiCamarero = (Spinner) findViewById(R.id.SpiCamarero);
+			// DAtos de los camareros
+			camareroData = db.getCamareros();
 
-         // DAtos de los camareros
-         camareroData = db.getCamareros();
+			// Relleno el spinner
+			ArrayAdapter<String> adapterCamarero = new ArrayAdapter<String>(
+					this, android.R.layout.simple_list_item_1,
+					camareroData.getApellido());
+			
+			lvCamarero = (ListView) findViewById(R.id.lvCamarero);
+			lvCamarero.setAdapter(adapterCamarero);
+			lvCamarero.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					Intent camarero = new Intent(wifiBarActivity.this,
+							MesaActivity.class);
 
-         // Relleno el spinner
-         ArrayAdapter<String> spinnerCamarero = new ArrayAdapter<String>(this,
-               android.R.layout.simple_dropdown_item_1line,
-               camareroData.getApellido());
-         SpiCamarero.setAdapter(spinnerCamarero);
+					Bundle bundle = new Bundle();
+					bundle.putString("camarero",
+							camareroData.getNombre()[arg2]);
+					bundle.putInt("camareroId",
+							camareroData.getID()[arg2]);
+					camarero.putExtras(bundle);
+					startActivity(camarero);
+					
+				}
+			});
+			
+		} else {
+			Toast.makeText(wifiBarActivity.this, R.string.noConectionActive,
+					Toast.LENGTH_LONG).show();
+			this.finish();
+		}
 
-      } else {
-         Toast.makeText(wifiBarActivity.this, R.string.noConectionActive,
-               Toast.LENGTH_LONG).show();
-         this.finish();
-      }
+		/*
+		 * } else { Toast.makeText(wifiBarActivity.this, R.string.noWifiActive,
+		 * Toast.LENGTH_LONG).show(); this.finish();
+		 */
+		// }
 
-      /*
-       * } else { Toast.makeText(wifiBarActivity.this, R.string.noWifiActive,
-       * Toast.LENGTH_LONG).show(); this.finish();
-       */
-      // }
+	}
 
-   }
-
-   // Para comprobar la conexión wi-Fi
-   public static boolean comprobarConexion(Context context) {
-      ConnectivityManager connec = (ConnectivityManager) context
-            .getSystemService(Context.CONNECTIVITY_SERVICE);
-      NetworkInfo redWifi = connec
-            .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-      if (redWifi.isAvailable()) {
-         return true;
-      }
-      return false;
-   }
-
-   // Pasar al siguiente Activity (Mesa)
-   public void irMesa(Button v) {
-      Intent camarero = new Intent(wifiBarActivity.this, MesaActivity.class);
-      
-      final Spinner spiCamarero = (Spinner) findViewById(R.id.SpiCamarero);
-
-      Bundle bundle = new Bundle();
-      bundle.putString("camarero", camareroData.getNombre()[spiCamarero.getSelectedItemPosition()]);
-      bundle.putInt("camareroId", camareroData.getID()[spiCamarero.getSelectedItemPosition()]);
-      camarero.putExtras(bundle);
-      startActivity(camarero);
-
-   }
-
-   // Recoger el evento onClick del boton Introducir
-   public void onClick(View v) {
-      irMesa((Button) v);
-   }
+	// Para comprobar la conexión wi-Fi
+	public static boolean comprobarConexion(Context context) {
+		ConnectivityManager connec = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo redWifi = connec
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		if (redWifi.isAvailable()) {
+			return true;
+		}
+		return false;
+	}
 
 }
