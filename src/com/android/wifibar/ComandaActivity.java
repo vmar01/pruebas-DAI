@@ -143,22 +143,22 @@ public class ComandaActivity extends Activity {
       TableRow cab = new TableRow(this);
       TextView nlin = new TextView(this);
       nlin.setText("Nº Lin");
-      nlin.setWidth(10);
+      nlin.setWidth(LayoutParams.FILL_PARENT);
       cab.addView(nlin);
       // articulo
       TextView art = new TextView(this);
       art.setText("Articulo");
-      art.setWidth(35);
+      art.setWidth(LayoutParams.FILL_PARENT);
       cab.addView(art);
       // Cantidad
       TextView cant = new TextView(this);
       cant.setText("Cant");
-      cant.setWidth(10);
+      cant.setWidth(LayoutParams.FILL_PARENT);
       cab.addView(cant);
       // Estado
       TextView est = new TextView(this);
       est.setText("Estado");
-      est.setWidth(30);
+      est.setWidth(LayoutParams.FILL_PARENT);
       cab.addView(est);
       //
       tabla.addView(cab);
@@ -218,6 +218,7 @@ public class ComandaActivity extends Activity {
 
          // SPINNER ESTADO
          Button bt = new Button(this);
+         bt.setWidth(150);
          row.addView(bt);
 
          // ANADIR LA FILA A LA TABLA
