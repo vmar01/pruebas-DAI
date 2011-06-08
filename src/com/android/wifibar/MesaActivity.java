@@ -63,7 +63,7 @@ public class MesaActivity extends Activity {
          
          TextView ctlCam = (TextView) findViewById(R.id.tvCamarero);
          paquete = getIntent().getExtras();
-         ctlCam.setText(paquete.getString("camarero"));
+         ctlCam.setText("Camarero: "+ paquete.getString("camarero"));
 
          altaMesaButton = (Button) findViewById(R.id.btAbrir);
          altaMesaButton.setOnClickListener(new OnClickListener() {
