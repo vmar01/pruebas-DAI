@@ -26,11 +26,10 @@
 		<ImageView android:id="@+id/btAnadir" android:src="@drawable/addicon"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_gravity="left"
-			android:width="80dip" android:onClick="irFamilia"></ImageView>
+			android:onClick="irFamilia"></ImageView>
 		<ImageView android:id="@+id/btBorrar" android:src="@drawable/deleteicon"
 			android:layout_weight="1" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_gravity="center"
-			android:width="80dip">
+			android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
 		</ImageView>
 		<ImageView android:id="@+id/btMarchar" android:src="@drawable/marcharicon"
 			android:layout_weight="1" android:layout_width="wrap_content"
@@ -45,7 +44,18 @@
 			android:id="@+id/linearLayout2" android:layout_height="match_parent">
 			<TableLayout android:layout_height="wrap_content"
 				android:layout_width="wrap_content" android:id="@+id/TablaComanda"
-				android:stretchColumns="4"></TableLayout>
+				android:stretchColumns="1">
+				<TableRow>
+					<TextView android:textColor="#ffffff" android:textStyle="bold"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:text="NºLine"></TextView>
+					<TextView android:textColor="#ffffff" android:textStyle="bold"
+						android:layout_height="wrap_content" android:layout_width="wrap_content"
+						android:gravity="center_horizontal" android:text="Articulo"></TextView>
+					<TextView android:textColor="#ffffff" android:textStyle="bold"
+						android:layout_width="wrap_content" android:text="Cantidad"></TextView>
+				</TableRow>
+			</TableLayout>
 		</LinearLayout>
 	</ScrollView>
 

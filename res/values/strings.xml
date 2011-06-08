@@ -14,8 +14,10 @@
 
 	<!--//V1.1 -->
 	<string name="user">Seleccionar camarero</string>
-	<string name="comanda">Hacer Comanda</string>
+	<string name="comanda">Comanda</string>
 	<string name="cerrar">Cerrar Mesa</string>
 	<string name="abrir">Abrir Mesa</string>
 	<string name="mesa">Elegir una mesa</string>
+	<string name="VerComanda">Ver Linea</string>
+	<string name="stringMesa">Mesa </string>
 </resources>

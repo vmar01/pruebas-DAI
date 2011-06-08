@@ -197,11 +197,15 @@ public class database {
             return -1;
          // Creo el objeto del mismo tamaño que el count
          datosMesas = new MesaHandler(count);
-         while (result.next() && count >= 0) {
-            datosMesas.setId(result.getString(COL_IDMESA));
+         int i = 0;
+         while (result.next()) {
+            datosMesas.id[i] = result.getString(COL_IDMESA);
+            datosMesas.abierta[i] = result.getString(COL_ABIERTA).equalsIgnoreCase("s") ? true : false;
+            datosMesas.comensales[i++] = result.getString(COL_NCOMEN);
+            /*datosMesas.setId(result.getString(COL_IDMESA));
             datosMesas.setAbierta(result.getString(COL_ABIERTA)
                   .equalsIgnoreCase("s") ? true : false);
-            datosMesas.setComensales(result.getString(COL_NCOMEN));
+            datosMesas.setComensales(result.getString(COL_NCOMEN));*/
          }
          result.close();
          result = null;
