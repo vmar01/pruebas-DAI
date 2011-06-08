@@ -83,7 +83,7 @@ public class ComandaActivity extends Activity {
             @Override
             public void onClick(View v) {
                for (int i = 0; i < comanda.arrLineas.length; i++)
-                  wifiBarActivity.db.generaLineaComanda(i,
+                  wifiBarActivity.db.generaLineaComanda(i+1,
                         comanda.getnComanda(), comanda.arrLineas[i].getCant(), comanda.arrLineas[i].getcArticulo(), "S", "0");
                Intent volverAMesa = new Intent(ComandaActivity.this, MesaActivity.class);
                bundle.putString("camarero", bundle.getString("camarero"));
