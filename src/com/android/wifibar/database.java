@@ -30,7 +30,7 @@ public class database {
    private static ArticuloHandler datosArticulos;
    private java.sql.Connection connection = null;
    private final String url = "jdbc:sqlserver://";
-   private final String serverName = "192.168.1.159";
+   private final String serverName = "192.168.1.39";
    private final String portNumber = "1433";
    private final String databaseName = "wifiBar_DB";
    private final String userName = "algui91";

@@ -1,6 +1,5 @@
 package com.android.wifibar;
 
-import java.util.concurrent.CopyOnWriteArraySet;
 
 public class ComandaHandler {
 
@@ -9,18 +8,20 @@ public class ComandaHandler {
    private int factura;
    // public Date fecha;
    private int mesa;
-   private int camarero;
+   private int camareroId;
    private String camareroNom;
    // Para poner la linea
    private int idLinea;
    // Array de Lineas de Articulo
    public LineaComandaHandler[] arrLineas = new LineaComandaHandler[0];
 
-   public ComandaHandler() {
-      mesa = 0; 
-      nComanda = 0; 
-      factura = 0; 
+   public ComandaHandler(int mes,int nCom,int fac, int camId,String camNom) {
+      mesa = mes; 
+      nComanda = nCom; 
+      factura = fac; 
       idLinea = 0; 
+      camareroId=camId;
+      camareroNom=camNom;
    }
 
    // Añadir linea de Comanda
@@ -76,15 +77,25 @@ public class ComandaHandler {
       this.mesa = mesa;
    }
 
-   public int getCamarero() {
-      return camarero;
-   }
 
-   public void setCamarero(int camarero) {
-      this.camarero = camarero;
-   }
 
-   public int getIdLinea() {
+   public int getCamareroId() {
+   return camareroId;
+}
+
+public void setCamareroId(int camareroId) {
+   this.camareroId = camareroId;
+}
+
+public String getCamareroNom() {
+   return camareroNom;
+}
+
+public void setCamareroNom(String camareroNom) {
+   this.camareroNom = camareroNom;
+}
+
+public int getIdLinea() {
       return idLinea;
    }
 
@@ -99,14 +110,6 @@ public class ComandaHandler {
    public void setArrLineas(LineaComandaHandler[] arrLineas) {
       this.arrLineas = arrLineas;
    }
-
-public void setCamareroNom(String camareroNom) {
-	this.camareroNom = camareroNom;
-}
-
-public String getCamareroNom() {
-	return camareroNom;
-}
 
 }
 
