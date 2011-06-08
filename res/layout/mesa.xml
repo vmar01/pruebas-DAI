@@ -6,13 +6,11 @@
 		android:textSize="20px" android:layout_height="wrap_content"
 		android:layout_width="wrap_content" android:layout_gravity="center_horizontal">
 	</TextView>
-         <TextView android:text="Camarero: " android:id="@+id/tvCamarero" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<TextView android:text="Camarero: " android:id="@+id/tvCamarero"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 	<TextView android:text="@string/mesa" android:id="@+id/textView2"
 		android:textSize="15px" android:layout_width="wrap_content"
 		android:layout_height="wrap_content"></TextView>
-	<Spinner android:layout_height="55sp" android:prompt="@string/selectMesa"
-		android:id="@+id/SpiMesa" android:layout_width="match_parent">
-	</Spinner>
 	<Button android:text="@string/comanda" android:id="@+id/btElegirMesa"
 		android:onClick="elegirMesa" android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
@@ -22,9 +20,9 @@
 		android:layout_height="wrap_content">
 	</Button>
 	<Button android:text="@string/abrir" android:id="@+id/btAbrir"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
 	</Button>
-	
+	<ListView android:layout_height="wrap_content" android:id="@+id/lvMesa"
+		android:layout_width="match_parent"></ListView>
 
 </LinearLayout>

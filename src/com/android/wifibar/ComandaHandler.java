@@ -10,6 +10,7 @@ public class ComandaHandler {
    // public Date fecha;
    private int mesa;
    private int camarero;
+   private String camareroNom;
    // Para poner la linea
    private int idLinea;
    // Array de Lineas de Articulo
@@ -98,6 +99,14 @@ public class ComandaHandler {
    public void setArrLineas(LineaComandaHandler[] arrLineas) {
       this.arrLineas = arrLineas;
    }
+
+public void setCamareroNom(String camareroNom) {
+	this.camareroNom = camareroNom;
+}
+
+public String getCamareroNom() {
+	return camareroNom;
+}
 
 }
 

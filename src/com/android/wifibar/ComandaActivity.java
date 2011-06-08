@@ -67,6 +67,7 @@ public class ComandaActivity extends Activity {
             comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
             comanda.setnComanda(bundle.getInt("idComanda"));
             comanda.setFactura(bundle.getInt("factura"));
+            comanda.setCamareroNom(bundle.getString("camarero"));
          }
          
          // Capturar los controles y ver los atributos en los TextView
