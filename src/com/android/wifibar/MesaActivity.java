@@ -114,7 +114,8 @@ public class MesaActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-               Intent mesa = new Intent(MesaActivity.this,
+               Intent mesa = null;
+               mesa = new Intent(MesaActivity.this,
                      ComandaActivity.class);
 
                // Pasamos al Activity comanda el camarero elegido

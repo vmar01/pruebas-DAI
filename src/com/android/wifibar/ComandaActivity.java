@@ -347,7 +347,7 @@ public class ComandaActivity extends Activity {
 			// ANADIR LA FILA A LA TABLA
 			tabla.addView(row);
 		}
-		tabla.findViewById(array.length-1).requestFocus();
+		if (comanda.getIdLinea() != 0) tabla.findViewById(array.length-1).requestFocus();
 	}
 
 	// Evento de pulsar el boton atras
