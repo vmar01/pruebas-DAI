@@ -118,7 +118,7 @@ public class ComandaActivity extends Activity {
 											wifiBarActivity.db
 													.generaLineaComanda(
 															i + 1,
-															comanda.getnComanda(),
+															comanda.arrLineas[i].getnComanda(),
 															comanda.arrLineas[i]
 																	.getCant(),
 															comanda.arrLineas[i]
@@ -354,6 +354,7 @@ public class ComandaActivity extends Activity {
 		if (comanda.getIdLinea() != 0) tabla.findViewById(array.length-1).requestFocus();
 	}
 
+	
 	// Evento de pulsar el boton atras
 	protected void onRestart() {
 		super.onRestart();

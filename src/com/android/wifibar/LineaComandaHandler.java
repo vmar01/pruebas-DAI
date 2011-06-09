@@ -12,9 +12,9 @@ public class LineaComandaHandler {
    private String articuloDesc;
 
    // constructor
-   public LineaComandaHandler( String idArticulo, String articulo){
+   public LineaComandaHandler( String idArticulo, String articulo, int idComanda){
       nLinea= 0;
-      nComanda= 0;
+      nComanda= idComanda;
       cant= 1;
       servida= "S";
       cArticulo= idArticulo;

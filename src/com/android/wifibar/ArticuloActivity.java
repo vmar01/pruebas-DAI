@@ -88,7 +88,7 @@ public class ArticuloActivity extends Activity {
 
       //CREAR LA LINEA DE COMANDA
       //TODO: Pasarle a linaComandaHandler el objeto articulosDAta
-      LineaComandaHandler lineNew = new LineaComandaHandler(articulosData.getIdArticulo()[indice], articulosData.getNombre()[indice]);
+      LineaComandaHandler lineNew = new LineaComandaHandler(articulosData.getIdArticulo()[indice], articulosData.getNombre()[indice], ComandaActivity.comanda.getnComanda());
       // Agregar esa linea a la comanda
       ComandaActivity.comanda.anadirLdComanda(lineNew);
       intento.putExtras(bundle);

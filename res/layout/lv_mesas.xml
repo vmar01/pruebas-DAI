@@ -13,16 +13,16 @@
 		/> -->
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
-		<Button android:textSize="10px" android:textStyle="italic"
+		<Button android:textSize="12px" android:textStyle="italic"
 			android:layout_alignParentRight="true" android:text="@string/VerComanda"
 			android:id="@+id/verLineaBtn" android:layout_width="wrap_content"
 			android:layout_height="50px"></Button>
-		<Button android:textSize="10px" android:layout_toLeftOf="@id/verLineaBtn"
+		<Button  android:textSize="12px" android:layout_toLeftOf="@id/verLineaBtn"
 			android:textStyle="italic" android:text="@string/comanda" android:id="@+id/hacerComandaBtn"
 			android:layout_width="wrap_content" android:layout_height="50px"></Button>
 		<RelativeLayout android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<ToggleButton android:textSize="10px" android:textStyle="italic"
+			<ToggleButton android:textSize="12px" android:textStyle="italic"
 				android:textOn="Abierta" android:textOff="Cerrada" android:text="ToggleButton"
 				android:id="@+id/estadoTb" android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></ToggleButton>
