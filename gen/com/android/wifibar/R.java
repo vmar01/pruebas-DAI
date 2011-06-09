@@ -18,27 +18,28 @@ public final class R {
         public static final int marcharicon=0x7f020004;
     }
     public static final class id {
-        public static final int TablaComanda=0x7f05000c;
+        public static final int CabeceraComanda=0x7f05000c;
+        public static final int TablaComanda=0x7f05000d;
         public static final int btAnadir=0x7f050007;
         public static final int btBorrar=0x7f050008;
         public static final int btMarchar=0x7f050009;
         public static final int cabComanda=0x7f050003;
-        public static final int estadoTb=0x7f050010;
+        public static final int estadoTb=0x7f050011;
         public static final int gridOpciones=0x7f050001;
-        public static final int hacerComandaBtn=0x7f05000f;
-        public static final int lbMesa=0x7f05000d;
+        public static final int hacerComandaBtn=0x7f050010;
+        public static final int lbMesa=0x7f05000e;
         public static final int linearLayout1=0x7f050006;
         public static final int linearLayout2=0x7f05000b;
-        public static final int lvCamarero=0x7f050011;
-        public static final int lvMesa=0x7f050014;
+        public static final int lvCamarero=0x7f050012;
+        public static final int lvMesa=0x7f050015;
         public static final int scrollView1=0x7f05000a;
         public static final int textView1=0x7f050000;
-        public static final int textView2=0x7f050013;
+        public static final int textView2=0x7f050014;
         public static final int textView3=0x7f050002;
         public static final int tvCam=0x7f050004;
-        public static final int tvCamarero=0x7f050012;
+        public static final int tvCamarero=0x7f050013;
         public static final int tvMesa=0x7f050005;
-        public static final int verLineaBtn=0x7f05000e;
+        public static final int verLineaBtn=0x7f05000f;
     }
     public static final class layout {
         public static final int articulo=0x7f030000;

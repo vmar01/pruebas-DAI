@@ -19,6 +19,7 @@
 
 package com.android.wifibar;
 
+import android.R.array;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -289,7 +290,7 @@ public class ComandaActivity extends Activity {
 			// SPINNER CANTIDAD
 			EditText cantidadEditText = new EditText(this);
 			cantidadEditText.setId(i);
-			cantidadEditText.setWidth(LayoutParams.FILL_PARENT);
+			cantidadEditText.setWidth(90);
 
 			InputFilter[] FilterArray = new InputFilter[1];
 			FilterArray[0] = new InputFilter.LengthFilter(2);

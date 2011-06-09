@@ -41,9 +41,9 @@
 	<ScrollView android:layout_height="wrap_content"
 		android:layout_width="match_parent" android:id="@+id/scrollView1">
 		<LinearLayout android:layout_width="match_parent"
-			android:id="@+id/linearLayout2" android:layout_height="match_parent">
+			android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_height="match_parent">
 			<TableLayout android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:id="@+id/TablaComanda"
+				android:layout_width="wrap_content" android:id="@+id/CabeceraComanda"
 				android:stretchColumns="1">
 				<TableRow>
 					<TextView android:textColor="#ffffff" android:textStyle="bold"
@@ -55,6 +55,10 @@
 					<TextView android:textColor="#ffffff" android:textStyle="bold"
 						android:layout_width="wrap_content" android:text="Cantidad"></TextView>
 				</TableRow>
+			</TableLayout>
+			<TableLayout android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:id="@+id/TablaComanda"
+				android:stretchColumns="1">
 			</TableLayout>
 		</LinearLayout>
 	</ScrollView>
