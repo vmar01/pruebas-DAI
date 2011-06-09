@@ -28,6 +28,7 @@ public class database {
    private static MesaHandler datosMesas;
    private static FamiliaHandler datosFamilias;
    private static ArticuloHandler datosArticulos;
+   private static ComandaHandler comandaTotal = null;
    private java.sql.Connection connection = null;
    private final String url = "jdbc:sqlserver://";
    private final String serverName = "192.168.1.39";
@@ -184,6 +185,46 @@ public class database {
       }
    }
    
+   public int recuperarLineas(int mesa){
+      try{
+         java.sql.ResultSet result = null;
+         PreparedStatement select = connection.prepareStatement("select Comandas.nIdCamarero as camId, Comandas.nIdComanda as idComanda, Comandas.nIdFactura as numFactura, " +
+         		"Comandas.nIdMesa as Mesa, LinComanda.cIdArticulo as idArticulo,Articulos.cNombre as NomArticulo, " +
+         		"LinComanda.nCantidad as cantArticulo from Comandas join LinComanda on Comandas.nIdComanda=LinComanda.nIdComanda " +
+         		"join Articulos on Articulos.cIdArticulo=LinComanda.cIdArticulo where Comandas.nIdMesa=? order by numFactura;");
+         select.setInt(1, mesa);
+         result = select.executeQuery();
+         comandaTotal = new ComandaHandler();
+         //pedidoMesa = new PedidoMesaHandler();
+         int i = 0;
+         while (result.next()){
+            i++;
+            LineaComandaHandler linea = new LineaComandaHandler();
+            linea.setArticuloDesc(result.getString("NomArticulo"));
+            linea.setcArticulo(result.getString("idArticulo"));
+            linea.setCant(result.getInt("cantArticulo"));
+            linea.setnComanda(result.getInt("idComanda"));
+            
+            comandaTotal.setCamareroId(result.getInt("camId"));
+            comandaTotal.setFactura(result.getInt("numFactura"));
+            comandaTotal.setMesa(result.getInt("Mesa"));
+            comandaTotal.setnComanda(result.getInt("idComanda"));
+            comandaTotal.anadirLdComanda(linea);
+            //pedidoMesa.setFactura(result.getInt("numFactura"));
+            //pedidoMesa.setMesa(result.getInt("Mesa"));
+            //lineas[i++] = new LineaComandaHandler(result.getString("idArticulo"), result.getString("NomArticulo"), result.getInt("cantArticulo"));
+         }
+         //pedidoMesa.setArrayPedidas(lineas);
+         result.close();
+         result =null;
+         if (i == 0) {comandaTotal=null; return -1;}
+         return 1;
+      }catch (Exception e) {
+         comandaTotal= null;
+         return -1;
+      }
+   }
+   
    public int consultarMesas(String table) {
       try {
          java.sql.ResultSet result = null;
@@ -202,10 +243,6 @@ public class database {
             datosMesas.id[i] = result.getString(COL_IDMESA);
             datosMesas.abierta[i] = result.getString(COL_ABIERTA).equalsIgnoreCase("s") ? true : false;
             datosMesas.comensales[i++] = result.getString(COL_NCOMEN);
-            /*datosMesas.setId(result.getString(COL_IDMESA));
-            datosMesas.setAbierta(result.getString(COL_ABIERTA)
-                  .equalsIgnoreCase("s") ? true : false);
-            datosMesas.setComensales(result.getString(COL_NCOMEN));*/
          }
          result.close();
          result = null;
@@ -303,6 +340,10 @@ public class database {
 
    public MesaHandler getMesas() {
       return datosMesas;
+   }
+   
+   public ComandaHandler getPedido(){
+      return comandaTotal;
    }
 
    public FamiliaHandler getFamilias(){

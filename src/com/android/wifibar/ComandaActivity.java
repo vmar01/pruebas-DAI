@@ -82,7 +82,11 @@ public class ComandaActivity extends Activity {
 				comanda.setnComanda(bundle.getInt("idComanda"));
 				comanda.setFactura(bundle.getInt("factura"));
 			}
-
+			
+			//TODO: Borrar el pedido una vez recogido
+			if (bundle.getInt("BotonVerLinea") == 1)
+			   if (wifiBarActivity.db.getPedido() != null)
+			      comanda = wifiBarActivity.db.getPedido();
 			// Capturar los controles y ver los atributos en los TextView
 			TextView textCam = (TextView) findViewById(R.id.tvCam);
 			TextView textMesa = (TextView) findViewById(R.id.tvMesa);

@@ -10,6 +10,7 @@
 	<string name="eAbrirMesa">Error: No se pudo abrir/cerrar la mesa</string>
 	<string name="opMesaOk">Se realizó la operación sobre la mesa correctamente</string>
 	<string name="noComandaGenerada">Error:No se ha podido generar la comanda</string>
+	<string name="noPedidos">Error:no hay pedidos para esta mesa</string>
 	<!-- / Errores --> 
 
 	<!--//V1.1 -->

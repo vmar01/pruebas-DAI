@@ -22,6 +22,8 @@ public class LineaComandaHandler {
       cEstado= "0";
       borrar="N";
    }
+   
+   public LineaComandaHandler(){}
 
    public LineaComandaHandler getArrayElement(){
       return this;

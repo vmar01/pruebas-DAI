@@ -50,26 +50,27 @@ public final class R {
         public static final int mesa=0x7f030005;
     }
     public static final class string {
-        public static final int VerComanda=0x7f04000e;
-        public static final int abrir=0x7f04000c;
+        public static final int VerComanda=0x7f04000f;
+        public static final int abrir=0x7f04000d;
         public static final int app_name=0x7f040000;
         public static final int camarero=0x7f040001;
-        public static final int cerrar=0x7f04000b;
-        public static final int comanda=0x7f04000a;
+        public static final int cerrar=0x7f04000c;
+        public static final int comanda=0x7f04000b;
         public static final int eAbrirMesa=0x7f040006;
         public static final int emptyTable=0x7f040005;
-        public static final int mesa=0x7f04000d;
+        public static final int mesa=0x7f04000e;
         public static final int noComandaGenerada=0x7f040008;
         /**  Errores 
          */
         public static final int noConectionActive=0x7f040003;
+        public static final int noPedidos=0x7f040009;
         public static final int noWifiActive=0x7f040004;
         public static final int opMesaOk=0x7f040007;
         public static final int selectMesa=0x7f040002;
-        public static final int stringMesa=0x7f04000f;
+        public static final int stringMesa=0x7f040010;
         /**  / Errores 
 //V1.1 
          */
-        public static final int user=0x7f040009;
+        public static final int user=0x7f04000a;
     }
 }

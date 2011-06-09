@@ -142,6 +142,30 @@ public class MesaActivity extends Activity {
          });
 			
 			final Button verLineaButton = (Button) item.findViewById(R.id.verLineaBtn);
+			verLineaButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+               Intent recuperaComanda = new Intent(MesaActivity.this, ComandaActivity.class);
+               
+               // Pasamos al Activity comanda el camarero elegido
+               paquete.putString("camarero", getCamarero());
+               paquete.putInt("camareroId", getCamareroId());
+
+               // Pasamos al Activity comanda la mesa elegida
+               paquete.putString("mesa", mesasData.getId()[position]);
+               
+               if (wifiBarActivity.db.recuperarLineas(Integer.parseInt(mesasData.getId()[position])) != -1){
+                  paquete.putInt("BotonVerLinea", 1);
+                  recuperaComanda.putExtras(paquete);
+                  startActivity(recuperaComanda);
+               }
+               else
+                  Toast.makeText(MesaActivity.this, R.string.noPedidos,
+                        Toast.LENGTH_LONG).show();
+            }
+         });
+			
 			if (mesasData.getAbierta()[position]){
 			   comandaButton.setVisibility(comandaButton.VISIBLE);
 			   verLineaButton.setVisibility(verLineaButton.VISIBLE);
