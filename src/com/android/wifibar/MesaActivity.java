@@ -36,87 +36,87 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class MesaActivity extends Activity {
-	/** Called when the activity is first created. */
-	private String camarero;
-	private int camareroId;
-	private ListView lvMesa;
-	private static MesaHandler mesasData;
-	private Bundle paquete;
+   /** Called when the activity is first created. */
+   private String camarero;
+   private int camareroId;
+   private ListView lvMesa;
+   private static MesaHandler mesasData;
+   private Bundle paquete;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mesa);
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.mesa);
 
-		if (wifiBarActivity.db.isConnected()) {
-			if (wifiBarActivity.db.consultarMesas("Mesas") == -1) {
-				Toast.makeText(MesaActivity.this, R.string.emptyTable,
-						Toast.LENGTH_LONG).show();
-				this.finish();
-			}
-			// Rellenar el spinner
-			populateListView();
+      if (wifiBarActivity.db.isConnected()) {
+         if (wifiBarActivity.db.consultarMesas("Mesas") == -1) {
+            Toast.makeText(MesaActivity.this, R.string.emptyTable,
+                  Toast.LENGTH_LONG).show();
+            this.finish();
+         }
+         // Rellenar el spinner
+         populateListView();
 
-			paquete = new Bundle();
+         paquete = new Bundle();
 
-			TextView ctlCam = (TextView) findViewById(R.id.tvCamarero);
-			paquete = getIntent().getExtras();
-			ctlCam.setText("Camarero: "+paquete.getString("camarero"));
+         TextView ctlCam = (TextView) findViewById(R.id.tvCamarero);
+         paquete = getIntent().getExtras();
+         ctlCam.setText("Camarero: " + paquete.getString("camarero"));
 
-			// Para meter el camarero elegido como atributo de la comanda
-			this.setCamarero(paquete.getString("camarero"));
-			this.setCamareroId(paquete.getInt("camareroId"));
-			
-		} else {
-			Toast.makeText(MesaActivity.this, R.string.noConectionActive,
-					Toast.LENGTH_LONG).show();
-			this.finish();
-		}
+         // Para meter el camarero elegido como atributo de la comanda
+         this.setCamarero(paquete.getString("camarero"));
+         this.setCamareroId(paquete.getInt("camareroId"));
 
-	}
+      } else {
+         Toast.makeText(MesaActivity.this, R.string.noConectionActive,
+               Toast.LENGTH_LONG).show();
+         this.finish();
+      }
 
-	private void setCamareroId(int id) {
-		this.camareroId = id;
-	}
+   }
 
-	private int getCamareroId() {
-		return this.camareroId;
-	}
+   private void setCamareroId(int id) {
+      this.camareroId = id;
+   }
 
-	private void populateListView() {
-		// DAtos de las mesas
-		mesasData = wifiBarActivity.db.getMesas();
-		
-		MesasAdapter adaptador = new MesasAdapter(this);
-		lvMesa = (ListView) findViewById(R.id.lvMesa);
-		lvMesa.setAdapter(adaptador);
-	}
+   private int getCamareroId() {
+      return this.camareroId;
+   }
 
-	class MesasAdapter extends ArrayAdapter {
-		Activity context;
+   private void populateListView() {
+      // DAtos de las mesas
+      mesasData = wifiBarActivity.db.getMesas();
 
-		public MesasAdapter(Activity context) {
-			super(context, R.layout.lv_mesas, mesasData.getId());
-			this.context = context;
-		}
+      MesasAdapter adaptador = new MesasAdapter(this);
+      lvMesa = (ListView) findViewById(R.id.lvMesa);
+      lvMesa.setAdapter(adaptador);
+   }
 
-		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = context.getLayoutInflater();
-			View item = inflater.inflate(R.layout.lv_mesas, null);
+   class MesasAdapter extends ArrayAdapter {
+      Activity context;
 
-			TextView mesasNom = (TextView) item.findViewById(R.id.lbMesa);
-			mesasNom.setText(getString(R.string.stringMesa) + " " + mesasData.getId()[position]);
-			
-			
-			final Button comandaButton = (Button) item.findViewById(R.id.hacerComandaBtn);
-			comandaButton.setOnClickListener(new OnClickListener() {
-            
+      public MesasAdapter(Activity context) {
+         super(context, R.layout.lv_mesas, mesasData.getId());
+         this.context = context;
+      }
+
+      @Override
+      public View getView(final int position, View convertView, ViewGroup parent) {
+         LayoutInflater inflater = context.getLayoutInflater();
+         View item = inflater.inflate(R.layout.lv_mesas, null);
+
+         TextView mesasNom = (TextView) item.findViewById(R.id.lbMesa);
+         mesasNom.setText(getString(R.string.stringMesa) + " "
+               + mesasData.getId()[position]);
+
+         final Button comandaButton = (Button) item
+               .findViewById(R.id.hacerComandaBtn);
+         comandaButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View v) {
                Intent mesa = null;
-               mesa = new Intent(MesaActivity.this,
-                     ComandaActivity.class);
+               mesa = new Intent(MesaActivity.this, ComandaActivity.class);
 
                // Pasamos al Activity comanda el camarero elegido
                paquete.putString("camarero", getCamarero());
@@ -135,90 +135,108 @@ public class MesaActivity extends Activity {
                   mesa.putExtras(paquete);
                   startActivity(mesa);
                } else
-                  Toast.makeText(MesaActivity.this,
-                        R.string.noComandaGenerada, Toast.LENGTH_LONG)
-                        .show();
+                  Toast.makeText(MesaActivity.this, R.string.noComandaGenerada,
+                        Toast.LENGTH_LONG).show();
             }
          });
-			
-			final Button verLineaButton = (Button) item.findViewById(R.id.verLineaBtn);
-			verLineaButton.setOnClickListener(new OnClickListener() {
-            
+
+         final Button verLineaButton = (Button) item
+               .findViewById(R.id.verLineaBtn);
+         verLineaButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View v) {
-               Intent recuperaComanda = new Intent(MesaActivity.this, ComandaActivity.class);
-               
+               Intent recuperaComanda = new Intent(MesaActivity.this,
+                     ComandaActivity.class);
+
                // Pasamos al Activity comanda el camarero elegido
                paquete.putString("camarero", getCamarero());
                paquete.putInt("camareroId", getCamareroId());
 
                // Pasamos al Activity comanda la mesa elegida
                paquete.putString("mesa", mesasData.getId()[position]);
-               
-               if (wifiBarActivity.db.recuperarLineas(Integer.parseInt(mesasData.getId()[position])) != -1){
+
+               if (wifiBarActivity.db.recuperarLineas(Integer
+                     .parseInt(mesasData.getId()[position])) != -1) {
                   paquete.putInt("BotonVerLinea", 1);
                   recuperaComanda.putExtras(paquete);
                   startActivity(recuperaComanda);
-               }
-               else
+               } else
                   Toast.makeText(MesaActivity.this, R.string.noPedidos,
                         Toast.LENGTH_LONG).show();
             }
          });
-			
-			if (mesasData.getAbierta()[position]){
-			   comandaButton.setVisibility(comandaButton.VISIBLE);
-			   verLineaButton.setVisibility(verLineaButton.VISIBLE);
-			}else {
-			   comandaButton.setVisibility(comandaButton.GONE);
+
+         if (mesasData.getAbierta()[position]) {
+            comandaButton.setVisibility(comandaButton.VISIBLE);
+            verLineaButton.setVisibility(verLineaButton.VISIBLE);
+         } else {
+            comandaButton.setVisibility(comandaButton.GONE);
             verLineaButton.setVisibility(verLineaButton.GONE);
-			}
-         
-         ToggleButton estadoToggle = (ToggleButton) item.findViewById(R.id.estadoTb);
+         }
+
+         ToggleButton estadoToggle = (ToggleButton) item
+               .findViewById(R.id.estadoTb);
          estadoToggle.setChecked(mesasData.getAbierta()[position]);
          estadoToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            
+
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if (isChecked){ 
-                  operacionMesa(position+1, "S");
+            public void onCheckedChanged(CompoundButton buttonView,
+                  boolean isChecked) {
+               if (isChecked) {
+                  operacionMesa(position + 1, "S");
                   comandaButton.setVisibility(comandaButton.VISIBLE);
                   verLineaButton.setVisibility(verLineaButton.VISIBLE);
-                }
-               else{ 
-                  operacionMesa(position+1, "N");
+               } else {
+                  operacionMesa(position + 1, "N");
                   comandaButton.setVisibility(comandaButton.INVISIBLE);
                   verLineaButton.setVisibility(verLineaButton.INVISIBLE);
                }
             }
          });
-			
-			return item;
-		}
-	}
 
-	// Getters y Setters
-	public String getCamarero() {
-		return camarero;
-	}
+         return item;
+      }
+   }
 
-	public void setCamarero(String camarero) {
-		this.camarero = camarero;
-	}
-	
-	private void operacionMesa(int mesa, String estado){
-	   int numeroFactura = wifiBarActivity.db.generaFactura();
-      if (numeroFactura != -1)
-         paquete.putInt("factura", numeroFactura);
-      if (wifiBarActivity.db.updateMesa(mesa, estado)){
-         Toast.makeText(MesaActivity.this, R.string.opMesaOk,
-               Toast.LENGTH_LONG).show();
-         wifiBarActivity.db.consultarMesas("Mesas"); // Actualizo la BD
-         MesasAdapter adaptador = new MesasAdapter(this);
-         lvMesa = (ListView) findViewById(R.id.lvMesa);
-         lvMesa.setAdapter(adaptador); //Relleno el LV de nuevo
-      } else
-         Toast.makeText(MesaActivity.this, R.string.eAbrirMesa,
-               Toast.LENGTH_LONG).show();
-	}
+   // Getters y Setters
+   public String getCamarero() {
+      return camarero;
+   }
+
+   public void setCamarero(String camarero) {
+      this.camarero = camarero;
+   }
+
+   private void operacionMesa(int mesa, String estado) {
+      if (estado == "S") {
+         int numeroFactura = wifiBarActivity.db.generaFactura();
+         if (numeroFactura != -1)
+            paquete.putInt("factura", numeroFactura);
+         if (wifiBarActivity.db.updateMesa(mesa, estado)) {
+            Toast.makeText(MesaActivity.this, R.string.opMesaOk,
+                  Toast.LENGTH_LONG).show();
+            wifiBarActivity.db.consultarMesas("Mesas"); // Actualizo la BD
+            MesasAdapter adaptador = new MesasAdapter(this);
+            lvMesa = (ListView) findViewById(R.id.lvMesa);
+            lvMesa.setAdapter(adaptador); // Relleno el LV de nuevo
+         } else
+            Toast.makeText(MesaActivity.this, R.string.eAbrirMesa,
+                  Toast.LENGTH_LONG).show();
+      } else {
+         if (wifiBarActivity.db.updateMesa(mesa, estado)) {
+            Toast.makeText(MesaActivity.this, R.string.opMesaOk,
+                  Toast.LENGTH_LONG).show();
+            wifiBarActivity.db.consultarMesas("Mesas"); // Actualizo la BD
+            MesasAdapter adaptador = new MesasAdapter(this);
+            lvMesa = (ListView) findViewById(R.id.lvMesa);
+            lvMesa.setAdapter(adaptador); // Relleno el LV de nuevo
+            float total = wifiBarActivity.db.cerrarMesa(mesa);
+            Toast.makeText(MesaActivity.this, "Factura: " + Float.toString(total),
+                  Toast.LENGTH_LONG).show();
+         } else
+            Toast.makeText(MesaActivity.this, R.string.eAbrirMesa,
+                  Toast.LENGTH_LONG).show();
+      }
+   }
 }

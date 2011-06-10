@@ -117,7 +117,7 @@ public class ComandaActivity extends Activity {
 										for (int i = 0; i < comanda.arrLineas.length; i++)
 											wifiBarActivity.db
 													.generaLineaComanda(
-															i + 1,
+															comanda.arrLineas[i].getnLinea(),
 															comanda.arrLineas[i].getnComanda(),
 															comanda.arrLineas[i]
 																	.getCant(),

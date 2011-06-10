@@ -12,8 +12,8 @@ public class LineaComandaHandler {
    private String articuloDesc;
 
    // constructor
-   public LineaComandaHandler( String idArticulo, String articulo, int idComanda){
-      nLinea= 0;
+   public LineaComandaHandler( String idArticulo, String articulo, int idComanda, int nLineaComanda){
+      nLinea= nLineaComanda;
       nComanda= idComanda;
       cant= 1;
       servida= "S";

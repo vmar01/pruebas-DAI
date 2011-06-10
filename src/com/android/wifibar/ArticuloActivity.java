@@ -87,13 +87,18 @@ public class ArticuloActivity extends Activity {
       bundle.putString("articulo", articulosData.getIdArticulo()[indice]);
 
       //CREAR LA LINEA DE COMANDA
-      //TODO: Pasarle a linaComandaHandler el objeto articulosDAta
-      LineaComandaHandler lineNew = new LineaComandaHandler(articulosData.getIdArticulo()[indice], articulosData.getNombre()[indice], ComandaActivity.comanda.getnComanda());
+      //Miro que linea de comanda debo meter en la linea nueva, si comanda no tiene linea, meto uno, si no meto arrLineas[UltimaLinea].getLinea+1
+      int lineaComanda = 0;
+      if (ComandaActivity.comanda.arrLineas.length == 0) lineaComanda++;
+      else lineaComanda = ComandaActivity.comanda.arrLineas[ComandaActivity.comanda.arrLineas.length-1].getnLinea()+1;
+      
+      LineaComandaHandler lineNew = new LineaComandaHandler(articulosData.getIdArticulo()[indice], 
+            articulosData.getNombre()[indice], ComandaActivity.comanda.getnComanda(), lineaComanda);
       // Agregar esa linea a la comanda
       ComandaActivity.comanda.anadirLdComanda(lineNew);
       intento.putExtras(bundle);
       startActivity(intento);
       //Finish por probar
-      //Articulo.this.finish();
+      ArticuloActivity.this.finish();
    }
 }

@@ -19,6 +19,7 @@
 
 package com.android.wifibar;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -188,7 +189,7 @@ public class database {
    public int recuperarLineas(int mesa){
       try{
          java.sql.ResultSet result = null;
-         PreparedStatement select = connection.prepareStatement("select Comandas.nIdCamarero as camId, Comandas.nIdComanda as idComanda, Comandas.nIdFactura as numFactura, " +
+         PreparedStatement select = connection.prepareStatement("select LinComanda.nIdLinComanda as nLinea, Comandas.nIdCamarero as camId, Comandas.nIdComanda as idComanda, Comandas.nIdFactura as numFactura, " +
          		"Comandas.nIdMesa as Mesa, LinComanda.cIdArticulo as idArticulo,Articulos.cNombre as NomArticulo, " +
          		"LinComanda.nCantidad as cantArticulo from Comandas join LinComanda on Comandas.nIdComanda=LinComanda.nIdComanda " +
          		"join Articulos on Articulos.cIdArticulo=LinComanda.cIdArticulo where Comandas.nIdMesa=? order by numFactura;");
@@ -204,6 +205,7 @@ public class database {
             linea.setcArticulo(result.getString("idArticulo"));
             linea.setCant(result.getInt("cantArticulo"));
             linea.setnComanda(result.getInt("idComanda"));
+            linea.setnLinea(result.getInt("nLinea"));
             
             comandaTotal.setCamareroId(result.getInt("camId"));
             comandaTotal.setFactura(result.getInt("numFactura"));
@@ -272,6 +274,19 @@ public class database {
          e.printStackTrace();
       }
       return -1;
+   }
+   
+   public float cerrarMesa(int mesa){
+      try{
+         CallableStatement procedimientoCerrarMesa = connection.prepareCall("{ call dbo.pr_CerrarMesa(?, ?) }");
+         procedimientoCerrarMesa.setInt(1, mesa);
+         procedimientoCerrarMesa.registerOutParameter(2, java.sql.Types.FLOAT);
+         procedimientoCerrarMesa.execute();
+         return procedimientoCerrarMesa.getFloat(2);
+      }catch (Exception e) {
+         e.printStackTrace();
+         return -1;
+      }
    }
    
    public int generaComanda(int idFactura, int idMesa, int idCamarero){
