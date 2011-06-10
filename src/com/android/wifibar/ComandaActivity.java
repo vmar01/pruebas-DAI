@@ -66,7 +66,7 @@ public class ComandaActivity extends Activity {
 		setContentView(R.layout.comanda);
 
 		if (wifiBarActivity.db.isConnected()) {
-			// Poner los atributos a comanda
+/*			// Poner los atributos a comanda
 			bundle = getIntent().getExtras();
 
 			// PONER LOS ATRIBUTOS A COMANDA
@@ -82,11 +82,32 @@ public class ComandaActivity extends Activity {
 				comanda.setnComanda(bundle.getInt("idComanda"));
 				comanda.setFactura(bundle.getInt("factura"));
 			}
-			
+*/
+         bundle = getIntent().getExtras();
+         String controlMesa = bundle.getString("mesa");
+
+         // PONER LOS ATRIBUTOS A COMANDA
+         if (comanda == null)
+            comanda = new ComandaHandler( // contructor del manejador
+                  Integer.parseInt(bundle.getString("mesa")),
+                  /* bundle.getInt("factura"), */
+                  /* bundle.getInt("idComanda") , */
+                  bundle.getInt("camareroId"), bundle.getString("camarero"));
+         if (bundle.getInt("idComanda") != 0) {
+            comanda.setCamareroId(bundle.getInt("camareroId"));
+            comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
+            // comanda.setnComanda(bundle.getInt("idComanda")); // lo ponemos al
+            // marchar la comanda
+            // comanda.setFactura(bundle.getInt("factura")); // lo ponemos al
+            // marchar la comanda
+         }
+//////////////////////////  CAMBIO //////////////////////////////////////////
 			//TODO: Borrar el pedido una vez recogido
-			if (bundle.getInt("BotonVerLinea") == 1)
-			   if (wifiBarActivity.db.getPedido() != null)
-			      comanda = wifiBarActivity.db.getPedido();
+	//		if (bundle.getInt("BotonVerLinea") == 1)
+		//	   if (wifiBarActivity.db.getPedido() != null)
+			//      comanda = wifiBarActivity.db.getPedido();
+         // ////////////////////////FIN CAMBIO
+         // //////////////////////////////////////////
 			// Capturar los controles y ver los atributos en los TextView
 			TextView textCam = (TextView) findViewById(R.id.tvCam);
 			TextView textMesa = (TextView) findViewById(R.id.tvMesa);
@@ -111,35 +132,69 @@ public class ComandaActivity extends Activity {
 						msj.setPositiveButton("Si",
 								new DialogInterface.OnClickListener() {
 
-									public void onClick(DialogInterface dialog,
-											int which) {
+                           public void onClick(DialogInterface dialog, int which) {
+                              ///Buscar el numero de factura
+                              int consultaFactura= wifiBarActivity.db.consultarNumFacMesa(comanda.getMesa());
+                              
+                              if (consultaFactura != -1) {
+                                 
+                                 if(consultaFactura == 0){ // si da 0, se genera una consulta nueva
+                                    int newfac=wifiBarActivity.db.generaFactura();
+                                    bundle.putInt("factura",newfac);
+                                    comanda.setFactura(newfac);
+                                 }
+                                 else{// si da otro numero, ese es el numero de factura
+                                    bundle.putInt("factura",consultaFactura);
+                                    comanda.setFactura(consultaFactura);
+                                 }
+                              
+                              
+                              
+                           // Para insertar la comanda
+                              //obtener el numero de comanda 
+                                    int nComanda = wifiBarActivity.db.generaComanda(comanda.getFactura(),
+                                          comanda.getMesa(),
+                                          comanda.getCamareroId());
+                                    // si tiene exito la consulta
+                                    if (nComanda != -1) {
+                                       comanda.setnComanda(nComanda);
+                                    } 
+                                    else{
+                                       Toast.makeText(ComandaActivity.this,R.string.noComandaGenerada, Toast.LENGTH_LONG).show();
+                                    }   
+                              
+                              
+                              // Bucle para insertar las lineas de comanda
+                                 for (int i = 0; i < comanda.arrLineas.length; i++) {
+                                    wifiBarActivity.db.generaLineaComanda(
+                                          i+1,
+                                          comanda.getnComanda(),
+                                          comanda.arrLineas[i].getCant(),
+                                          comanda.arrLineas[i].getcArticulo(),
+                                          "S", "0");
+                                 }
+                              }
+                              else{
+                                 Toast.makeText(ComandaActivity.this,"Error: No Factura" ,Toast.LENGTH_SHORT).show();
+                              }
+                              Intent volverAMesa = new Intent(ComandaActivity.this,MesaActivity.class);
+                              bundle.putString("camarero",comanda.getCamareroNom());
+                              bundle.putInt("camareroId",   comanda.getCamareroId());
 
-										for (int i = 0; i < comanda.arrLineas.length; i++)
-											wifiBarActivity.db
-													.generaLineaComanda(
-															comanda.arrLineas[i].getnLinea(),
-															comanda.arrLineas[i].getnComanda(),
-															comanda.arrLineas[i]
-																	.getCant(),
-															comanda.arrLineas[i]
-																	.getcArticulo(),
-															"S", "0");
-										Intent volverAMesa = new Intent(
-												ComandaActivity.this,
-												MesaActivity.class);
-										bundle.putString("camarero",
-												comanda.getCamareroNom());
-										bundle.putInt("camareroId",
-												comanda.getCamareroId());
-										bundle.putInt("factura",
-												comanda.getFactura());
-										volverAMesa.putExtras(bundle);
-										comanda = null;
-										finish();
-										startActivity(volverAMesa);
-
-									}
-								});
+                              
+//                            if(wifiBarActivity.db.consultarNumFacMesa(comanda.getMesa())>0){// si ya hay una factura para esa mesa
+//                               bundle.putInt("factura",wifiBarActivity.db.consultarNumFacMesa(comanda.getMesa()));
+//                            }
+//                            else{ // y si no la hay, Max(nFactura)+1
+//                               bundle.putInt("factura",wifiBarActivity.db.generaFactura());
+//                            }
+                           // bundle.putInt("factura", comanda.getFactura());
+                              volverAMesa.putExtras(bundle);
+                              comanda = null;
+                              startActivity(volverAMesa);
+                              finish();
+                           }
+                        });
 						msj.setNegativeButton("No",
 								new DialogInterface.OnClickListener() {// Boton
 									// negativo

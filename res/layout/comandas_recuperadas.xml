@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="match_parent" android:orientation="vertical"
+  android:layout_width="match_parent">
+  <TextView android:id="@+id/textView3" android:layout_height="wrap_content"
+    android:textStyle="bold" android:layout_width="wrap_content"
+    android:text="Comanda" android:textSize="20px" android:layout_gravity="center_horizontal">
+  </TextView>
+  <LinearLayout android:id="@+id/cabComanda"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:baselineAligned="true" android:layout_height="10pt">
+    <TextView android:id="@+id/tvCam" android:textSize="15px"
+      android:layout_weight="1" android:text="Camarero: "
+      android:layout_width="wrap_content" android:layout_height="wrap_content"
+      android:layout_gravity="left">
+    </TextView>
+    <TextView android:id="@+id/tvMesa" android:text="Mesa nº: "
+      android:layout_height="wrap_content" android:layout_width="wrap_content"
+      android:layout_weight="1" android:layout_gravity="right"
+      android:layout_marginLeft="70px" android:textSize="15px">
+    </TextView>
+  </LinearLayout>
+  <LinearLayout android:id="@+id/linearLayout1"
+    android:layout_height="wrap_content" android:orientation="horizontal"
+    android:layout_width="match_parent">
+    <ImageView android:id="@+id/btAnadir" android:visibility="invisible" android:src="@drawable/addicon"
+      android:layout_weight="1" android:layout_width="wrap_content"
+      android:layout_height="wrap_content" android:layout_gravity="left"
+      android:onClick="irFamilia"></ImageView>
+    <ImageView android:id="@+id/btBorrarRecuperada" android:src="@drawable/deleteicon"
+      android:layout_weight="1" android:layout_width="wrap_content"
+      android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+    </ImageView>
+    <ImageView android:id="@+id/btMarcharRecuperada" android:src="@drawable/marcharicon"
+      android:layout_weight="1" android:layout_width="wrap_content"
+      android:layout_height="wrap_content" android:layout_gravity="right"
+      android:width="80dip">
+    </ImageView>
+
+  </LinearLayout>
+  <ScrollView android:layout_height="wrap_content"
+    android:layout_width="match_parent" android:id="@+id/scrollView1">
+    <LinearLayout android:layout_width="match_parent"
+      android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_height="match_parent">
+      <TableLayout android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:id="@+id/CabeceraComanda"
+        android:stretchColumns="1">
+        <TableRow>
+          <TextView android:textColor="#ffffff" android:textStyle="bold"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="NºLine"></TextView>
+          <TextView android:textColor="#ffffff" android:textStyle="bold"
+            android:layout_height="wrap_content" android:layout_width="wrap_content"
+            android:gravity="center_horizontal" android:text="Articulo"></TextView>
+          <TextView android:textColor="#ffffff" android:textStyle="bold"
+            android:layout_width="wrap_content" android:text="Cantidad"></TextView>
+        </TableRow>
+      </TableLayout>
+      <TableLayout android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:id="@+id/TablaComanda"
+        android:stretchColumns="1">
+      </TableLayout>
+    </LinearLayout>
+  </ScrollView>
+
+</LinearLayout>

@@ -86,6 +86,7 @@ public class ArticuloActivity extends Activity {
       // Coger el item elegido
       bundle.putString("articulo", articulosData.getIdArticulo()[indice]);
 
+//////////////////////////CAMBIO //////////////////////////////////////////
       //CREAR LA LINEA DE COMANDA
       //Miro que linea de comanda debo meter en la linea nueva, si comanda no tiene linea, meto uno, si no meto arrLineas[UltimaLinea].getLinea+1
       int lineaComanda = 0;
@@ -94,6 +95,7 @@ public class ArticuloActivity extends Activity {
       
       LineaComandaHandler lineNew = new LineaComandaHandler(articulosData.getIdArticulo()[indice], 
             articulosData.getNombre()[indice], ComandaActivity.comanda.getnComanda(), lineaComanda);
+////////////////////////// fin CAMBIO //////////////////////////////////////////
       // Agregar esa linea a la comanda
       ComandaActivity.comanda.anadirLdComanda(lineNew);
       intento.putExtras(bundle);

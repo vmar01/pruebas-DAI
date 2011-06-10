@@ -12,6 +12,7 @@ public class LineaComandaHandler {
    private String articuloDesc;
 
    // constructor
+//////////////////////////CAMBIO //////////////////////////////////////////
    public LineaComandaHandler( String idArticulo, String articulo, int idComanda, int nLineaComanda){
       nLinea= nLineaComanda;
       nComanda= idComanda;
@@ -22,9 +23,10 @@ public class LineaComandaHandler {
       cEstado= "0";
       borrar="N";
    }
-   
+//////////////////////////fin CAMBIO //////////////////////////////////////////
+//////////////////////////CAMBIO //////////////////////////////////////////
    public LineaComandaHandler(){}
-
+//////////////////////////FIN CAMBIO //////////////////////////////////////////
    public LineaComandaHandler getArrayElement(){
       return this;
    }

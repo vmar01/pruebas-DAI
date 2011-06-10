@@ -17,5 +17,6 @@
 		<activity android:name="MesaActivity"></activity>
 		<activity android:name="FamiliaActivity"></activity>
 		<activity android:name="ArticuloActivity"></activity>
+		<activity android:name="ComandaRecuperadaActivity"></activity>
 	</application>
 </manifest>

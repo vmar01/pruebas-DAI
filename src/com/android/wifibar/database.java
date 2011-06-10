@@ -185,7 +185,7 @@ public class database {
          return -2;
       }
    }
-   
+//////////////////////////CAMBIO //////////////////////////////////////////
    public int recuperarLineas(int mesa){
       try{
          java.sql.ResultSet result = null;
@@ -226,7 +226,7 @@ public class database {
          return -1;
       }
    }
-   
+////////////////////////// fin CAMBIO //////////////////////////////////////////
    public int consultarMesas(String table) {
       try {
          java.sql.ResultSet result = null;
@@ -275,7 +275,7 @@ public class database {
       }
       return -1;
    }
-   
+//////////////////////////CAMBIO //////////////////////////////////////////
    public float cerrarMesa(int mesa){
       try{
          CallableStatement procedimientoCerrarMesa = connection.prepareCall("{ call dbo.pr_CerrarMesa(?, ?) }");
@@ -288,7 +288,7 @@ public class database {
          return -1;
       }
    }
-   
+////////////////////////// FIN CAMBIO //////////////////////////////////////////
    public int generaComanda(int idFactura, int idMesa, int idCamarero){
 	   java.sql.ResultSet rs = null;
 	   try {
@@ -348,6 +348,43 @@ public class database {
       return -1;
    }
 
+   public int consultarNumFacMesa(int mes) {
+      java.sql.ResultSet rs = null;
+      try {
+         PreparedStatement numFac = connection
+               .prepareStatement("select Comandas.nIdFactura as numFac "
+                     + "from LinComanda join Comandas on LinComanda.nIdComanda=Comandas.nIdComanda "
+                     + "where Comandas.nIdMesa=? group by Comandas.nIdFactura ;");
+         numFac.setInt(1, mes);
+         rs = numFac.executeQuery();
+         rs.next();
+         int existFactura = rs.getInt("numFac");
+         boolean hayFactura = rs.getBoolean("numFac");
+
+         if (existFactura > 0 && hayFactura) {// devuelve true si hay un numero
+                                              // // devuelve false si el
+                                              // resultado del Resulset es null
+            return existFactura; // si no hay una factura para esa mesa,
+                                 // devuelve 0, hay que poner Max(nFac)+1
+         } else {
+            existFactura = 0; // si hay factura para esa mesa, devuelve numFac
+
+         }
+
+         rs.close();
+         rs = null;
+         return existFactura;
+
+      } catch (Exception e) {
+         e.printStackTrace();
+         return 0;
+      }
+      // return -1; // si hay una excepcion devuelve -1
+
+   }
+  ////////////////////////////////// ////////////////////////////////////////////////////////////////////////
+  
+   
    // Devolver los datos de la BD
    public CamareroHandler getCamareros() {
       return datosCamareros;
@@ -356,11 +393,11 @@ public class database {
    public MesaHandler getMesas() {
       return datosMesas;
    }
-   
+//////////////////////////CAMBIO //////////////////////////////////////////
    public ComandaHandler getPedido(){
       return comandaTotal;
    }
-
+//////////////////////////fin CAMBIO //////////////////////////////////////////
    public FamiliaHandler getFamilias(){
       return datosFamilias;
    }

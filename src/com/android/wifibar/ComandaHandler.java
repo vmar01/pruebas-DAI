@@ -14,7 +14,7 @@ public class ComandaHandler {
    private int idLinea;
    // Array de Lineas de Articulo
    public LineaComandaHandler[] arrLineas = new LineaComandaHandler[0];
-
+/*
    public ComandaHandler(int mes,int nCom,int fac, int camId,String camNom) {
       mesa = mes; 
       nComanda = nCom; 
@@ -23,8 +23,18 @@ public class ComandaHandler {
       camareroId=camId;
       camareroNom=camNom;
    }
+   */
+   public ComandaHandler(int mes,/*int nCom,*/ int camId,String camNom) {
+      mesa = mes; 
+    //  nComanda = nCom; // la ponemos al hacer la comanda
+     // factura=0; // la ponemos despues
+      idLinea = 0; 
+      camareroId=camId;
+      camareroNom=camNom;
+   }  
+//////////////////////////CAMBIO //////////////////////////////////////////
    public ComandaHandler(){}
-
+//////////////////////////FIN CAMBIO //////////////////////////////////////////
    // Añadir linea de Comanda
    public void anadirLdComanda(LineaComandaHandler ldc) {
          
