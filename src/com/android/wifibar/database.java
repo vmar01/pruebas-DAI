@@ -189,10 +189,15 @@ public class database {
    public int recuperarLineas(int mesa){
       try{
          java.sql.ResultSet result = null;
-         PreparedStatement select = connection.prepareStatement("select LinComanda.nIdLinComanda as nLinea, Comandas.nIdCamarero as camId, Comandas.nIdComanda as idComanda, Comandas.nIdFactura as numFactura, " +
+         PreparedStatement select = connection.prepareStatement("select " +
+         		"Camareros.cNombre as nomCama,  LinComanda.nIdLinComanda as nLinea, Comandas.nIdCamarero as camId, " +
+         		"Comandas.nIdComanda as idComanda, Comandas.nIdFactura as numFactura, " +
          		"Comandas.nIdMesa as Mesa, LinComanda.cIdArticulo as idArticulo,Articulos.cNombre as NomArticulo, " +
-         		"LinComanda.nCantidad as cantArticulo from Comandas join LinComanda on Comandas.nIdComanda=LinComanda.nIdComanda " +
-         		"join Articulos on Articulos.cIdArticulo=LinComanda.cIdArticulo where Comandas.nIdMesa=? order by numFactura;");
+         		"LinComanda.nCantidad as cantArticulo " +
+         		"from Comandas join LinComanda on Comandas.nIdComanda=LinComanda.nIdComanda " +
+         		"join Articulos on Articulos.cIdArticulo=LinComanda.cIdArticulo " +
+         		"join Camareros on Comandas.nIdCamarero=Camareros.nIdCamarero " +
+         		"where Comandas.nIdMesa=? order by numFactura;");
          select.setInt(1, mesa);
          result = select.executeQuery();
          comandaTotal = new ComandaHandler();
@@ -212,9 +217,7 @@ public class database {
             comandaTotal.setMesa(result.getInt("Mesa"));
             comandaTotal.setnComanda(result.getInt("idComanda"));
             comandaTotal.anadirLdComanda(linea);
-            //pedidoMesa.setFactura(result.getInt("numFactura"));
-            //pedidoMesa.setMesa(result.getInt("Mesa"));
-            //lineas[i++] = new LineaComandaHandler(result.getString("idArticulo"), result.getString("NomArticulo"), result.getInt("cantArticulo"));
+            comandaTotal.setCamareroNom(result.getString("nomCama"));
          }
          //pedidoMesa.setArrayPedidas(lineas);
          result.close();
@@ -275,10 +278,41 @@ public class database {
       }
       return -1;
    }
+   
+   public void borrarLineas(int linea, int comanda){
+      try {
+         // Preparo una consulta parametrizada (más segura)
+         PreparedStatement delete = connection
+               .prepareStatement("DELETE FROM LinComanda WHERE nIdLinComanda = ? AND nIdComanda= ?;");
+         delete.setInt(1, linea);
+         delete.setInt(2, comanda);
+         delete.executeUpdate();
+         return;
+      } catch (SQLException e) {
+         e.printStackTrace();
+         return;
+      }
+   }
+   
+   public void modificarLineas(int linea, int comanda, int cantidad){
+      try{
+         //Preparo una consulta parametrizada (más segura)
+         PreparedStatement update = connection.prepareStatement("UPDATE LinComanda SET nCantidad = ? WHERE nIdLinComanda = ? AND nIdComanda= ?;");
+         update.setInt(1, cantidad);
+         update.setInt(2, linea);
+         update.setInt(3, comanda);
+         update.executeUpdate();
+         return;
+      }catch(SQLException e){
+         e.printStackTrace();
+         return;
+      }
+   }
+   
 //////////////////////////CAMBIO //////////////////////////////////////////
    public float cerrarMesa(int mesa){
       try{
-         CallableStatement procedimientoCerrarMesa = connection.prepareCall("{ call dbo.pr_CerrarMesa(?, ?) }");
+         CallableStatement procedimientoCerrarMesa = connection.prepareCall("{ call dbo.pr_cerrarMesa(?, ?) }");
          procedimientoCerrarMesa.setInt(1, mesa);
          procedimientoCerrarMesa.registerOutParameter(2, java.sql.Types.FLOAT);
          procedimientoCerrarMesa.execute();

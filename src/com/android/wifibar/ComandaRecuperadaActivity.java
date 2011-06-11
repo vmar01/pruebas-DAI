@@ -32,6 +32,8 @@ public class ComandaRecuperadaActivity extends Activity {
    public static ComandaHandler comanda;
    private static Bundle bundle;
    private static TableLayout tabla;
+   private static LineaComandaHandler[] lineas_a_Borrar;
+   private static LineaComandaHandler[] lineas_a_Modificar;
    private int contSel;
    
    @Override
@@ -39,9 +41,11 @@ public class ComandaRecuperadaActivity extends Activity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.comandas_recuperadas);
       
+      bundle = getIntent().getExtras();
       //Si se recuperan datos
       //if (wifiBarActivity.db.getPedido() != null)
-         comanda = wifiBarActivity.db.getPedido();
+      comanda = wifiBarActivity.db.getPedido();
+      for (int i=0; i < comanda.arrLineas.length; i++ ) comanda.arrLineas[i].setBorrar("N");
       
       TextView textCam = (TextView) findViewById(R.id.tvCam);
       TextView textMesa = (TextView) findViewById(R.id.tvMesa);
@@ -56,7 +60,6 @@ public class ComandaRecuperadaActivity extends Activity {
 
          @Override
          public void onClick(View v) {
-            if (comanda.arrLineas.length > 0) {
 
                AlertDialog.Builder msj = new AlertDialog.Builder(
                      ComandaRecuperadaActivity.this);
@@ -68,7 +71,20 @@ public class ComandaRecuperadaActivity extends Activity {
 
                         public void onClick(DialogInterface dialog, int which) {
                            
-                           //TODO: Hacer que al darle a marchar se ejecuten los updates o drop
+                           //Modifico las lineas que pidió
+                           lineas_a_Modificar = comanda.getLineasAModificar();
+                           if (lineas_a_Modificar != null)
+                              for (int i = 0; i < lineas_a_Modificar.length; i++)
+                                 wifiBarActivity.db.modificarLineas(
+                                    lineas_a_Modificar[i].getnLinea(),
+                                    lineas_a_Modificar[i].getnComanda(), 
+                                    lineas_a_Modificar[i].getCant());
+                           
+                           //Borro de la Bd las lineas que pidió
+                           if (lineas_a_Borrar != null)
+                              for (int i = 0; i < lineas_a_Borrar.length; i++)
+                                 wifiBarActivity.db.borrarLineas(lineas_a_Borrar[i].getnLinea()
+                                    ,lineas_a_Borrar[i].getnComanda());
                            
                            Intent volverAMesa = new Intent(ComandaRecuperadaActivity.this,MesaActivity.class);
                            bundle.putString("camarero",comanda.getCamareroNom());
@@ -92,23 +108,6 @@ public class ComandaRecuperadaActivity extends Activity {
                         }
                      });
                msj.show();// Se muestra el AlertDialog
-
-            } else {
-               AlertDialog.Builder msjNoLin = new AlertDialog.Builder(
-                     ComandaRecuperadaActivity.this);
-               msjNoLin.setMessage("No existen lineas para enviar. Adjunte lineas antes de enviar la comanada");
-               msjNoLin.setCancelable(true);
-               msjNoLin.setNeutralButton(" Aceptar ",
-                     new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog,
-                              int which) {
-                           dialog.cancel();
-                        }
-                     });
-               msjNoLin.show();
-
-            }
          }
       });
       
@@ -126,10 +125,10 @@ public class ComandaRecuperadaActivity extends Activity {
 
                msjSel.setPositiveButton("Si",
                      new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                              int which) {
+                        public void onClick(DialogInterface dialog, int which) {
 
                            if (comanda != null) {
+                              lineas_a_Borrar = comanda.getLineasABorrar();
                               comanda.borrarLdComanda();
                               borrarTabla();
                               pintarComanda();
@@ -139,8 +138,7 @@ public class ComandaRecuperadaActivity extends Activity {
                msjSel.setNegativeButton("No",
                      new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface dialog,
-                              int which) {
+                        public void onClick(DialogInterface dialog, int which) {
                            dialog.cancel();
                         }
                      });
@@ -148,13 +146,13 @@ public class ComandaRecuperadaActivity extends Activity {
             } else {
                AlertDialog.Builder msjNoSel = new AlertDialog.Builder(
                      ComandaRecuperadaActivity.this);
-               msjNoSel.setMessage("No hay ninguna linea seleccionada para borrar");
+               msjNoSel
+                     .setMessage("No hay ninguna linea seleccionada para borrar");
                msjNoSel.setCancelable(true);
                msjNoSel.setNeutralButton(" Aceptar ",
                      new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface dialog,
-                              int which) {
+                        public void onClick(DialogInterface dialog, int which) {
                            dialog.cancel();
                         }
                      });
@@ -236,6 +234,7 @@ public class ComandaRecuperadaActivity extends Activity {
                   EditText tv = (EditText) v;
                   comanda.arrLineas[tv.getId()].setCant(Integer
                         .parseInt(tv.getText().toString()));
+                  comanda.arrLineas[tv.getId()].setModificar("S");
                   return true;
 
                } else

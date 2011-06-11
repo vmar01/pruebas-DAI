@@ -46,6 +46,36 @@ public class ComandaHandler {
             this.setArrLineas(arrayAumentado);
          }
    }
+   
+   public LineaComandaHandler[] getLineasAModificar(){
+      int z = 0;
+      for (int i = 0; i < this.arrLineas.length; i++) 
+         if (this.arrLineas[i].getModificar() == "S") z++;
+      
+      LineaComandaHandler[] arrayResul = new LineaComandaHandler[z];
+      
+      int c = 0;
+      for (int i = 0; i < arrLineas.length; i++) 
+         if (this.arrLineas[i].getModificar() == "S") 
+            arrayResul[c++] = this.arrLineas[i].getArrayElement();
+      
+      return arrayResul;
+   }
+   
+   public LineaComandaHandler[] getLineasABorrar(){
+      int z = 0;
+      for (int i = 0; i < this.arrLineas.length; i++) 
+         if (this.arrLineas[i].getBorrar() == "S") z++;
+      
+      LineaComandaHandler[] arrayResul = new LineaComandaHandler[z];
+      
+      int c = 0;
+      for (int i = 0; i < arrLineas.length; i++) 
+         if (this.arrLineas[i].getBorrar() == "S") 
+            arrayResul[c++] = this.arrLineas[i].getArrayElement();
+      
+      return arrayResul;
+   }
 
    public void borrarLdComanda() {
       int z = 0;

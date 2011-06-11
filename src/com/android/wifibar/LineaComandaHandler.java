@@ -9,6 +9,7 @@ public class LineaComandaHandler {
    private String servida;
    private String cEstado;
    private String borrar;
+   private String modificar;
    private String articuloDesc;
 
    // constructor
@@ -22,6 +23,7 @@ public class LineaComandaHandler {
       setArticuloDesc(articulo);
       cEstado= "0";
       borrar="N";
+      setModificar("N");
    }
 //////////////////////////fin CAMBIO //////////////////////////////////////////
 //////////////////////////CAMBIO //////////////////////////////////////////
@@ -92,6 +94,12 @@ public void setArticuloDesc(String articuloDesc) {
 
 public String getArticuloDesc() {
 	return articuloDesc;
+}
+public void setModificar(String modificar) {
+   this.modificar = modificar;
+}
+public String getModificar() {
+   return modificar;
 }
 
 

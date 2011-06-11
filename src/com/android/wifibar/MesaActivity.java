@@ -227,6 +227,13 @@ public class MesaActivity extends Activity {
       if (wifiBarActivity.db.updateMesa(mesa, estado)) { // cambia
                                                          // exclusivamente el
                                                          // estado de la mesa
+         //Si vamos a cerrar la mesa, ejecutamos el procedure
+         if (estado == "N") {
+            float total = wifiBarActivity.db.cerrarMesa(mesa);
+            Toast.makeText(MesaActivity.this,
+                  "A pagar: " + Float.toString(total), Toast.LENGTH_LONG)
+                  .show();
+         }
          Toast.makeText(MesaActivity.this, R.string.opMesaOk, Toast.LENGTH_LONG)
                .show();
          wifiBarActivity.db.consultarMesas("Mesas"); // Actualizo la BD // es el
@@ -241,36 +248,4 @@ public class MesaActivity extends Activity {
 
 
 }
-   /*
-   private void operacionMesa(int mesa, String estado) {
-      if (estado == "S") {
-         int numeroFactura = wifiBarActivity.db.generaFactura();
-         if (numeroFactura != -1)
-            paquete.putInt("factura", numeroFactura);
-         if (wifiBarActivity.db.updateMesa(mesa, estado)) {
-            Toast.makeText(MesaActivity.this, R.string.opMesaOk,
-                  Toast.LENGTH_LONG).show();
-            wifiBarActivity.db.consultarMesas("Mesas"); // Actualizo la BD
-            MesasAdapter adaptador = new MesasAdapter(this);
-            lvMesa = (ListView) findViewById(R.id.lvMesa);
-            lvMesa.setAdapter(adaptador); // Relleno el LV de nuevo
-         } else
-            Toast.makeText(MesaActivity.this, R.string.eAbrirMesa,
-                  Toast.LENGTH_LONG).show();
-      } else {
-         if (wifiBarActivity.db.updateMesa(mesa, estado)) {
-            Toast.makeText(MesaActivity.this, R.string.opMesaOk,
-                  Toast.LENGTH_LONG).show();
-            wifiBarActivity.db.consultarMesas("Mesas"); // Actualizo la BD
-            MesasAdapter adaptador = new MesasAdapter(this);
-            lvMesa = (ListView) findViewById(R.id.lvMesa);
-            lvMesa.setAdapter(adaptador); // Relleno el LV de nuevo
-            float total = wifiBarActivity.db.cerrarMesa(mesa);
-            Toast.makeText(MesaActivity.this, "Factura: " + Float.toString(total),
-                  Toast.LENGTH_LONG).show();
-         } else
-            Toast.makeText(MesaActivity.this, R.string.eAbrirMesa,
-                  Toast.LENGTH_LONG).show();
-      }
-   }*/
 }
