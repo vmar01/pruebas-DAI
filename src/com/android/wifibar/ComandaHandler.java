@@ -1,6 +1,5 @@
 package com.android.wifibar;
 
-
 public class ComandaHandler {
 
    // Datos miembros
@@ -14,81 +13,76 @@ public class ComandaHandler {
    private int idLinea;
    // Array de Lineas de Articulo
    public LineaComandaHandler[] arrLineas = new LineaComandaHandler[0];
-/*
-   public ComandaHandler(int mes,int nCom,int fac, int camId,String camNom) {
-      mesa = mes; 
-      nComanda = nCom; 
-      factura = fac; 
-      idLinea = 0; 
-      camareroId=camId;
-      camareroNom=camNom;
+
+   public ComandaHandler(int mes,/* int nCom, */int camId, String camNom) {
+      mesa = mes;
+      // nComanda = nCom; // la ponemos al hacer la comanda
+      // factura=0; // la ponemos despues
+      idLinea = 0;
+      camareroId = camId;
+      camareroNom = camNom;
    }
-   */
-   public ComandaHandler(int mes,/*int nCom,*/ int camId,String camNom) {
-      mesa = mes; 
-    //  nComanda = nCom; // la ponemos al hacer la comanda
-     // factura=0; // la ponemos despues
-      idLinea = 0; 
-      camareroId=camId;
-      camareroNom=camNom;
-   }  
-//////////////////////////CAMBIO //////////////////////////////////////////
-   public ComandaHandler(){}
-//////////////////////////FIN CAMBIO //////////////////////////////////////////
+
+   public ComandaHandler() {
+   }
+
    // Añadir linea de Comanda
    public void anadirLdComanda(LineaComandaHandler ldc) {
-         
-         if (arrLineas != null ){
-            LineaComandaHandler[] arrayAumentado = new LineaComandaHandler[arrLineas.length+1];
-            System.arraycopy(arrLineas, 0, arrayAumentado, 0, arrLineas.length);
-            arrayAumentado[arrayAumentado.length-1] = ldc;
-            this.setIdLinea(this.idLinea + 1);
-            this.setArrLineas(arrayAumentado);
-         }
+
+      if (arrLineas != null) {
+         LineaComandaHandler[] arrayAumentado = new LineaComandaHandler[arrLineas.length + 1];
+         System.arraycopy(arrLineas, 0, arrayAumentado, 0, arrLineas.length);
+         arrayAumentado[arrayAumentado.length - 1] = ldc;
+         this.setIdLinea(this.idLinea + 1);
+         this.setArrLineas(arrayAumentado);
+      }
    }
-   
-   public LineaComandaHandler[] getLineasAModificar(){
+
+   public LineaComandaHandler[] getLineasAModificar() {
       int z = 0;
-      for (int i = 0; i < this.arrLineas.length; i++) 
-         if (this.arrLineas[i].getModificar() == "S") z++;
-      
+      for (int i = 0; i < this.arrLineas.length; i++)
+         if (this.arrLineas[i].getModificar() == "S")
+            z++;
+
       LineaComandaHandler[] arrayResul = new LineaComandaHandler[z];
-      
+
       int c = 0;
-      for (int i = 0; i < arrLineas.length; i++) 
-         if (this.arrLineas[i].getModificar() == "S") 
+      for (int i = 0; i < arrLineas.length; i++)
+         if (this.arrLineas[i].getModificar() == "S")
             arrayResul[c++] = this.arrLineas[i].getArrayElement();
-      
+
       return arrayResul;
    }
-   
-   public LineaComandaHandler[] getLineasABorrar(){
+
+   public LineaComandaHandler[] getLineasABorrar() {
       int z = 0;
-      for (int i = 0; i < this.arrLineas.length; i++) 
-         if (this.arrLineas[i].getBorrar() == "S") z++;
-      
+      for (int i = 0; i < this.arrLineas.length; i++)
+         if (this.arrLineas[i].getBorrar() == "S")
+            z++;
+
       LineaComandaHandler[] arrayResul = new LineaComandaHandler[z];
-      
+
       int c = 0;
-      for (int i = 0; i < arrLineas.length; i++) 
-         if (this.arrLineas[i].getBorrar() == "S") 
+      for (int i = 0; i < arrLineas.length; i++)
+         if (this.arrLineas[i].getBorrar() == "S")
             arrayResul[c++] = this.arrLineas[i].getArrayElement();
-      
+
       return arrayResul;
    }
 
    public void borrarLdComanda() {
       int z = 0;
-      for (int i = 0; i < this.arrLineas.length; i++) 
-         if (this.arrLineas[i].getBorrar() == "N") z++;
-      
+      for (int i = 0; i < this.arrLineas.length; i++)
+         if (this.arrLineas[i].getBorrar() == "N")
+            z++;
+
       LineaComandaHandler[] arrayResul = new LineaComandaHandler[z];
-      
+
       int c = 0;
-      for (int i = 0; i < arrLineas.length; i++) 
-         if (this.arrLineas[i].getBorrar() == "N") 
+      for (int i = 0; i < arrLineas.length; i++)
+         if (this.arrLineas[i].getBorrar() == "N")
             arrayResul[c++] = this.arrLineas[i].getArrayElement();
-  
+
       this.setIdLinea(z);
       this.setArrLineas(arrayResul);
    }
@@ -118,25 +112,23 @@ public class ComandaHandler {
       this.mesa = mesa;
    }
 
-
-
    public int getCamareroId() {
-   return camareroId;
-}
+      return camareroId;
+   }
 
-public void setCamareroId(int camareroId) {
-   this.camareroId = camareroId;
-}
+   public void setCamareroId(int camareroId) {
+      this.camareroId = camareroId;
+   }
 
-public String getCamareroNom() {
-   return camareroNom;
-}
+   public String getCamareroNom() {
+      return camareroNom;
+   }
 
-public void setCamareroNom(String camareroNom) {
-   this.camareroNom = camareroNom;
-}
+   public void setCamareroNom(String camareroNom) {
+      this.camareroNom = camareroNom;
+   }
 
-public int getIdLinea() {
+   public int getIdLinea() {
       return idLinea;
    }
 

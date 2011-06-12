@@ -24,24 +24,14 @@ public class MesaHandler {
    public static String[] id;
    public static String[] comensales;
    public static boolean[] abierta;
-  /* private static int INDICE_ID;
-   private static int INDICE_COMENSALES;
-   private static int INDICE_ABIERTA;
-*/
+
    // Constructor
    public MesaHandler(int tama) {
-     /* MesaHandler.INDICE_ID = tama;
-      MesaHandler.INDICE_COMENSALES = tama;
-      MesaHandler.INDICE_ABIERTA = tama;*/
+
       MesaHandler.id = new String[tama];
       MesaHandler.comensales = new String[tama];
       MesaHandler.abierta = new boolean[tama];
    }
-
-   // métodos
-   /*public void setId(String _id) {id[--INDICE_ID] = "Mesa " + _id;}
-   public void setComensales(String comen) {comensales[--INDICE_COMENSALES] = comen;}
-   public void setAbierta(boolean abie) {abierta[--INDICE_ABIERTA] = abie;}*/
 
    // Gets
    public String[] getId() {return id;}

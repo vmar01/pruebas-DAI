@@ -18,5 +18,6 @@
 		<activity android:name="FamiliaActivity"></activity>
 		<activity android:name="ArticuloActivity"></activity>
 		<activity android:name="ComandaRecuperadaActivity"></activity>
+		<activity android:name="FacturaActivity"></activity>
 	</application>
 </manifest>

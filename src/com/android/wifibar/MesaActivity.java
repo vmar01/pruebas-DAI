@@ -127,22 +127,8 @@ public class MesaActivity extends Activity {
 
                mesa.putExtras(paquete);
                startActivity(mesa);
-               /*
-               // CREAR LA INSTANCIA DE COMANDA
-               int nComanda = wifiBarActivity.db.generaComanda(
-                     paquete.getInt("factura"),
-                     Integer.parseInt(mesasData.getId()[position]),
-                     paquete.getInt("camareroId"));
-               if (nComanda != -1) {
-                  paquete.putInt("idComanda", nComanda);
-                  mesa.putExtras(paquete);
-                  startActivity(mesa);
-               } else
-                  Toast.makeText(MesaActivity.this, R.string.noComandaGenerada,
-                        Toast.LENGTH_LONG).show();*/
             }
          });
-//////////////////////////CAMBIO //////////////////////////////////////////
          final Button verLineaButton = (Button) item
                .findViewById(R.id.verLineaBtn);
          verLineaButton.setOnClickListener(new OnClickListener() {
@@ -169,7 +155,7 @@ public class MesaActivity extends Activity {
                         Toast.LENGTH_LONG).show();
             }
          });
-////////////////////////// FIN CAMBIO //////////////////////////////////////////
+
          if (mesasData.getAbierta()[position]) {
             comandaButton.setVisibility(comandaButton.VISIBLE);
             verLineaButton.setVisibility(verLineaButton.VISIBLE);
@@ -211,33 +197,27 @@ public class MesaActivity extends Activity {
       this.camarero = camarero;
    }
 
-   private void operacionMesa(int mesa, String estado){
-      
-/////////////////////////////////////////////////////////////////////////////////////////////////
+   private void operacionMesa(int mesa, String estado) {
 
-//int numeroFactura = wifiBarActivity.db.generaFactura();
-//// si devuelve un numero de factura valido
-//if (numeroFactura != -1){
-//paquete.putInt("factura", numeroFactura);
-//
-//}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
       if (wifiBarActivity.db.updateMesa(mesa, estado)) { // cambia
-                                                         // exclusivamente el
-                                                         // estado de la mesa
-         //Si vamos a cerrar la mesa, ejecutamos el procedure
+         // exclusivamente el
+         // estado de la mesa
+         // Si vamos a cerrar la mesa, ejecutamos el procedure
          if (estado == "N") {
-            float total = wifiBarActivity.db.cerrarMesa(mesa);
-            Toast.makeText(MesaActivity.this,
-                  "A pagar: " + Float.toString(total), Toast.LENGTH_LONG)
-                  .show();
+
+            Intent factura = new Intent(MesaActivity.this,
+                  FacturaActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("mesa", mesa);
+            bundle.putInt("factura", wifiBarActivity.db.conseguirNumFac(mesa));
+            factura.putExtras(bundle);
+            startActivity(factura);
+
          }
          Toast.makeText(MesaActivity.this, R.string.opMesaOk, Toast.LENGTH_LONG)
                .show();
          wifiBarActivity.db.consultarMesas("Mesas"); // Actualizo la BD // es el
-                                                     // listView
+         // listView
          MesasAdapter adaptador = new MesasAdapter(this);
          lvMesa = (ListView) findViewById(R.id.lvMesa);
          lvMesa.setAdapter(adaptador); // Relleno el LV de nuevo
@@ -246,6 +226,5 @@ public class MesaActivity extends Activity {
                Toast.LENGTH_LONG).show();
       }
 
-
-}
+   }
 }

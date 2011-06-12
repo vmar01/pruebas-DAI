@@ -26,31 +26,42 @@ public final class R {
         public static final int btMarchar=0x7f050009;
         public static final int btMarcharRecuperada=0x7f05000f;
         public static final int cabComanda=0x7f050003;
-        public static final int estadoTb=0x7f050013;
+        public static final int estadoTb=0x7f05001d;
+        public static final int etEntregado=0x7f050016;
         public static final int gridOpciones=0x7f050001;
-        public static final int hacerComandaBtn=0x7f050012;
-        public static final int lbMesa=0x7f050010;
+        public static final int hacerComandaBtn=0x7f05001c;
+        public static final int lbMesa=0x7f05001a;
         public static final int linearLayout1=0x7f050006;
         public static final int linearLayout2=0x7f05000b;
-        public static final int lvCamarero=0x7f050014;
-        public static final int lvMesa=0x7f050017;
+        public static final int linearLayout3=0x7f050012;
+        public static final int linearLayout4=0x7f050017;
+        public static final int lvCamarero=0x7f05001e;
+        public static final int lvMesa=0x7f050021;
         public static final int scrollView1=0x7f05000a;
         public static final int textView1=0x7f050000;
-        public static final int textView2=0x7f050016;
+        public static final int textView2=0x7f050020;
         public static final int textView3=0x7f050002;
         public static final int tvCam=0x7f050004;
-        public static final int tvCamarero=0x7f050015;
+        public static final int tvCamarero=0x7f05001f;
+        public static final int tvDevolucion=0x7f050018;
+        public static final int tvEntregado=0x7f050015;
+        public static final int tvFactura=0x7f050010;
         public static final int tvMesa=0x7f050005;
-        public static final int verLineaBtn=0x7f050011;
+        public static final int tvMesaFac=0x7f050011;
+        public static final int tvPutDevolucion=0x7f050019;
+        public static final int tvPutTotal=0x7f050014;
+        public static final int tvTotal=0x7f050013;
+        public static final int verLineaBtn=0x7f05001b;
     }
     public static final class layout {
         public static final int articulo=0x7f030000;
         public static final int comanda=0x7f030001;
         public static final int comandas_recuperadas=0x7f030002;
-        public static final int familia=0x7f030003;
-        public static final int lv_mesas=0x7f030004;
-        public static final int main=0x7f030005;
-        public static final int mesa=0x7f030006;
+        public static final int factura=0x7f030003;
+        public static final int familia=0x7f030004;
+        public static final int lv_mesas=0x7f030005;
+        public static final int main=0x7f030006;
+        public static final int mesa=0x7f030007;
     }
     public static final class string {
         public static final int VerComanda=0x7f04000f;

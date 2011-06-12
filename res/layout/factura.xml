@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="vertical">
+	<TextView android:layout_width="wrap_content" android:text="Factura"
+		android:textColor="#ff0000" android:textSize="40px"
+		android:layout_gravity="center_horizontal" android:id="@+id/textView1"
+		android:textStyle="bold" android:layout_height="wrap_content">
+	</TextView>
+	<RelativeLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<TextView android:id="@+id/tvFactura" android:textSize="20px"
+			android:text="Factura nº: " android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true" android:layout_height="wrap_content">
+		</TextView>
+		<TextView android:id="@+id/tvMesaFac"
+			android:layout_alignParentRight="true" android:text="Mesa nº: "
+			android:layout_width="wrap_content" android:textSize="20px"
+			android:layout_height="wrap_content">
+		</TextView>
+	</RelativeLayout>
+
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:id="@+id/linearLayout2"
+		android:orientation="vertical">
+		<RelativeLayout android:layout_width="fill_parent"
+			android:id="@+id/linearLayout3" android:layout_height="wrap_content">
+			<TextView android:text="Total: "
+				android:layout_alignParentLeft="true" android:textStyle="bold"
+				android:textSize="20px" android:layout_width="wrap_content"
+				android:id="@+id/tvTotal" android:paddingTop="20px"
+				android:paddingLeft="10px" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="TextView" android:layout_toRightOf="@id/tvTotal"
+				android:layout_alignBaseline="@id/tvTotal" android:layout_width="wrap_content"
+				android:textColor="#ff0000" android:textSize="20px" android:id="@+id/tvPutTotal"
+				android:layout_height="wrap_content">
+			</TextView>
+		</RelativeLayout>
+		<RelativeLayout android:layout_width="fill_parent"
+			android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+			<TextView android:paddingTop="20px"
+				android:layout_alignParentLeft="true" android:text="Entrega:"
+				android:textStyle="bold" android:textSize="20px"
+				android:paddingLeft="10px" android:paddingRight="50dip" android:id="@+id/tvEntregado"
+				android:layout_height="wrap_content" android:layout_width="wrap_content">
+			</TextView>
+
+			<EditText android:minWidth="100dip"
+				android:layout_toRightOf="@id/tvEntregado"
+				android:layout_alignBaseline="@id/tvEntregado" android:layout_width="wrap_content"
+				android:id="@+id/etEntregado" android:layout_height="wrap_content">
+			</EditText>
+
+		</RelativeLayout>
+		<RelativeLayout android:layout_width="match_parent"
+			android:id="@+id/linearLayout4" android:layout_height="wrap_content">
+			<TextView android:paddingRight="1dip"
+				android:layout_alignParentLeft="true" android:paddingTop="20px"
+				android:text="Devolución: " android:textStyle="bold"
+				android:textSize="20px" android:layout_width="wrap_content"
+				android:id="@+id/tvDevolucion" android:paddingLeft="10px"
+				android:layout_height="wrap_content"></TextView>
+			<TextView android:layout_alignBaseline="@id/tvDevolucion"
+				android:layout_toRightOf="@id/tvDevolucion" android:textSize="20px"
+				android:id="@+id/tvPutDevolucion" android:layout_width="wrap_content"
+				android:paddingLeft="25dip" android:layout_height="wrap_content"></TextView>
+		</RelativeLayout>
+	</LinearLayout>
+</LinearLayout>

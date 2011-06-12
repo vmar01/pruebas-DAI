@@ -19,10 +19,8 @@
 
 package com.android.wifibar;
 
-import android.R.array;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,8 +34,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -50,39 +46,23 @@ import android.widget.Toast;
 
 public class ComandaActivity extends Activity {
 
-	// Datos miembros
-	public static ComandaHandler comanda;
-	private static TableLayout tabla;
-	private static ImageView marcharButton;
-	private static ImageView addButton;
-	private static ImageView borrarButton;
-	private static Bundle bundle;
-	private int contSel;
+   // Datos miembros
+   public static ComandaHandler comanda;
+   private static TableLayout tabla;
+   private static ImageView marcharButton;
+   private static ImageView addButton;
+   private static ImageView borrarButton;
+   private static Bundle bundle;
+   private int contSel;
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.comanda);
+   /** Called when the activity is first created. */
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.comanda);
 
-		if (wifiBarActivity.db.isConnected()) {
-/*			// Poner los atributos a comanda
-			bundle = getIntent().getExtras();
+      if (wifiBarActivity.db.isConnected()) {
 
-			// PONER LOS ATRIBUTOS A COMANDA
-			if (comanda == null)
-				comanda = new ComandaHandler(Integer.parseInt(bundle
-						.getString("mesa")), bundle.getInt("factura"),
-						bundle.getInt("idComanda"),
-						bundle.getInt("camareroId"),
-						bundle.getString("camarero"));
-			if (bundle.getInt("idComanda") != 0) {
-				comanda.setCamareroId(bundle.getInt("camareroId"));
-				comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
-				comanda.setnComanda(bundle.getInt("idComanda"));
-				comanda.setFactura(bundle.getInt("factura"));
-			}
-*/
          bundle = getIntent().getExtras();
          String controlMesa = bundle.getString("mesa");
 
@@ -90,339 +70,306 @@ public class ComandaActivity extends Activity {
          if (comanda == null)
             comanda = new ComandaHandler( // contructor del manejador
                   Integer.parseInt(bundle.getString("mesa")),
-                  /* bundle.getInt("factura"), */
-                  /* bundle.getInt("idComanda") , */
                   bundle.getInt("camareroId"), bundle.getString("camarero"));
          if (bundle.getInt("idComanda") != 0) {
             comanda.setCamareroId(bundle.getInt("camareroId"));
             comanda.setMesa(Integer.parseInt(bundle.getString("mesa")));
-            // comanda.setnComanda(bundle.getInt("idComanda")); // lo ponemos al
-            // marchar la comanda
-            // comanda.setFactura(bundle.getInt("factura")); // lo ponemos al
-            // marchar la comanda
          }
-//////////////////////////  CAMBIO //////////////////////////////////////////
-			//TODO: Borrar el pedido una vez recogido
-	//		if (bundle.getInt("BotonVerLinea") == 1)
-		//	   if (wifiBarActivity.db.getPedido() != null)
-			//      comanda = wifiBarActivity.db.getPedido();
-         // ////////////////////////FIN CAMBIO
-         // //////////////////////////////////////////
-			// Capturar los controles y ver los atributos en los TextView
-			TextView textCam = (TextView) findViewById(R.id.tvCam);
-			TextView textMesa = (TextView) findViewById(R.id.tvMesa);
 
-			textCam.setText("Camarero: " + comanda.getCamareroNom());
-			textMesa.setText("Mesa: " + String.valueOf(comanda.getMesa()));
-			// iniciar el contador de seleccionados
-			this.setContSel(0);
+         // Capturar los controles y ver los atributos en los TextView
+         TextView textCam = (TextView) findViewById(R.id.tvCam);
+         TextView textMesa = (TextView) findViewById(R.id.tvMesa);
 
-			marcharButton = (ImageView) findViewById(R.id.btMarchar);
-			marcharButton.setOnClickListener(new OnClickListener() {
+         textCam.setText("Camarero: " + comanda.getCamareroNom());
+         textMesa.setText("Mesa: " + String.valueOf(comanda.getMesa()));
+         // iniciar el contador de seleccionados
+         this.setContSel(0);
 
-				@Override
-				public void onClick(View v) {
-					if (comanda.arrLineas.length > 0) {
+         marcharButton = (ImageView) findViewById(R.id.btMarchar);
+         marcharButton.setOnClickListener(new OnClickListener() {
 
-						AlertDialog.Builder msj = new AlertDialog.Builder(
-								ComandaActivity.this);
-						msj.setMessage("¿ Desea ENVIAR la Comanda ?");
-						msj.setCancelable(false);
+            @Override
+            public void onClick(View v) {
+               if (comanda.arrLineas.length > 0) {
 
-						msj.setPositiveButton("Si",
-								new DialogInterface.OnClickListener() {
+                  AlertDialog.Builder msj = new AlertDialog.Builder(
+                        ComandaActivity.this);
+                  msj.setMessage("¿ Desea ENVIAR la Comanda ?");
+                  msj.setCancelable(false);
+
+                  msj.setPositiveButton("Si",
+                        new DialogInterface.OnClickListener() {
 
                            public void onClick(DialogInterface dialog, int which) {
-                              ///Buscar el numero de factura
-                              int consultaFactura= wifiBarActivity.db.consultarNumFacMesa(comanda.getMesa());
-                              
+                              // /Buscar el numero de factura
+                              int consultaFactura = wifiBarActivity.db
+                                    .consultarNumFacMesa(comanda.getMesa());
+
                               if (consultaFactura != -1) {
-                                 
-                                 if(consultaFactura == 0){ // si da 0, se genera una consulta nueva
-                                    int newfac=wifiBarActivity.db.generaFactura();
-                                    bundle.putInt("factura",newfac);
+
+                                 if (consultaFactura == 0) { // si da 0, se
+                                                             // genera una
+                                                             // consulta nueva
+                                    int newfac = wifiBarActivity.db
+                                          .generaFactura();
+                                    bundle.putInt("factura", newfac);
                                     comanda.setFactura(newfac);
-                                 }
-                                 else{// si da otro numero, ese es el numero de factura
-                                    bundle.putInt("factura",consultaFactura);
+                                 } else {// si da otro numero, ese es el numero
+                                         // de factura
+                                    bundle.putInt("factura", consultaFactura);
                                     comanda.setFactura(consultaFactura);
                                  }
-                              
-                              
-                              
-                           // Para insertar la comanda
-                              //obtener el numero de comanda 
-                                    int nComanda = wifiBarActivity.db.generaComanda(comanda.getFactura(),
-                                          comanda.getMesa(),
-                                          comanda.getCamareroId());
-                                    // si tiene exito la consulta
-                                    if (nComanda != -1) {
-                                       comanda.setnComanda(nComanda);
-                                    } 
-                                    else{
-                                       Toast.makeText(ComandaActivity.this,R.string.noComandaGenerada, Toast.LENGTH_LONG).show();
-                                    }   
-                              
-                              
-                              // Bucle para insertar las lineas de comanda
+
+                                 // Para insertar la comanda
+                                 // obtener el numero de comanda
+                                 int nComanda = wifiBarActivity.db
+                                       .generaComanda(comanda.getFactura(),
+                                             comanda.getMesa(),
+                                             comanda.getCamareroId());
+                                 // si tiene exito la consulta
+                                 if (nComanda != -1) {
+                                    comanda.setnComanda(nComanda);
+                                 } else {
+                                    Toast.makeText(ComandaActivity.this,
+                                          R.string.noComandaGenerada,
+                                          Toast.LENGTH_LONG).show();
+                                 }
+
+                                 // Bucle para insertar las lineas de comanda
                                  for (int i = 0; i < comanda.arrLineas.length; i++) {
                                     wifiBarActivity.db.generaLineaComanda(
-                                          i+1,
-                                          comanda.getnComanda(),
+                                          i + 1, comanda.getnComanda(),
                                           comanda.arrLineas[i].getCant(),
                                           comanda.arrLineas[i].getcArticulo(),
                                           "S", "0");
                                  }
+                              } else {
+                                 Toast.makeText(ComandaActivity.this,
+                                       "Error: No Factura", Toast.LENGTH_SHORT)
+                                       .show();
                               }
-                              else{
-                                 Toast.makeText(ComandaActivity.this,"Error: No Factura" ,Toast.LENGTH_SHORT).show();
-                              }
-                              Intent volverAMesa = new Intent(ComandaActivity.this,MesaActivity.class);
-                              bundle.putString("camarero",comanda.getCamareroNom());
-                              bundle.putInt("camareroId",   comanda.getCamareroId());
+                              Intent volverAMesa = new Intent(
+                                    ComandaActivity.this, MesaActivity.class);
+                              bundle.putString("camarero",
+                                    comanda.getCamareroNom());
+                              bundle.putInt("camareroId",
+                                    comanda.getCamareroId());
 
-                              
-//                            if(wifiBarActivity.db.consultarNumFacMesa(comanda.getMesa())>0){// si ya hay una factura para esa mesa
-//                               bundle.putInt("factura",wifiBarActivity.db.consultarNumFacMesa(comanda.getMesa()));
-//                            }
-//                            else{ // y si no la hay, Max(nFactura)+1
-//                               bundle.putInt("factura",wifiBarActivity.db.generaFactura());
-//                            }
-                           // bundle.putInt("factura", comanda.getFactura());
                               volverAMesa.putExtras(bundle);
                               comanda = null;
                               startActivity(volverAMesa);
                               finish();
                            }
                         });
-						msj.setNegativeButton("No",
-								new DialogInterface.OnClickListener() {// Boton
-									// negativo
+                  msj.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {// Boton
+                           // negativo
 
-									public void onClick(DialogInterface dialog,
-											int which) {
-										// TODO Auto-generated method stub
-										dialog.cancel();// Se cancela el
-														// AlertDialog
-									}
-								});
-						msj.show();// Se muestra el AlertDialog
+                           public void onClick(DialogInterface dialog, int which) {
+                              dialog.cancel();// Se cancela el
+                              // AlertDialog
+                           }
+                        });
+                  msj.show();// Se muestra el AlertDialog
 
-					} else {
-						AlertDialog.Builder msjNoLin = new AlertDialog.Builder(
-								ComandaActivity.this);
-						msjNoLin.setMessage("No existen lineas para enviar. Adjunte lineas antes de enviar la comanada");
-						msjNoLin.setCancelable(true);
-						msjNoLin.setNeutralButton(" Aceptar ",
-								new DialogInterface.OnClickListener() {
+               } else {
+                  AlertDialog.Builder msjNoLin = new AlertDialog.Builder(
+                        ComandaActivity.this);
+                  msjNoLin
+                        .setMessage("No existen lineas para enviar. Adjunte lineas antes de enviar la comanada");
+                  msjNoLin.setCancelable(true);
+                  msjNoLin.setNeutralButton(" Aceptar ",
+                        new DialogInterface.OnClickListener() {
 
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.cancel();
-									}
-								});
-						msjNoLin.show();
+                           public void onClick(DialogInterface dialog, int which) {
+                              dialog.cancel();
+                           }
+                        });
+                  msjNoLin.show();
 
-					}
-				}
-			});
+               }
+            }
+         });
 
-			addButton = (ImageView) findViewById(R.id.btAnadir);
-			addButton.setOnClickListener(new OnClickListener() {
+         addButton = (ImageView) findViewById(R.id.btAnadir);
+         addButton.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					// Creamos el intent
-					Intent comanda = new Intent(ComandaActivity.this,
-							FamiliaActivity.class);
-					// LLamamiento a la ventana Familia
-					startActivity(comanda);
-				}
-			});
+            @Override
+            public void onClick(View v) {
+               // Creamos el intent
+               Intent comanda = new Intent(ComandaActivity.this,
+                     FamiliaActivity.class);
+               // LLamamiento a la ventana Familia
+               startActivity(comanda);
+            }
+         });
 
-			borrarButton = (ImageView) findViewById(R.id.btBorrar);
-			borrarButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (ComandaActivity.this.getContSel() > 0) {
-						AlertDialog.Builder msjSel = new AlertDialog.Builder(
-								ComandaActivity.this);
-						msjSel.setMessage("¿ Desea BORRAR las Lineas Seleccionadas ?");
-						msjSel.setCancelable(false);
+         borrarButton = (ImageView) findViewById(R.id.btBorrar);
+         borrarButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if (ComandaActivity.this.getContSel() > 0) {
+                  AlertDialog.Builder msjSel = new AlertDialog.Builder(
+                        ComandaActivity.this);
+                  msjSel.setMessage("¿ Desea BORRAR las Lineas Seleccionadas ?");
+                  msjSel.setCancelable(false);
 
-						msjSel.setPositiveButton("Si",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int which) {
+                  msjSel.setPositiveButton("Si",
+                        new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int which) {
 
-										if (comanda != null) {
-											comanda.borrarLdComanda();
-											borrarTabla();
-											pintarComanda();
-										}
-									}
-								});
-						msjSel.setNegativeButton("No",
-								new DialogInterface.OnClickListener() {
+                              if (comanda != null) {
+                                 comanda.borrarLdComanda();
+                                 borrarTabla();
+                                 pintarComanda();
+                              }
+                           }
+                        });
+                  msjSel.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
 
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.cancel();
-									}
-								});
-						msjSel.show();
-					} else {
-						AlertDialog.Builder msjNoSel = new AlertDialog.Builder(
-								ComandaActivity.this);
-						msjNoSel.setMessage("No hay ninguna linea seleccionada para borrar");
-						msjNoSel.setCancelable(true);
-						msjNoSel.setNeutralButton(" Aceptar ",
-								new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int which) {
+                              dialog.cancel();
+                           }
+                        });
+                  msjSel.show();
+               } else {
+                  AlertDialog.Builder msjNoSel = new AlertDialog.Builder(
+                        ComandaActivity.this);
+                  msjNoSel
+                        .setMessage("No hay ninguna linea seleccionada para borrar");
+                  msjNoSel.setCancelable(true);
+                  msjNoSel.setNeutralButton(" Aceptar ",
+                        new DialogInterface.OnClickListener() {
 
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.cancel();
-									}
-								});
-						msjNoSel.show();
-					}
-				}
+                           public void onClick(DialogInterface dialog, int which) {
+                              dialog.cancel();
+                           }
+                        });
+                  msjNoSel.show();
+               }
+            }
 
-			});
+         });
 
-			// Cuando se ha seleccionado un articulo
-			String artRecibido = getIntent().getExtras().getString("articulo");
-			if (artRecibido != null)
-				pintarComanda();
-		} else {
-			Toast.makeText(ComandaActivity.this, R.string.noConectionActive,
-					Toast.LENGTH_LONG).show();
-			this.finish();
-		}
-	}
+         // Cuando se ha seleccionado un articulo
+         String artRecibido = getIntent().getExtras().getString("articulo");
+         if (artRecibido != null)
+            pintarComanda();
+      } else {
+         Toast.makeText(ComandaActivity.this, R.string.noConectionActive,
+               Toast.LENGTH_LONG).show();
+         this.finish();
+      }
+   }
 
-	private void borrarTabla() {
-		tabla = (TableLayout) findViewById(R.id.TablaComanda);
-		tabla.removeAllViews();
-	}
+   private void borrarTabla() {
+      tabla = (TableLayout) findViewById(R.id.TablaComanda);
+      tabla.removeAllViews();
+   }
 
-	private void pintarComanda() {
+   private void pintarComanda() {
 
-		tabla = (TableLayout) findViewById(R.id.TablaComanda);
+      tabla = (TableLayout) findViewById(R.id.TablaComanda);
 
-		LineaComandaHandler[] array = comanda.getArrLineas();
+      LineaComandaHandler[] array = comanda.getArrLineas();
 
-		for (int i = 0; i < comanda.getIdLinea(); i++) {
-			// creacion fila
-			TableRow row = new TableRow(this);
-			row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-					LayoutParams.WRAP_CONTENT));
-			// CHECK BOX
-			CheckBox ck = new CheckBox(this);
-			ck.setText(String.valueOf(i + 1));
-			ck.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
-					if (buttonView.isChecked()) { // si el checbox esta pulsado
-						int indice = Integer.parseInt((String) buttonView
-								.getText()) - 1;
-						comanda.arrLineas[indice].setBorrar("S");
-						ComandaActivity.this.setContSel(ComandaActivity.this
-								.getContSel() + 1);
-					} else {
-						int indice = Integer.parseInt((String) buttonView
-								.getText()) - 1;
-						comanda.arrLineas[indice].setBorrar("N");
-						ComandaActivity.this.setContSel(ComandaActivity.this
-								.getContSel() - 1);
-					}
-				}
+      for (int i = 0; i < comanda.getIdLinea(); i++) {
+         // creacion fila
+         TableRow row = new TableRow(this);
+         row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
+               LayoutParams.WRAP_CONTENT));
+         // CHECK BOX
+         CheckBox ck = new CheckBox(this);
+         ck.setText(String.valueOf(i + 1));
+         ck.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView,
+                  boolean isChecked) {
+               if (buttonView.isChecked()) { // si el checbox esta pulsado
+                  int indice = Integer.parseInt((String) buttonView.getText()) - 1;
+                  comanda.arrLineas[indice].setBorrar("S");
+                  ComandaActivity.this.setContSel(ComandaActivity.this
+                        .getContSel() + 1);
+               } else {
+                  int indice = Integer.parseInt((String) buttonView.getText()) - 1;
+                  comanda.arrLineas[indice].setBorrar("N");
+                  ComandaActivity.this.setContSel(ComandaActivity.this
+                        .getContSel() - 1);
+               }
+            }
 
-			});
-			row.addView(ck);
-			// TEXTVIEW
-			TextView txt = new TextView(this);
-			txt.setText(array[i].getArticuloDesc());
-			txt.setWidth(LayoutParams.WRAP_CONTENT);
-			txt.setGravity(Gravity.CENTER_HORIZONTAL);
-			row.addView(txt);
-			// SPINNER CANTIDAD
-			EditText cantidadEditText = new EditText(this);
-			cantidadEditText.setId(i);
-			cantidadEditText.setWidth(90);
+         });
+         row.addView(ck);
+         // TEXTVIEW
+         TextView txt = new TextView(this);
+         txt.setText(array[i].getArticuloDesc());
+         txt.setWidth(LayoutParams.WRAP_CONTENT);
+         txt.setGravity(Gravity.CENTER_HORIZONTAL);
+         row.addView(txt);
+         // SPINNER CANTIDAD
+         EditText cantidadEditText = new EditText(this);
+         cantidadEditText.setId(i);
+         cantidadEditText.setWidth(90);
 
-			InputFilter[] FilterArray = new InputFilter[1];
-			FilterArray[0] = new InputFilter.LengthFilter(2);
-			cantidadEditText.setFilters(FilterArray);
+         InputFilter[] FilterArray = new InputFilter[1];
+         FilterArray[0] = new InputFilter.LengthFilter(2);
+         cantidadEditText.setFilters(FilterArray);
 
-			DigitsKeyListener MyDigitKeyListener = new DigitsKeyListener(true,
-					true); // first true : is signed, second one : is decimal
-			cantidadEditText.setKeyListener(MyDigitKeyListener);
+         DigitsKeyListener MyDigitKeyListener = new DigitsKeyListener(true,
+               true); // first true : is signed, second one : is decimal
+         cantidadEditText.setKeyListener(MyDigitKeyListener);
 
-			cantidadEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-			cantidadEditText.setOnKeyListener(new OnKeyListener() {
+         cantidadEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+         cantidadEditText.setOnKeyListener(new OnKeyListener() {
 
-				@Override
-				public boolean onKey(View v, int keyCode, KeyEvent event) {
-					if ((event.getAction() == KeyEvent.ACTION_DOWN)
-							&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
-						EditText tv = (EditText) v;
-						comanda.arrLineas[tv.getId()].setCant(Integer
-								.parseInt(tv.getText().toString()));
-						return true;
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+               if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                     && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                  EditText tv = (EditText) v;
+                  comanda.arrLineas[tv.getId()].setCant(Integer.parseInt(tv
+                        .getText().toString()));
+                  return true;
 
-					} else
-						return false;
-				}
-			});
-			
-			cantidadEditText
-					.setOnFocusChangeListener(new OnFocusChangeListener() {
+               } else
+                  return false;
+            }
+         });
 
-						@Override
-						public void onFocusChange(View v, boolean hasFocus) {
-							EditText tv = (EditText) v;
-							if (hasFocus)
-								tv.setText("");
-						}
-					});
-			cantidadEditText.setText(Integer.toString(comanda.arrLineas[i]
-					.getCant()));
+         cantidadEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 
-			row.addView(cantidadEditText);
-			/*
-			 * // BOTON ESTADO Button bt = new Button(this); bt.setWidth(70);
-			 * bt.setId(i); row.addView(bt);
-			 * 
-			 * bt.setOnClickListener(new OnClickListener() {
-			 * 
-			 * @Override public void onClick(View v) { // TODO Auto-generated
-			 * method stub Button boton = (Button) v;
-			 * Toast.makeText(ComandaActivity.this, "click : " + boton.getId(),
-			 * Toast.LENGTH_SHORT).show();
-			 * 
-			 * } });
-			 */
-			// ANADIR LA FILA A LA TABLA
-			tabla.addView(row);
-		}
-		if (comanda.getIdLinea() != 0) tabla.findViewById(array.length-1).requestFocus();
-	}
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+               EditText tv = (EditText) v;
+               if (hasFocus)
+                  tv.setText("");
+            }
+         });
+         cantidadEditText.setText(Integer.toString(comanda.arrLineas[i]
+               .getCant()));
 
-	
-	// Evento de pulsar el boton atras
-	protected void onRestart() {
-		super.onRestart();
-		Toast.makeText(ComandaActivity.this,
-				"onRestart: No se ha ejecutado ninguna acciÃ³n",
-				Toast.LENGTH_LONG).show();
-	}
+         row.addView(cantidadEditText);
 
-	public int getContSel() {
-		return contSel;
-	}
+         // ANADIR LA FILA A LA TABLA
+         tabla.addView(row);
+      }
+      if (comanda.getIdLinea() != 0)
+         tabla.findViewById(array.length - 1).requestFocus();
+   }
 
-	public void setContSel(int contSel) {
-		this.contSel = contSel;
-	}
+   // Evento de pulsar el boton atras
+   protected void onRestart() {
+      super.onRestart();
+      Toast.makeText(ComandaActivity.this,
+            "onRestart: No se ha ejecutado ninguna acciÃ³n", Toast.LENGTH_LONG)
+            .show();
+   }
+
+   public int getContSel() {
+      return contSel;
+   }
+
+   public void setContSel(int contSel) {
+      this.contSel = contSel;
+   }
 }

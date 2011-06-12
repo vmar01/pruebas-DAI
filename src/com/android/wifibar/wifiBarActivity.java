@@ -43,6 +43,7 @@ public class wifiBarActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		//Para comprobar que el wifi esta activo: Comentado porque en el emulador no hay wifi
 		// if (comprobarConexion(wifiBarActivity.this)) {
 
 		if (db.consultarCamareros("Camareros") == -1) {
@@ -50,7 +51,6 @@ public class wifiBarActivity extends Activity {
 					Toast.LENGTH_LONG).show();
 			this.finish();
 		} else if (db.isConnected()) {
-			// db.closeConnection();
 
 			// DAtos de los camareros
 			camareroData = db.getCamareros();

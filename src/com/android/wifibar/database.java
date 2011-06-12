@@ -417,7 +417,30 @@ public class database {
 
    }
   ////////////////////////////////// ////////////////////////////////////////////////////////////////////////
-  
+   public int conseguirNumFac(int mesa){
+      java.sql.ResultSet rs = null;
+      try {
+
+             PreparedStatement nFact = connection.prepareStatement("SELECT C.nIdFactura as nFact " +
+             		"FROM LinComanda L " +
+             		"JOIN Comandas C ON L.nIdComanda = C.nIdComanda " +
+             		"WHERE C.nIdMesa = ? " +
+             		"GROUP BY C.nIdFactura;");
+             nFact.setInt(1,mesa);
+             rs = nFact.executeQuery();
+             rs.next();
+             int fac=rs.getInt("nFact");
+             
+             rs.close();
+             rs=null;
+             
+             return fac;
+        }
+         catch (Exception e) {
+          return -1;
+        }
+         
+}
    
    // Devolver los datos de la BD
    public CamareroHandler getCamareros() {

@@ -17,16 +17,15 @@ import android.view.View.OnKeyListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class ComandaRecuperadaActivity extends Activity {
-   
+
    private static ImageView marcharButton;
    private static ImageView borrarButton;
    public static ComandaHandler comanda;
@@ -35,18 +34,19 @@ public class ComandaRecuperadaActivity extends Activity {
    private static LineaComandaHandler[] lineas_a_Borrar;
    private static LineaComandaHandler[] lineas_a_Modificar;
    private int contSel;
-   
+
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.comandas_recuperadas);
-      
+
       bundle = getIntent().getExtras();
-      //Si se recuperan datos
-      //if (wifiBarActivity.db.getPedido() != null)
+      // Si se recuperan datos
+      // if (wifiBarActivity.db.getPedido() != null)
       comanda = wifiBarActivity.db.getPedido();
-      for (int i=0; i < comanda.arrLineas.length; i++ ) comanda.arrLineas[i].setBorrar("N");
-      
+      for (int i = 0; i < comanda.arrLineas.length; i++)
+         comanda.arrLineas[i].setBorrar("N");
+
       TextView textCam = (TextView) findViewById(R.id.tvCam);
       TextView textMesa = (TextView) findViewById(R.id.tvMesa);
 
@@ -54,65 +54,62 @@ public class ComandaRecuperadaActivity extends Activity {
       textMesa.setText("Mesa: " + String.valueOf(comanda.getMesa()));
       // iniciar el contador de seleccionados
       this.setContSel(0);
-      
+
       marcharButton = (ImageView) findViewById(R.id.btMarcharRecuperada);
       marcharButton.setOnClickListener(new OnClickListener() {
 
          @Override
          public void onClick(View v) {
 
-               AlertDialog.Builder msj = new AlertDialog.Builder(
-                     ComandaRecuperadaActivity.this);
-               msj.setMessage("¿ Desea ENVIAR la Comanda ?");
-               msj.setCancelable(false);
+            AlertDialog.Builder msj = new AlertDialog.Builder(
+                  ComandaRecuperadaActivity.this);
+            msj.setMessage("¿ Desea ENVIAR la Comanda ?");
+            msj.setCancelable(false);
 
-               msj.setPositiveButton("Si",
-                     new DialogInterface.OnClickListener() {
+            msj.setPositiveButton("Si", new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface dialog, int which) {
-                           
-                           //Modifico las lineas que pidió
-                           lineas_a_Modificar = comanda.getLineasAModificar();
-                           if (lineas_a_Modificar != null)
-                              for (int i = 0; i < lineas_a_Modificar.length; i++)
-                                 wifiBarActivity.db.modificarLineas(
-                                    lineas_a_Modificar[i].getnLinea(),
-                                    lineas_a_Modificar[i].getnComanda(), 
-                                    lineas_a_Modificar[i].getCant());
-                           
-                           //Borro de la Bd las lineas que pidió
-                           if (lineas_a_Borrar != null)
-                              for (int i = 0; i < lineas_a_Borrar.length; i++)
-                                 wifiBarActivity.db.borrarLineas(lineas_a_Borrar[i].getnLinea()
-                                    ,lineas_a_Borrar[i].getnComanda());
-                           
-                           Intent volverAMesa = new Intent(ComandaRecuperadaActivity.this,MesaActivity.class);
-                           bundle.putString("camarero",comanda.getCamareroNom());
-                           bundle.putInt("camareroId",   comanda.getCamareroId());
+               public void onClick(DialogInterface dialog, int which) {
 
-                           volverAMesa.putExtras(bundle);
-                           comanda = null;
-                           startActivity(volverAMesa);
-                           finish();
-                        }
-                     });
-               msj.setNegativeButton("No",
-                     new DialogInterface.OnClickListener() {// Boton
-                        // negativo
+                  // Modifico las lineas que pidió
+                  lineas_a_Modificar = comanda.getLineasAModificar();
+                  if (lineas_a_Modificar != null)
+                     for (int i = 0; i < lineas_a_Modificar.length; i++)
+                        wifiBarActivity.db.modificarLineas(
+                              lineas_a_Modificar[i].getnLinea(),
+                              lineas_a_Modificar[i].getnComanda(),
+                              lineas_a_Modificar[i].getCant());
 
-                        public void onClick(DialogInterface dialog,
-                              int which) {
-                           // TODO Auto-generated method stub
-                           dialog.cancel();// Se cancela el
-                                       // AlertDialog
-                        }
-                     });
-               msj.show();// Se muestra el AlertDialog
+                  // Borro de la Bd las lineas que pidió
+                  if (lineas_a_Borrar != null)
+                     for (int i = 0; i < lineas_a_Borrar.length; i++)
+                        wifiBarActivity.db.borrarLineas(
+                              lineas_a_Borrar[i].getnLinea(),
+                              lineas_a_Borrar[i].getnComanda());
+
+                  Intent volverAMesa = new Intent(
+                        ComandaRecuperadaActivity.this, MesaActivity.class);
+                  bundle.putString("camarero", comanda.getCamareroNom());
+                  bundle.putInt("camareroId", comanda.getCamareroId());
+
+                  volverAMesa.putExtras(bundle);
+                  comanda = null;
+                  startActivity(volverAMesa);
+                  finish();
+               }
+            });
+            msj.setNegativeButton("No", new DialogInterface.OnClickListener() {// Boton
+                     // negativo
+
+                     public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.cancel();// Se cancela el
+                        // AlertDialog
+                     }
+                  });
+            msj.show();// Se muestra el AlertDialog
          }
       });
-      
-      
-      
+
       borrarButton = (ImageView) findViewById(R.id.btBorrarRecuperada);
       borrarButton.setOnClickListener(new OnClickListener() {
          @Override
@@ -161,16 +158,15 @@ public class ComandaRecuperadaActivity extends Activity {
          }
 
       });
-      
+
       pintarComanda();
    }
-   
+
    private void borrarTabla() {
       tabla = (TableLayout) findViewById(R.id.TablaComanda);
       tabla.removeAllViews();
    }
 
-   
    private void pintarComanda() {
 
       tabla = (TableLayout) findViewById(R.id.TablaComanda);
@@ -189,17 +185,15 @@ public class ComandaRecuperadaActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView,
                   boolean isChecked) {
                if (buttonView.isChecked()) { // si el checbox esta pulsado
-                  int indice = Integer.parseInt((String) buttonView
-                        .getText()) - 1;
+                  int indice = Integer.parseInt((String) buttonView.getText()) - 1;
                   comanda.arrLineas[indice].setBorrar("S");
-                  ComandaRecuperadaActivity.this.setContSel(ComandaRecuperadaActivity.this
-                        .getContSel() + 1);
+                  ComandaRecuperadaActivity.this
+                        .setContSel(ComandaRecuperadaActivity.this.getContSel() + 1);
                } else {
-                  int indice = Integer.parseInt((String) buttonView
-                        .getText()) - 1;
+                  int indice = Integer.parseInt((String) buttonView.getText()) - 1;
                   comanda.arrLineas[indice].setBorrar("N");
-                  ComandaRecuperadaActivity.this.setContSel(ComandaRecuperadaActivity.this
-                        .getContSel() - 1);
+                  ComandaRecuperadaActivity.this
+                        .setContSel(ComandaRecuperadaActivity.this.getContSel() - 1);
                }
             }
 
@@ -232,8 +226,8 @@ public class ComandaRecuperadaActivity extends Activity {
                if ((event.getAction() == KeyEvent.ACTION_DOWN)
                      && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                   EditText tv = (EditText) v;
-                  comanda.arrLineas[tv.getId()].setCant(Integer
-                        .parseInt(tv.getText().toString()));
+                  comanda.arrLineas[tv.getId()].setCant(Integer.parseInt(tv
+                        .getText().toString()));
                   comanda.arrLineas[tv.getId()].setModificar("S");
                   return true;
 
@@ -241,17 +235,16 @@ public class ComandaRecuperadaActivity extends Activity {
                   return false;
             }
          });
-         
-         cantidadEditText
-               .setOnFocusChangeListener(new OnFocusChangeListener() {
 
-                  @Override
-                  public void onFocusChange(View v, boolean hasFocus) {
-                     EditText tv = (EditText) v;
-                     if (hasFocus)
-                        tv.setText("");
-                  }
-               });
+         cantidadEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+               EditText tv = (EditText) v;
+               if (hasFocus)
+                  tv.setText("");
+            }
+         });
          cantidadEditText.setText(Integer.toString(comanda.arrLineas[i]
                .getCant()));
 
@@ -260,9 +253,10 @@ public class ComandaRecuperadaActivity extends Activity {
          // ANADIR LA FILA A LA TABLA
          tabla.addView(row);
       }
-      if (comanda.getIdLinea() != 0) tabla.findViewById(array.length-1).requestFocus();
+      if (comanda.getIdLinea() != 0)
+         tabla.findViewById(array.length - 1).requestFocus();
    }
-   
+
    public int getContSel() {
       return contSel;
    }

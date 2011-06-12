@@ -39,10 +39,11 @@ public class ArticuloActivity extends Activity {
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.articulo);
-      
+
       if (wifiBarActivity.db.isConnected()) {
          Bundle bundle = getIntent().getExtras();
-         if (wifiBarActivity.db.consultarArticulos("Articulos", bundle.getString("familia")) == -1) {
+         if (wifiBarActivity.db.consultarArticulos("Articulos",
+               bundle.getString("familia")) == -1) {
             Toast.makeText(ArticuloActivity.this, R.string.emptyTable,
                   Toast.LENGTH_LONG).show();
             this.finish();
@@ -56,10 +57,10 @@ public class ArticuloActivity extends Activity {
    }
 
    private void populateGrid() {
-      
-      //Rellenos los datos de las familias
+
+      // Rellenos los datos de las familias
       articulosData = wifiBarActivity.db.getArticulos();
-      
+
       ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,
             android.R.layout.simple_list_item_1, articulosData.getNombre());
 
@@ -71,11 +72,12 @@ public class ArticuloActivity extends Activity {
       grdArticulos.setOnItemClickListener(new OnItemClickListener() {
          public void onItemClick(AdapterView<?> parent, View v, int position,
                long id) {
-            introArticulo(grdArticulos.getItemAtPosition(position).toString(), position);
+            introArticulo(grdArticulos.getItemAtPosition(position).toString(),
+                  position);
          }
       });
    }
-   
+
    private void introArticulo(String art, int indice) {
       // Crear el intent
       Intent intento = new Intent(ArticuloActivity.this, ComandaActivity.class);
@@ -86,21 +88,26 @@ public class ArticuloActivity extends Activity {
       // Coger el item elegido
       bundle.putString("articulo", articulosData.getIdArticulo()[indice]);
 
-//////////////////////////CAMBIO //////////////////////////////////////////
-      //CREAR LA LINEA DE COMANDA
-      //Miro que linea de comanda debo meter en la linea nueva, si comanda no tiene linea, meto uno, si no meto arrLineas[UltimaLinea].getLinea+1
+      // CREAR LA LINEA DE COMANDA
+      // Miro que linea de comanda debo meter en la linea nueva, si comanda no
+      // tiene linea, meto uno, si no meto arrLineas[UltimaLinea].getLinea+1
       int lineaComanda = 0;
-      if (ComandaActivity.comanda.arrLineas.length == 0) lineaComanda++;
-      else lineaComanda = ComandaActivity.comanda.arrLineas[ComandaActivity.comanda.arrLineas.length-1].getnLinea()+1;
-      
-      LineaComandaHandler lineNew = new LineaComandaHandler(articulosData.getIdArticulo()[indice], 
-            articulosData.getNombre()[indice], ComandaActivity.comanda.getnComanda(), lineaComanda);
-////////////////////////// fin CAMBIO //////////////////////////////////////////
+      if (ComandaActivity.comanda.arrLineas.length == 0)
+         lineaComanda++;
+      else
+         lineaComanda = ComandaActivity.comanda.arrLineas[ComandaActivity.comanda.arrLineas.length - 1]
+               .getnLinea() + 1;
+
+      LineaComandaHandler lineNew = new LineaComandaHandler(
+            articulosData.getIdArticulo()[indice],
+            articulosData.getNombre()[indice],
+            ComandaActivity.comanda.getnComanda(), lineaComanda);
+
       // Agregar esa linea a la comanda
       ComandaActivity.comanda.anadirLdComanda(lineNew);
       intento.putExtras(bundle);
       startActivity(intento);
-      //Finish por probar
+      // Finish por probar
       ArticuloActivity.this.finish();
    }
 }

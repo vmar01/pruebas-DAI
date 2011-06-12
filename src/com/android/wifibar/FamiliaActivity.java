@@ -45,7 +45,8 @@ public class FamiliaActivity extends Activity {
             Toast.makeText(FamiliaActivity.this, R.string.emptyTable,
                   Toast.LENGTH_LONG).show();
             this.finish();
-         }else populateGrid();
+         } else
+            populateGrid();
 
       } else {
          Toast.makeText(FamiliaActivity.this, R.string.noConectionActive,
@@ -55,10 +56,10 @@ public class FamiliaActivity extends Activity {
    }
 
    private void populateGrid() {
-      
-      //Rellenos los datos de las familias
+
+      // Rellenos los datos de las familias
       familiasData = wifiBarActivity.db.getFamilias();
-      
+
       ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,
             android.R.layout.simple_list_item_1, familiasData.getDescripcion());
 
@@ -82,7 +83,7 @@ public class FamiliaActivity extends Activity {
 
       // Creamos un budle para pasar todos los datos
       Bundle bundle = new Bundle();
-      //Valor de la familia seleccionada
+      // Valor de la familia seleccionada
       String[] idFamilia = familiasData.getIdFamilia();
 
       // Coger el item elegido
